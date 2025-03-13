@@ -8,12 +8,14 @@ type BadgesSectionProps = {
   user: UserProfile;
   badges?: BadgeType[];
   isCurrentUser?: boolean;
+  limit?: number;
 };
 
 const BadgesSection: React.FC<BadgesSectionProps> = ({ 
   user, 
   badges = [], 
-  isCurrentUser = true 
+  isCurrentUser = true,
+  limit
 }) => {
   const earnedBadges = user.badges || [];
   const earnedBadgeIds = earnedBadges.map(badge => badge.id);
@@ -29,6 +31,9 @@ const BadgesSection: React.FC<BadgesSectionProps> = ({
   const totalCount = badges.length;
   const progressText = totalCount > 0 ? `${earnedCount} of ${totalCount} earned` : '';
 
+  // Apply limit to badges if provided
+  const displayBadges = limit ? badges.slice(0, limit) : badges;
+
   return (
     <div className="bg-white rounded-xl shadow-sm p-4 sm:p-5">
       <div className="flex items-center justify-between mb-4">
@@ -41,7 +46,7 @@ const BadgesSection: React.FC<BadgesSectionProps> = ({
       
       {earnedCount > 0 ? (
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
-          {badges.slice(0, 6).map(badge => (
+          {displayBadges.map(badge => (
             <Badge 
               key={badge.id} 
               badge={badge} 
