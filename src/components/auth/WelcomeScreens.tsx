@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { ChevronRight, Globe, ClipboardList, BarChart } from 'lucide-react';
+import { ChevronRight, ChevronLeft } from 'lucide-react';
 
 const WelcomeScreens = () => {
   const [currentScreen, setCurrentScreen] = useState(0);
@@ -49,6 +49,12 @@ const WelcomeScreens = () => {
       setCurrentScreen(currentScreen + 1);
     } else {
       navigate('/signup');
+    }
+  };
+
+  const prevScreen = () => {
+    if (currentScreen > 0) {
+      setCurrentScreen(currentScreen - 1);
     }
   };
 
@@ -115,6 +121,16 @@ const WelcomeScreens = () => {
       exit={{ opacity: 0 }}
       className="flex flex-col h-screen bg-background"
     >
+      {currentScreen > 0 && (
+        <button 
+          onClick={prevScreen}
+          className="absolute top-6 left-6 p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
+          aria-label="Go back"
+        >
+          <ChevronLeft className="h-5 w-5 text-supper-navy" />
+        </button>
+      )}
+
       <div className="flex-1 flex flex-col items-center justify-center p-8 max-w-md mx-auto">
         <div className="w-full text-center mb-8">
           <div className="flex justify-center mb-6">
