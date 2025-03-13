@@ -1,11 +1,10 @@
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { motion } from 'framer-motion';
-import { ChevronRight, User, Mail, Lock, MapPin, Calendar, Users } from 'lucide-react';
+import { ChevronRight, User, Mail, Lock, MapPin, Calendar, Users, ChevronLeft } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
@@ -14,7 +13,6 @@ import { useToast } from '@/hooks/use-toast';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { supabase } from '@/integrations/supabase/client';
 
-// Schema for step 1
 const step1Schema = z.object({
   firstName: z.string().min(1, { message: 'First name is required' }),
   surname: z.string().min(1, { message: 'Surname is required' }),
@@ -23,7 +21,6 @@ const step1Schema = z.object({
   username: z.string().min(3, { message: 'Username must be at least 3 characters' }),
 });
 
-// Schema for step 2
 const step2Schema = z.object({
   city: z.string().min(1, { message: 'City is required' }),
   state: z.string().min(1, { message: 'State is required' }),
@@ -35,7 +32,6 @@ const step2Schema = z.object({
   path: ["confirmPassword"],
 });
 
-// Types for form values
 type Step1FormValues = z.infer<typeof step1Schema>;
 type Step2FormValues = z.infer<typeof step2Schema>;
 
@@ -47,7 +43,6 @@ const MultiStepSignupForm = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  // Form for step 1
   const step1Form = useForm<Step1FormValues>({
     resolver: zodResolver(step1Schema),
     defaultValues: {
@@ -60,7 +55,6 @@ const MultiStepSignupForm = () => {
     mode: 'onChange',
   });
 
-  // Form for step 2
   const step2Form = useForm<Step2FormValues>({
     resolver: zodResolver(step2Schema),
     defaultValues: {
@@ -73,7 +67,6 @@ const MultiStepSignupForm = () => {
     mode: 'onChange',
   });
 
-  // Handle Continue button click for step 1
   const handleContinue = async () => {
     const step1Valid = await step1Form.trigger();
     
@@ -89,12 +82,14 @@ const MultiStepSignupForm = () => {
     }
   };
 
-  // Handle back button click
   const handleBack = () => {
-    setStep(1);
+    if (step === 2) {
+      setStep(1);
+    } else {
+      navigate('/login');
+    }
   };
 
-  // Handle submit for step 2
   const onStep2Submit = async (values: Step2FormValues) => {
     if (!step1Data) {
       toast({
@@ -107,13 +102,11 @@ const MultiStepSignupForm = () => {
 
     setIsLoading(true);
     try {
-      // First, create the user account with Supabase auth
       const { error: signUpError, data } = await signUp(values.email, values.password);
       
       if (signUpError) throw signUpError;
 
       if (data?.user) {
-        // Now update the profile information
         const { error: profileError } = await supabase
           .from('profiles')
           .update({
@@ -168,9 +161,17 @@ const MultiStepSignupForm = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="w-full max-w-md mx-auto"
+      className="w-full max-w-md mx-auto relative"
     >
-      <div className="flex justify-center mb-6">
+      <button 
+        onClick={handleBack}
+        className="absolute top-0 left-0 p-2 text-gray-600 hover:text-gray-900 transition-colors"
+        aria-label="Go back"
+      >
+        <ChevronLeft className="h-6 w-6" />
+      </button>
+      
+      <div className="flex justify-center mb-6 mt-6">
         <div className="w-16 h-16 rounded-full bg-supper-cream flex items-center justify-center shadow-md">
           <img 
             src="/placeholder.svg" 
@@ -185,7 +186,6 @@ const MultiStepSignupForm = () => {
         Create an account to discover the best supper clubs
       </p>
 
-      {/* Progress indicator */}
       <div className="mb-6 flex justify-center">
         <div className="flex items-center space-x-2">
           <div className={`w-3 h-3 rounded-full ${step === 1 ? 'bg-supper-red' : 'bg-gray-300'}`}></div>
@@ -448,31 +448,20 @@ const MultiStepSignupForm = () => {
               )}
             />
 
-            <div className="flex gap-3 mt-6">
-              <Button 
-                type="button" 
-                variant="outline"
-                className="w-1/3 h-12"
-                onClick={handleBack}
-                disabled={isLoading}
-              >
-                Back
-              </Button>
-              <Button 
-                type="submit" 
-                className="w-2/3 h-12 bg-supper-navy hover:bg-supper-navy/90" 
-                disabled={isLoading}
-              >
-                {isLoading ? (
-                  <div className="flex items-center">
-                    <div className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full mr-2"></div>
-                    Creating...
-                  </div>
-                ) : (
-                  <>Create Account</>
-                )}
-              </Button>
-            </div>
+            <Button 
+              type="submit" 
+              className="w-full h-12 bg-supper-navy hover:bg-supper-navy/90 mt-6" 
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <div className="flex items-center">
+                  <div className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full mr-2"></div>
+                  Creating...
+                </div>
+              ) : (
+                <>Create Account</>
+              )}
+            </Button>
           </form>
         </Form>
       )}
