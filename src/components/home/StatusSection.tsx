@@ -9,25 +9,39 @@ type StatusSectionProps = {
   isCurrentUser?: boolean;
 };
 
+/**
+ * Returns the proper ordinal suffix for a number (1st, 2nd, 3rd, etc.)
+ */
+const getOrdinalSuffix = (rank: number): string => {
+  const j = rank % 10;
+  const k = rank % 100;
+  
+  if (j === 1 && k !== 11) return `${rank}st`;
+  if (j === 2 && k !== 12) return `${rank}nd`;
+  if (j === 3 && k !== 13) return `${rank}rd`;
+  return `${rank}th`;
+};
+
+/**
+ * Formats the join date from a string to a readable format
+ */
+const formatUserJoinDate = (dateString: string): string => {
+  const joinDate = new Date(dateString);
+  return !isNaN(joinDate.getTime()) 
+    ? format(joinDate, 'MMMM yyyy')
+    : 'Unknown';
+};
+
+/**
+ * StatusSection component displays user's visit stats, rank, and join date
+ */
 const StatusSection: React.FC<StatusSectionProps> = ({ user, isCurrentUser = true }) => {
   console.log('StatusSection rendering with user:', user);
   
-  const joinDate = new Date(user.joinDate);
-  const formatJoinDate = !isNaN(joinDate.getTime()) 
-    ? format(joinDate, 'MMMM yyyy')
-    : 'Unknown';
+  const formatJoinDate = formatUserJoinDate(user.joinDate);
   
-  const rankOrdinal = (rank: number) => {
-    const j = rank % 10;
-    const k = rank % 100;
-    if (j === 1 && k !== 11) return `${rank}st`;
-    if (j === 2 && k !== 12) return `${rank}nd`;
-    if (j === 3 && k !== 13) return `${rank}rd`;
-    return `${rank}th`;
-  };
-
-  // Personalize the text based on whether we're viewing our own profile or someone else's
-  const getVisitText = () => {
+  // Text generators for different parts of the status section
+  const getVisitText = (): string => {
     if (user.totalVisits === 0) {
       return isCurrentUser 
         ? "You haven't visited any supper clubs yet." 
@@ -43,19 +57,21 @@ const StatusSection: React.FC<StatusSectionProps> = ({ user, isCurrentUser = tru
     }
   };
 
-  const getRankText = () => {
+  const getRankText = (): string => {
     if (user.rank === 0) {
       return isCurrentUser
         ? "Your rank will appear once you start visiting clubs."
         : `${user.name}'s rank will appear once they start visiting clubs.`;
     }
     
+    const rankWithOrdinal = getOrdinalSuffix(user.rank);
+    
     return isCurrentUser 
-      ? `You're currently ranked ${rankOrdinal(user.rank)} in the leaderboard.` 
-      : `${user.name} is currently ranked ${rankOrdinal(user.rank)} in the leaderboard.`;
+      ? `You're currently ranked ${rankWithOrdinal} in the leaderboard.` 
+      : `${user.name} is currently ranked ${rankWithOrdinal} in the leaderboard.`;
   };
 
-  const getJoinText = () => {
+  const getJoinText = (): string => {
     return isCurrentUser
       ? `You joined in ${formatJoinDate}.`
       : `${user.name} joined in ${formatJoinDate}.`;
