@@ -58,15 +58,17 @@ const LeaderboardPage = () => {
             {/* Add more space after tabs and before the visualization */}
             <div className="h-12"></div>
             
-            {/* Top 3 Visualization */}
+            {/* Top 3 Visualization - Reordered to make #1 tallest */}
             <div className="flex justify-center items-end mb-8 mt-4 gap-3 h-48">
               {topThreeUsers.map((user, index) => {
-                // Determine height based on rank
-                const heights = ['h-36', 'h-40', 'h-32'];
-                const height = heights[index] || 'h-28'; 
+                // Create direct mapping of rank to display position (0=rank1, 1=rank2, 2=rank3)
+                const displayPosition = user.rank - 1;
                 
-                // Position users in order: 2nd, 1st, 3rd
-                const displayIndex = index === 0 ? 1 : index === 1 ? 0 : 2;
+                // Heights based on rank: #1 tallest, #2 medium, #3 shortest
+                let height = 'h-32'; // Default for any other position
+                if (user.rank === 1) height = 'h-40'; // 1st place is tallest
+                if (user.rank === 2) height = 'h-36'; // 2nd place is medium
+                if (user.rank === 3) height = 'h-32'; // 3rd place is shortest
                 
                 return (
                   <div key={user.id} className="flex flex-col items-center">
