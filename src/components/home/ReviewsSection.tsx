@@ -1,8 +1,11 @@
 
-import React from 'react';
-import { Star, MessageSquare } from 'lucide-react';
-import { UserProfile, SupperClub } from '@/lib/types';
+import React, { useState } from 'react';
+import { Star, MessageSquare, Plus } from 'lucide-react';
+import { UserProfile, SupperClub, Review } from '@/lib/types';
 import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
+import SupperClubReviewForm from '@/components/reviews/SupperClubReviewForm';
+import { toast } from 'sonner';
 
 type ReviewsSectionProps = {
   user: UserProfile;
@@ -12,6 +15,8 @@ type ReviewsSectionProps = {
 };
 
 const ReviewsSection: React.FC<ReviewsSectionProps> = ({ user, clubs, compact, isCurrentUser = true }) => {
+  const [reviewDialogOpen, setReviewDialogOpen] = useState(false);
+
   // Get clubs that the user has reviewed
   const reviewedClubs = clubs.filter(club => 
     club.reviews.some(review => review.userId === user.id)
@@ -38,12 +43,32 @@ const ReviewsSection: React.FC<ReviewsSectionProps> = ({ user, clubs, compact, i
     ? "You haven't reviewed any supper clubs yet."
     : `${user.name} hasn't reviewed any supper clubs yet.`;
 
+  const handleSubmitReview = (data: any) => {
+    console.log('Review submitted:', data);
+    toast.success('Review submitted successfully!');
+    setReviewDialogOpen(false);
+  };
+
   return (
     <div className={cn("bg-white rounded-xl shadow-sm", compact ? "p-3" : "p-4 sm:p-5")}>
-      <h2 className={cn("font-semibold flex items-center", compact ? "text-base mb-2" : "text-lg sm:text-xl mb-3 sm:mb-4")}>
-        <MessageSquare className="h-5 w-5 mr-2 text-primary" />
-        {sectionTitle}
-      </h2>
+      <div className="flex items-center justify-between mb-3 sm:mb-4">
+        <h2 className={cn("font-semibold flex items-center", compact ? "text-base" : "text-lg sm:text-xl")}>
+          <MessageSquare className="h-5 w-5 mr-2 text-primary" />
+          {sectionTitle}
+        </h2>
+        
+        {isCurrentUser && (
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setReviewDialogOpen(true)}
+            title="Add a review"
+            className="h-8 w-8"
+          >
+            <Plus className="h-5 w-5" />
+          </Button>
+        )}
+      </div>
       
       {userRatings.length > 0 ? (
         <>
@@ -117,6 +142,14 @@ const ReviewsSection: React.FC<ReviewsSectionProps> = ({ user, clubs, compact, i
           <p className="text-muted-foreground">{emptyStateMessage}</p>
         </div>
       )}
+
+      {/* Review Form Dialog */}
+      <SupperClubReviewForm
+        open={reviewDialogOpen}
+        onOpenChange={setReviewDialogOpen}
+        onSubmit={handleSubmitReview}
+        clubs={clubs}
+      />
     </div>
   );
 };

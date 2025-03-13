@@ -1,89 +1,64 @@
 
 import React from 'react';
-import { Award } from 'lucide-react';
+import { Trophy } from 'lucide-react';
 import { UserProfile, Badge as BadgeType } from '@/lib/types';
 import Badge from '@/components/Badge';
-import { cn } from '@/lib/utils';
 
 type BadgesSectionProps = {
   user: UserProfile;
-  badges: BadgeType[];
-  compact?: boolean;
-  limit?: number;
+  badges?: BadgeType[];
   isCurrentUser?: boolean;
 };
 
 const BadgesSection: React.FC<BadgesSectionProps> = ({ 
   user, 
-  badges,
-  compact = false,
-  limit,
-  isCurrentUser = true
+  badges = [], 
+  isCurrentUser = true 
 }) => {
-  const earnedBadges = badges.filter(badge => 
-    user.badges.some(b => b.id === badge.id)
-  );
+  const earnedBadges = user.badges || [];
+  const earnedBadgeIds = earnedBadges.map(badge => badge.id);
   
-  const nextBadges = badges
-    .filter(badge => !user.badges.some(b => b.id === badge.id))
-    .sort((a, b) => a.requiredVisits - b.requiredVisits);
+  // Determine the title and empty state message based on whether it's the current user
+  const sectionTitle = isCurrentUser ? "Your Badges" : `${user.name}'s Badges`;
+  const emptyStateMessage = isCurrentUser 
+    ? "You haven't earned any badges yet." 
+    : `${user.name} hasn't earned any badges yet.`;
   
-  const displayedBadges = limit 
-    ? earnedBadges.slice(0, limit)
-    : earnedBadges;
-  
-  const nextBadge = nextBadges.length > 0 ? nextBadges[0] : null;
+  // Calculate progress for the title
+  const earnedCount = earnedBadgeIds.length;
+  const totalCount = badges.length;
+  const progressText = totalCount > 0 ? `${earnedCount} of ${totalCount} earned` : '';
 
   return (
-    <div className={cn("bg-white rounded-xl shadow-sm", compact ? "p-3" : "p-4 sm:p-5")}>
-      <div className="flex items-center justify-between mb-3 sm:mb-4">
-        <h2 className={cn("font-semibold flex items-center", compact ? "text-base" : "text-lg sm:text-xl")}>
-          <Award className="h-5 w-5 mr-2 text-primary" />
-          Badges
+    <div className="bg-white rounded-xl shadow-sm p-4 sm:p-5">
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="font-semibold flex items-center text-lg sm:text-xl">
+          <Trophy className="h-5 w-5 mr-2 text-primary" />
+          {sectionTitle}
         </h2>
-        
-        <div className="text-xs text-muted-foreground">
-          {earnedBadges.length} of {badges.length} earned
-        </div>
+        <span className="text-sm text-muted-foreground">{progressText}</span>
       </div>
       
-      {displayedBadges.length > 0 ? (
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-3 mb-4">
-          {displayedBadges.map(badge => (
-            <Badge
-              key={badge.id}
-              badge={badge}
-              earned={true}
-              compact={compact}
+      {earnedCount > 0 ? (
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
+          {badges.slice(0, 6).map(badge => (
+            <Badge 
+              key={badge.id} 
+              badge={badge} 
+              earned={earnedBadgeIds.includes(badge.id)}
+              isCurrentUser={isCurrentUser}
             />
           ))}
         </div>
       ) : (
-        <div className="text-center text-muted-foreground py-2 mb-4">
-          No badges earned yet
-        </div>
-      )}
-      
-      {nextBadge && (
-        <div className="border rounded-lg p-3">
-          <h3 className="font-medium text-sm mb-1">Next Badge:</h3>
-          <div className="flex items-center">
-            <div className="mr-3 opacity-50">
-              <Badge badge={nextBadge} earned={false} compact />
-            </div>
-            <div>
-              <p className="font-medium text-sm">{nextBadge.name}</p>
-              <p className="text-xs text-muted-foreground">
-                {user.totalVisits} / {nextBadge.requiredVisits} visits
-              </p>
-              <div className="w-full bg-gray-100 rounded-full h-1.5 mt-1">
-                <div 
-                  className="bg-primary h-1.5 rounded-full" 
-                  style={{ width: `${Math.min(100, (user.totalVisits / nextBadge.requiredVisits) * 100)}%` }}
-                ></div>
-              </div>
-            </div>
-          </div>
+        <div className="text-center py-10">
+          <Trophy className="h-12 w-12 mx-auto text-muted-foreground mb-3 opacity-30" />
+          <p className="text-muted-foreground">{emptyStateMessage}</p>
+          {isCurrentUser && (
+            <p className="text-sm text-muted-foreground mt-1">
+              Keep visiting supper clubs to earn badges!
+            </p>
+          )}
         </div>
       )}
     </div>

@@ -8,15 +8,27 @@ type BadgeProps = {
   badge: BadgeType;
   earned: boolean;
   compact?: boolean;
+  isCurrentUser?: boolean;
 };
 
-const Badge: React.FC<BadgeProps> = ({ badge, earned, compact = false }) => {
-  // Create badge description that doesn't use "you've" format
+const Badge: React.FC<BadgeProps> = ({ badge, earned, compact = false, isCurrentUser = true }) => {
+  // Create badge description based on whether it's the current user or not
   const getDescription = () => {
     if (earned) {
-      return badge.description;
+      if (isCurrentUser) {
+        return badge.description;
+      } else {
+        // Convert any "you've" phrases to third person
+        return badge.description
+          .replace("You've visited your first", "Has visited their first")
+          .replace("You've visited", "Has visited")
+          .replace("You've earned", "Has earned")
+          .replace("you've", "they've");
+      }
     } else {
-      return `Visit ${badge.requiredVisits} clubs to earn`;
+      return isCurrentUser 
+        ? `Visit ${badge.requiredVisits} clubs to earn` 
+        : `Needs to visit ${badge.requiredVisits} clubs to earn`;
     }
   };
 

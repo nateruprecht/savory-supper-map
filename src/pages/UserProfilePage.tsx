@@ -92,7 +92,7 @@ const UserProfilePage = () => {
               <ProfileHeader user={viewedUser} />
               <ProfileStats user={viewedUser} clubs={sampleSupperClubs} />
               <StatusSection user={viewedUser} isCurrentUser={isCurrentUser} />
-              <BadgesSection user={viewedUser} badges={badges} isCurrentUser={isCurrentUser} />
+              <BadgesSection user={viewedUser} badges={viewedUser.badges} isCurrentUser={isCurrentUser} />
               <ReviewsSection user={viewedUser} clubs={sampleSupperClubs} isCurrentUser={isCurrentUser} />
               {/* Lists section is intentionally excluded for other users' profiles */}
             </div>
