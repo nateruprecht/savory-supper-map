@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
@@ -70,7 +71,7 @@ const WelcomeScreens = () => {
       >
         <div 
           className="w-full h-full bg-cover bg-center relative"
-          style={{ backgroundImage: `url('/lovable-uploads/d6c96a5d-2559-4a9c-b644-2d5f00055c36.png')` }}
+          style={{ backgroundImage: `url('https://images.unsplash.com/photo-1514933651103-005eec06c04b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80')` }}
         >
           <div className="absolute inset-0 bg-black/50">
             <div className="flex flex-col justify-end h-full p-8 pb-16 text-center text-white">
