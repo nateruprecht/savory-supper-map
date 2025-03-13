@@ -10,9 +10,11 @@ const Welcome = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!loading && user) {
-      // If user is already logged in, redirect to home
-      navigate('/');
+    if (!loading) {
+      if (user) {
+        // If user is already logged in, redirect to home
+        navigate('/');
+      }
     }
   }, [user, loading, navigate]);
 

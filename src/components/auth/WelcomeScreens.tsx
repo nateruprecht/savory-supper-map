@@ -31,7 +31,7 @@ const WelcomeScreens = () => {
       id: 3,
       title: "Midwest Supper Roadmap",
       subtitle: "Review and Track Your Visits",
-      description: "Check achievements as you explore the best supper clubs in the midwest!",
+      description: "Unlock statuses and badges as you explore the finest Midwest Supper Clubs!",
       buttonText: "Continue",
       icon: <ClipboardList className="h-12 w-12 text-supper-red" />,
       image: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80" // Restaurant food image
