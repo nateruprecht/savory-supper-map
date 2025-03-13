@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { UserProfile, Badge, SupperClub } from '@/lib/types';
 import ProfileHeader from '@/components/profile/ProfileHeader';
@@ -36,9 +37,10 @@ const ProfileContent: React.FC<ProfileContentProps> = ({
       <ProfileHeader user={user} />
       <ProfileStats user={user} clubs={clubs} />
       
-      {/* Status Section - explicitly adding key and data-testid to debug */}
+      {/* Status Section - pass clubs data for review calculations */}
       <StatusSection 
         user={user} 
+        clubs={clubs}
         isCurrentUser={isCurrentUser} 
         key="status-section"
         data-testid="profile-status-section"
