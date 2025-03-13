@@ -72,6 +72,16 @@ const MultiStepSignupForm = () => {
     
     if (step1Valid) {
       setStep1Data(step1Form.getValues());
+      
+      // Reset all step2 form fields to ensure no data persists between steps
+      step2Form.reset({
+        city: '',
+        state: '',
+        email: '',
+        password: '',
+        confirmPassword: '',
+      });
+      
       setStep(2);
     } else {
       toast({
@@ -163,13 +173,15 @@ const MultiStepSignupForm = () => {
       exit={{ opacity: 0 }}
       className="w-full max-w-md mx-auto relative"
     >
-      <button 
-        onClick={handleBack}
-        className="absolute top-0 left-0 p-2 text-gray-600 hover:text-gray-900 transition-colors"
-        aria-label="Go back"
-      >
-        <ChevronLeft className="h-6 w-6" />
-      </button>
+      {step === 2 && (
+        <button 
+          onClick={handleBack}
+          className="absolute top-0 left-0 p-2 text-gray-600 hover:text-gray-900 transition-colors"
+          aria-label="Go back"
+        >
+          <ChevronLeft className="h-6 w-6" />
+        </button>
+      )}
       
       <div className="flex justify-center mb-6 mt-6">
         <div className="w-16 h-16 rounded-full bg-supper-cream flex items-center justify-center shadow-md">
@@ -349,6 +361,7 @@ const MultiStepSignupForm = () => {
                         className="pl-10"
                         {...field} 
                         disabled={isLoading}
+                        value={field.value}
                       />
                     </div>
                   </FormControl>
@@ -371,6 +384,7 @@ const MultiStepSignupForm = () => {
                         className="pl-10"
                         {...field} 
                         disabled={isLoading}
+                        value={field.value}
                       />
                     </div>
                   </FormControl>
@@ -394,6 +408,7 @@ const MultiStepSignupForm = () => {
                         className="pl-10"
                         {...field} 
                         disabled={isLoading}
+                        value={field.value}
                       />
                     </div>
                   </FormControl>
@@ -417,6 +432,7 @@ const MultiStepSignupForm = () => {
                         className="pl-10"
                         {...field} 
                         disabled={isLoading}
+                        value={field.value}
                       />
                     </div>
                   </FormControl>
@@ -440,6 +456,7 @@ const MultiStepSignupForm = () => {
                         className="pl-10"
                         {...field} 
                         disabled={isLoading}
+                        value={field.value}
                       />
                     </div>
                   </FormControl>
