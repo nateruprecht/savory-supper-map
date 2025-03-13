@@ -53,14 +53,16 @@ const ProfileLayout: React.FC<ProfileLayoutProps> = ({
         )}
         
         <ScrollArea className="flex-1 w-full overflow-hidden">
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.2 }}
-            className="w-full px-4 sm:max-w-xl sm:mx-auto sm:p-4 pb-16 md:pb-0 box-border"
-          >
-            {children}
-          </motion.div>
+          <div className="w-full flex justify-center">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.2 }}
+              className="w-full px-4 sm:max-w-xl sm:mx-auto sm:p-4 pb-16 md:pb-0 box-border"
+            >
+              {children}
+            </motion.div>
+          </div>
         </ScrollArea>
       </main>
       
