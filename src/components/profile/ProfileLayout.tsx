@@ -32,10 +32,10 @@ const ProfileLayout: React.FC<ProfileLayoutProps> = ({
   };
 
   return (
-    <div className="min-h-screen bg-background relative overflow-x-hidden">
+    <div className="min-h-screen bg-background relative overflow-hidden">
       <Header user={user} onProfileClick={() => navigate('/profile')} />
       
-      <main className="pt-16 md:pt-20 pb-16 min-h-screen flex flex-col w-full overflow-x-hidden">
+      <main className="pt-16 md:pt-20 pb-16 min-h-screen flex flex-col w-full overflow-hidden">
         {backLink && (
           <div className="sticky top-16 md:top-20 z-10 bg-background border-b border-border/40 shadow-sm w-full">
             <div className="w-full px-4 sm:max-w-4xl sm:mx-auto py-3 flex items-center">
@@ -52,12 +52,12 @@ const ProfileLayout: React.FC<ProfileLayoutProps> = ({
           </div>
         )}
         
-        <ScrollArea className="flex-1 w-full overflow-x-hidden">
+        <ScrollArea className="flex-1 w-full overflow-hidden hide-scrollbar">
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.2 }}
-            className="w-full px-4 sm:px-6 sm:max-w-4xl sm:mx-auto sm:p-4 pb-16 md:pb-0"
+            className="w-full px-4 sm:px-6 sm:max-w-4xl sm:mx-auto sm:p-4 pb-16 md:pb-0 box-border"
           >
             {children}
           </motion.div>
