@@ -1,16 +1,12 @@
 
 import React, { useState, useEffect } from 'react';
 import { sampleSupperClubs, badges, leaderboard } from '@/lib/data';
-import ProfileHeader from '@/components/profile/ProfileHeader';
-import ProfileStats from '@/components/profile/ProfileStats';
-import StatusSection from '@/components/home/StatusSection';
-import BadgesSection from '@/components/home/BadgesSection';
-import ReviewsSection from '@/components/home/ReviewsSection';
 import { useNavigate, useParams } from 'react-router-dom';
 import { currentUser } from '@/lib/data';
 import { UserProfile } from '@/lib/types';
 import useUserProfile from '@/hooks/use-user-profile';
 import ProfileLayout from '@/components/profile/ProfileLayout';
+import ProfileContent from '@/components/profile/ProfileContent';
 
 const UserProfilePage = () => {
   const [viewedUser, setViewedUser] = useState<UserProfile | null>(null);
@@ -62,13 +58,14 @@ const UserProfilePage = () => {
       backLink={{ text: "← Back", route: "/leaderboard" }}
       title={`${viewedUser.name}'s Profile`}
     >
-      <div className="space-y-6 pt-4">
-        <ProfileHeader user={viewedUser} />
-        <ProfileStats user={viewedUser} clubs={sampleSupperClubs} />
-        <StatusSection user={viewedUser} isCurrentUser={isCurrentUser} />
-        <BadgesSection user={viewedUser} badges={badges} isCurrentUser={isCurrentUser} />
-        <ReviewsSection user={viewedUser} clubs={sampleSupperClubs} isCurrentUser={isCurrentUser} />
-        {/* Lists section is intentionally excluded for other users' profiles */}
+      <div className="pt-4">
+        <ProfileContent
+          user={viewedUser}
+          clubs={sampleSupperClubs}
+          badges={badges}
+          isCurrentUser={isCurrentUser}
+          showListsSection={false} // Lists section is intentionally excluded for other users' profiles
+        />
       </div>
     </ProfileLayout>
   );
