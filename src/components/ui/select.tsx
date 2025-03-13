@@ -1,4 +1,3 @@
-
 import * as React from "react"
 import * as SelectPrimitive from "@radix-ui/react-select"
 import { Check, ChevronDown, ChevronUp } from "lucide-react"
@@ -81,7 +80,6 @@ const SelectContent = React.forwardRef<
       )}
       position={position}
       avoidCollisions={true}
-      collisionBoundary={window}
       collisionPadding={16}
       sticky="always"
       sideOffset={8}
