@@ -19,7 +19,7 @@ import { supabase } from '@/integrations/supabase/client';
 const step1Schema = z.object({
   firstName: z.string().min(1, { message: 'First name is required' }),
   surname: z.string().min(1, { message: 'Surname is required' }),
-  age: z.string().min(1, { message: 'Age is required' }), 
+  age: z.string().min(1, { message: 'Age is required' }),
   gender: z.string().min(1, { message: 'Gender is required' }),
   username: z.string().min(3, { message: 'Username must be at least 3 characters' }),
 });
@@ -188,6 +188,7 @@ const MultiStepSignupForm = () => {
               name="firstName"
               render={({ field }) => (
                 <FormItem>
+                  <FormLabel>First Name</FormLabel>
                   <FormControl>
                     <Input 
                       placeholder="First Name" 
@@ -205,6 +206,7 @@ const MultiStepSignupForm = () => {
               name="surname"
               render={({ field }) => (
                 <FormItem>
+                  <FormLabel>Surname</FormLabel>
                   <FormControl>
                     <Input 
                       placeholder="Surname" 
@@ -223,20 +225,20 @@ const MultiStepSignupForm = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Age</FormLabel>
-                  <Select
-                    disabled={isLoading}
-                    onValueChange={field.onChange}
-                    value={field.value}
-                  >
-                    <FormControl>
+                  <FormControl>
+                    <Select
+                      disabled={isLoading}
+                      onValueChange={field.onChange}
+                      value={field.value}
+                    >
                       <SelectTrigger>
                         <SelectValue placeholder="Select your age" />
                       </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {renderAgeOptions()}
-                    </SelectContent>
-                  </Select>
+                      <SelectContent>
+                        {renderAgeOptions()}
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
@@ -248,23 +250,23 @@ const MultiStepSignupForm = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Gender</FormLabel>
-                  <Select
-                    disabled={isLoading}
-                    onValueChange={field.onChange}
-                    value={field.value}
-                  >
-                    <FormControl>
+                  <FormControl>
+                    <Select
+                      disabled={isLoading}
+                      onValueChange={field.onChange}
+                      value={field.value}
+                    >
                       <SelectTrigger>
                         <SelectValue placeholder="Select your gender" />
                       </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value="Male">Male</SelectItem>
-                      <SelectItem value="Female">Female</SelectItem>
-                      <SelectItem value="Other">Other</SelectItem>
-                      <SelectItem value="Prefer not to say">Prefer not to say</SelectItem>
-                    </SelectContent>
-                  </Select>
+                      <SelectContent>
+                        <SelectItem value="Male">Male</SelectItem>
+                        <SelectItem value="Female">Female</SelectItem>
+                        <SelectItem value="Other">Other</SelectItem>
+                        <SelectItem value="Prefer not to say">Prefer not to say</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
@@ -275,6 +277,7 @@ const MultiStepSignupForm = () => {
               name="username"
               render={({ field }) => (
                 <FormItem>
+                  <FormLabel>Username</FormLabel>
                   <FormControl>
                     <Input 
                       placeholder="Username" 
@@ -306,6 +309,7 @@ const MultiStepSignupForm = () => {
               name="city"
               render={({ field }) => (
                 <FormItem>
+                  <FormLabel>City</FormLabel>
                   <FormControl>
                     <Input 
                       placeholder="City" 
@@ -323,6 +327,7 @@ const MultiStepSignupForm = () => {
               name="state"
               render={({ field }) => (
                 <FormItem>
+                  <FormLabel>State</FormLabel>
                   <FormControl>
                     <Input 
                       placeholder="State" 
@@ -340,6 +345,7 @@ const MultiStepSignupForm = () => {
               name="email"
               render={({ field }) => (
                 <FormItem>
+                  <FormLabel>Email Address</FormLabel>
                   <FormControl>
                     <Input 
                       placeholder="Email Address" 
@@ -358,6 +364,7 @@ const MultiStepSignupForm = () => {
               name="password"
               render={({ field }) => (
                 <FormItem>
+                  <FormLabel>Password</FormLabel>
                   <FormControl>
                     <Input 
                       placeholder="Password" 
@@ -376,6 +383,7 @@ const MultiStepSignupForm = () => {
               name="confirmPassword"
               render={({ field }) => (
                 <FormItem>
+                  <FormLabel>Confirm Password</FormLabel>
                   <FormControl>
                     <Input 
                       placeholder="Confirm Password" 
