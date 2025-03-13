@@ -8,6 +8,7 @@ import Home from "./pages/Home";
 import Discover from "./pages/Discover";
 import Leaderboard from "./pages/LeaderboardPage";
 import Profile from "./pages/Profile";
+import UserProfilePage from "./pages/UserProfilePage";
 import NotFound from "./pages/NotFound";
 import Auth from "./pages/Auth";
 import Index from "./pages/Index";
@@ -67,6 +68,11 @@ const App = () => (
             <Route path="/profile" element={
               <ProtectedRoute>
                 <Profile />
+              </ProtectedRoute>
+            } />
+            <Route path="/user-profile/:userId" element={
+              <ProtectedRoute>
+                <UserProfilePage />
               </ProtectedRoute>
             } />
             <Route path="/events" element={

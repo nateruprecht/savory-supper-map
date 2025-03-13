@@ -56,7 +56,7 @@ const LeaderboardPage = () => {
             </TabsList>
             
             {/* Add more space after tabs and before the visualization */}
-            <div className="h-8"></div>
+            <div className="h-12"></div>
             
             {/* Top 3 Visualization */}
             <div className="flex justify-center items-end mb-8 mt-4 gap-3 h-48">

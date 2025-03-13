@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Trophy, MapPin, User, ArrowUpRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
+import { useNavigate } from 'react-router-dom';
 
 type LeaderboardProps = {
   entries: LeaderboardEntry[];
@@ -23,9 +24,19 @@ const Leaderboard: React.FC<LeaderboardProps> = ({
 }) => {
   const [activeFilter, setActiveFilter] = useState<LeaderboardFilter>('overall');
   const [selectedRegion, setSelectedRegion] = useState<string>('');
+  const navigate = useNavigate();
 
   // Mock filtered data - in a real app, this would come from an API
   const filteredEntries = entries;
+
+  const handleViewProfile = (userId: string) => {
+    // Navigate to the user's profile if it's current user
+    if (userId === currentUserId) {
+      navigate('/profile');
+    } else {
+      navigate(`/user-profile/${userId}`);
+    }
+  };
 
   return (
     <div className="animate-scale-in space-y-3">
@@ -98,7 +109,12 @@ const Leaderboard: React.FC<LeaderboardProps> = ({
               )}
             </div>
 
-            <Button variant="outline" size="sm" className="text-xs py-1 px-2 h-auto">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="text-xs py-1 px-2 h-auto"
+              onClick={() => handleViewProfile(entry.id)}
+            >
               View Profile <ArrowUpRight className="ml-1 h-3 w-3" />
             </Button>
           </motion.div>
