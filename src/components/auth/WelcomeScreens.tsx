@@ -25,7 +25,7 @@ const WelcomeScreens = () => {
       description: "Find and enjoy the best supper clubs in the midwest!",
       buttonText: "Continue",
       icon: <Globe className="h-12 w-12 text-supper-amber" />,
-      image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80"
+      image: "https://images.unsplash.com/photo-1581991717893-55f4b9f62be0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80" // Restaurant interior image
     },
     {
       id: 3,
@@ -34,7 +34,7 @@ const WelcomeScreens = () => {
       description: "Check achievements as you explore the best supper clubs in the midwest!",
       buttonText: "Continue",
       icon: <ClipboardList className="h-12 w-12 text-supper-red" />,
-      image: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80"
+      image: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80" // Restaurant food image
     },
     {
       id: 4,
@@ -43,7 +43,7 @@ const WelcomeScreens = () => {
       description: "Watch the top of the leaderboards and share your status in the supper club community!",
       buttonText: "Explore",
       icon: <BarChart className="h-12 w-12 text-supper-gold" />,
-      image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80"
+      image: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80" // Restaurant people dining image
     }
   ];
 
