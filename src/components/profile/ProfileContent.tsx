@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { UserProfile, Badge, SupperClub } from '@/lib/types';
 import ProfileHeader from '@/components/profile/ProfileHeader';
@@ -7,6 +6,7 @@ import StatusSection from '@/components/home/StatusSection';
 import BadgesSection from '@/components/home/BadgesSection';
 import ReviewsSection from '@/components/home/ReviewsSection';
 import ListsSection from '@/components/profile/ListsSection';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 type ProfileContentProps = {
   user: UserProfile;
@@ -27,6 +27,8 @@ const ProfileContent: React.FC<ProfileContentProps> = ({
   isCurrentUser = true,
   showListsSection = true
 }) => {
+  const isMobile = useIsMobile();
+  
   // Debug log to ensure props are correctly passed
   console.log('ProfileContent rendering with user:', user);
   console.log('isCurrentUser:', isCurrentUser);
@@ -47,7 +49,12 @@ const ProfileContent: React.FC<ProfileContentProps> = ({
       />
       
       {/* Other Sections */}
-      <BadgesSection user={user} badges={badges} isCurrentUser={isCurrentUser} />
+      <BadgesSection 
+        user={user} 
+        badges={badges} 
+        isCurrentUser={isCurrentUser} 
+        limit={isMobile ? 4 : undefined}
+      />
       <ReviewsSection user={user} clubs={clubs} isCurrentUser={isCurrentUser} />
       {showListsSection && <ListsSection user={user} clubs={clubs} />}
     </div>
