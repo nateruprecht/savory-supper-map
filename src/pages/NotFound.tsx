@@ -1,26 +1,41 @@
-import { useLocation } from "react-router-dom";
-import { useEffect } from "react";
+
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import Layout from '@/components/Layout';
+import { Button } from '@/components/ui/button';
 
 const NotFound = () => {
-  const location = useLocation();
-
-  useEffect(() => {
-    console.error(
-      "404 Error: User attempted to access non-existent route:",
-      location.pathname
-    );
-  }, [location.pathname]);
-
+  const navigate = useNavigate();
+  
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">404</h1>
-        <p className="text-xl text-gray-600 mb-4">Oops! Page not found</p>
-        <a href="/" className="text-blue-500 hover:text-blue-700 underline">
-          Return to Home
-        </a>
-      </div>
-    </div>
+    <Layout activeTab="">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="flex flex-col items-center justify-center min-h-[70vh] p-4 text-center"
+      >
+        <div className="retro-pattern-bg retro-border p-8 rounded-lg max-w-md w-full">
+          <h1 className="font-display text-3xl font-bold text-supper-red mb-4">
+            404 - Page Not Found
+          </h1>
+          
+          <div className="retro-divider mb-6"></div>
+          
+          <p className="text-supper-brown mb-6">
+            Sorry, the page you were looking for doesn't exist or has been moved.
+          </p>
+          
+          <Button 
+            onClick={() => navigate('/')}
+            className="bg-supper-red hover:bg-supper-red/90 text-white"
+          >
+            Back to Home
+          </Button>
+        </div>
+      </motion.div>
+    </Layout>
   );
 };
 
