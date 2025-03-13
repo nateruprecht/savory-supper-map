@@ -72,17 +72,17 @@ const Discover = () => {
             />
           </div>
           
-          <div className="flex justify-center gap-4 py-4 px-4 md:col-span-5">
+          <div className="flex flex-col md:col-span-1 space-y-3 py-4 px-4">
             <Button 
               variant="outline" 
-              className="flex-1 md:flex-none md:w-auto"
+              className="w-full"
               onClick={() => navigate('/add-club')}
             >
               <Plus className="mr-2 h-4 w-4" /> Add a Club You've Visited
             </Button>
             <Button 
               variant="outline" 
-              className="flex-1 md:flex-none md:w-auto"
+              className="w-full"
               onClick={() => setReviewFormOpen(true)}
             >
               <MessageSquare className="mr-2 h-4 w-4" /> Review a Club You've Visited
