@@ -1,8 +1,9 @@
 
 import { useState, useEffect } from 'react';
 import { User } from '@supabase/supabase-js';
-import { UserProfile } from '@/lib/types';
+import { UserProfile, Badge } from '@/lib/types';
 import { supabase } from '@/integrations/supabase/client';
+import { Json } from '@/integrations/supabase/types';
 
 export const useUserProfile = () => {
   const [loading, setLoading] = useState(false);
@@ -41,12 +42,21 @@ export const useUserProfile = () => {
 
       console.log('Profile data from DB:', data);
 
+      // Type-safe conversion of JSON data
+      const clubsVisited = Array.isArray(data?.clubs_visited) 
+        ? data.clubs_visited as string[]
+        : [];
+      
+      const badges = Array.isArray(data?.badges)
+        ? data.badges as Badge[]
+        : [];
+
       return {
         id: user.id,
         name: data?.first_name ? `${data.first_name} ${data.surname || ''}`.trim() : user.email?.split('@')[0] || 'User',
         avatar: data?.avatar_url || '',
-        clubsVisited: data?.clubs_visited || [],
-        badges: data?.badges || [],
+        clubsVisited,
+        badges,
         totalVisits: data?.total_visits || 0,
         rank: data?.rank || 0,
         joinDate: user.created_at || new Date().toISOString(),
@@ -72,36 +82,7 @@ export const useUserProfile = () => {
     }
   };
 
-  /**
-   * Creates a user profile from auth data
-   */
-  const createUserProfile = (user: User | null): UserProfile => {
-    if (!user) {
-      return {
-        id: '',
-        name: 'Guest',
-        avatar: '',
-        clubsVisited: [],
-        badges: [],
-        totalVisits: 0,
-        rank: 0,
-        joinDate: new Date().toISOString()
-      };
-    }
-    
-    return {
-      id: user.id,
-      name: user.email?.split('@')[0] || 'User',
-      avatar: '',
-      clubsVisited: [],
-      badges: [],
-      totalVisits: 0,
-      rank: 0,
-      joinDate: user.created_at || new Date().toISOString()
-    };
-  };
-
-  return { getUserProfile, createUserProfile, loading, error };
+  return { getUserProfile, loading, error };
 };
 
 export default useUserProfile;
