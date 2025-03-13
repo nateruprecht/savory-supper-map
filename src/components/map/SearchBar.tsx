@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Search, Layers } from 'lucide-react';
+import { Search, Layers, MapPin } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 
@@ -8,15 +8,17 @@ type SearchBarProps = {
   searchTerm: string;
   onSearchChange: (value: string) => void;
   onFilterToggle: () => void;
+  onDiscoverClick?: () => void;
 };
 
 const SearchBar: React.FC<SearchBarProps> = ({ 
   searchTerm, 
   onSearchChange, 
-  onFilterToggle 
+  onFilterToggle,
+  onDiscoverClick
 }) => {
   return (
-    <div className="absolute top-4 left-0 right-0 flex justify-center px-4 z-10">
+    <div className="absolute top-4 left-0 right-0 flex flex-col items-center px-4 z-10 gap-2">
       <div className="glass-morphism rounded-full w-full max-w-md flex items-center p-1 pl-4">
         <Search className="h-4 w-4 text-muted-foreground mr-2 flex-shrink-0" />
         <Input 
@@ -35,6 +37,17 @@ const SearchBar: React.FC<SearchBarProps> = ({
           <Layers className="h-4 w-4" />
         </Button>
       </div>
+      
+      {onDiscoverClick && (
+        <Button 
+          onClick={onDiscoverClick}
+          variant="default"
+          className="rounded-full px-4"
+        >
+          <MapPin className="h-4 w-4 mr-2" />
+          Discover Supper Clubs
+        </Button>
+      )}
     </div>
   );
 };
