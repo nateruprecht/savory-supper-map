@@ -8,9 +8,10 @@ import { cn } from '@/lib/utils';
 type StatusSectionProps = {
   user: UserProfile;
   compact?: boolean;
+  isCurrentUser?: boolean;
 };
 
-const StatusSection: React.FC<StatusSectionProps> = ({ user, compact }) => {
+const StatusSection: React.FC<StatusSectionProps> = ({ user, compact, isCurrentUser = true }) => {
   // Define user statuses based on visit count
   const statuses = [
     { name: "Novice Explorer", threshold: 0, color: "bg-zinc-400" },

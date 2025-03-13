@@ -10,13 +10,15 @@ type BadgesSectionProps = {
   badges: BadgeType[];
   compact?: boolean;
   limit?: number;
+  isCurrentUser?: boolean;
 };
 
 const BadgesSection: React.FC<BadgesSectionProps> = ({ 
   user, 
   badges,
   compact = false,
-  limit
+  limit,
+  isCurrentUser = true
 }) => {
   const earnedBadges = badges.filter(badge => 
     user.badges.some(b => b.id === badge.id)
