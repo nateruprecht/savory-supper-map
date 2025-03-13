@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { UserProfile, Badge, SupperClub } from '@/lib/types';
 import ProfileHeader from '@/components/profile/ProfileHeader';
@@ -30,12 +29,8 @@ const ProfileContent: React.FC<ProfileContentProps> = ({
 }) => {
   const isMobile = useIsMobile();
   
-  // Debug log to ensure props are correctly passed
-  console.log('ProfileContent rendering with user:', user);
-  console.log('isCurrentUser:', isCurrentUser);
-  
   return (
-    <div className="space-y-6 w-full max-w-full box-border">
+    <div className="space-y-6 w-full max-w-full box-border overflow-hidden">
       {/* Profile Header and Stats */}
       <ProfileHeader user={user} />
       <ProfileStats user={user} clubs={clubs} />
