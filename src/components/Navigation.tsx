@@ -1,8 +1,9 @@
 
 import React from 'react';
-import { Home, MapPin, Award, Users, Menu, X } from 'lucide-react';
+import { Home, MapPin, Award, Users } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 type NavigationProps = {
   activeTab: string;
@@ -10,7 +11,7 @@ type NavigationProps = {
 };
 
 const Navigation: React.FC<NavigationProps> = ({ activeTab, onTabChange }) => {
-  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const isMobile = useIsMobile();
 
   const navigationItems = [
     { id: 'map', icon: <MapPin className="h-5 w-5" />, label: 'Map' },
@@ -21,19 +22,20 @@ const Navigation: React.FC<NavigationProps> = ({ activeTab, onTabChange }) => {
 
   return (
     <>
-      {/* Mobile Navigation */}
+      {/* Mobile Navigation - Bottom Tab Bar */}
       <div className="fixed bottom-0 left-0 right-0 z-50 md:hidden">
-        <div className="flex items-center justify-around px-4 py-2 bg-background/80 backdrop-blur-lg border-t border-border">
+        <div className="flex items-center justify-around px-4 py-2 bg-background/80 backdrop-blur-lg border-t border-border shadow-md">
           {navigationItems.map((item) => (
             <button
               key={item.id}
               onClick={() => onTabChange(item.id)}
               className={cn(
-                "flex flex-col items-center justify-center py-2 px-4 rounded-lg transition-all duration-300",
+                "flex flex-col items-center justify-center py-3 px-4 rounded-lg transition-all duration-300 w-full max-w-[80px]",
                 activeTab === item.id
                   ? "text-primary"
                   : "text-muted-foreground hover:text-foreground"
               )}
+              aria-label={item.label}
             >
               {React.cloneElement(item.icon, { 
                 className: cn(
@@ -41,7 +43,7 @@ const Navigation: React.FC<NavigationProps> = ({ activeTab, onTabChange }) => {
                   activeTab === item.id && "scale-110"
                 )
               })}
-              <span className="text-xs font-medium">{item.label}</span>
+              <span className="text-xs font-medium truncate">{item.label}</span>
               {activeTab === item.id && (
                 <motion.div
                   layoutId="navigation-pill"
@@ -54,9 +56,9 @@ const Navigation: React.FC<NavigationProps> = ({ activeTab, onTabChange }) => {
         </div>
       </div>
 
-      {/* Desktop Navigation */}
+      {/* Desktop Navigation - Side Bar */}
       <div className="hidden md:block fixed left-6 top-1/2 transform -translate-y-1/2 z-50">
-        <div className="glass-morphism rounded-full py-3 px-1 flex flex-col items-center space-y-3">
+        <div className="glass-morphism rounded-full py-4 px-1.5 flex flex-col items-center space-y-5">
           {navigationItems.map((item) => (
             <button
               key={item.id}
@@ -65,6 +67,7 @@ const Navigation: React.FC<NavigationProps> = ({ activeTab, onTabChange }) => {
                 "relative p-3 rounded-full transition-all duration-300 hover:bg-secondary group",
                 activeTab === item.id && "bg-primary text-primary-foreground hover:bg-primary"
               )}
+              aria-label={item.label}
             >
               {React.cloneElement(item.icon, { className: "h-5 w-5" })}
               
