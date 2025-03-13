@@ -54,12 +54,28 @@ const MultiStepSignupForm = () => {
       password: '',
       confirmPassword: '',
     },
+    mode: 'onChange',
   });
+
+  const handleContinue = async () => {
+    // Validate only the first step fields
+    const firstStepValid = await form.trigger(['firstName', 'surname', 'age', 'gender', 'username']);
+    
+    if (firstStepValid) {
+      setStep(2);
+    } else {
+      // If validation fails, show a toast
+      toast({
+        title: 'Please complete all required fields',
+        description: 'Make sure all fields are filled out correctly.',
+        variant: 'destructive',
+      });
+    }
+  };
 
   const onSubmit = async (values: SignupFormValues) => {
     if (step === 1) {
-      // Move to next step if validation passes
-      setStep(2);
+      // This should not be called directly from form submit in step 1
       return;
     }
 
@@ -245,6 +261,16 @@ const MultiStepSignupForm = () => {
                   </FormItem>
                 )}
               />
+
+              <Button 
+                type="button" 
+                className="w-full h-12 bg-supper-navy hover:bg-supper-navy/90 mt-6" 
+                disabled={isLoading}
+                onClick={handleContinue}
+              >
+                Continue
+                <ChevronRight className="ml-2 h-5 w-5" />
+              </Button>
             </>
           ) : (
             <>
@@ -337,15 +363,6 @@ const MultiStepSignupForm = () => {
               />
             </>
           )}
-
-          <Button 
-            type="submit" 
-            className="w-full h-12 bg-supper-navy hover:bg-supper-navy/90 mt-6" 
-            disabled={isLoading}
-          >
-            {step === 1 ? 'Continue' : 'Create Account'}
-            <ChevronRight className="ml-2 h-5 w-5" />
-          </Button>
         </form>
       </Form>
 
