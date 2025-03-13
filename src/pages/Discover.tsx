@@ -11,22 +11,18 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { MapPin, Star, Plus, MessageSquare } from 'lucide-react';
 import SupperClubReviewForm from '@/components/reviews/SupperClubReviewForm';
-
 const Discover = () => {
   const [user, setUser] = useState(currentUser);
   const [selectedClub, setSelectedClub] = useState<SupperClub | null>(null);
   const [clubs, setClubs] = useState(sampleSupperClubs);
   const [reviewFormOpen, setReviewFormOpen] = useState(false);
   const navigate = useNavigate();
-
   const handleClubSelect = (club: SupperClub) => {
     setSelectedClub(club);
   };
-
   const handleCloseDetails = () => {
     setSelectedClub(null);
   };
-
   const handleVisitToggle = (clubId: string) => {
     setClubs(prev => prev.map(club => club.id === clubId ? {
       ...club,
@@ -43,16 +39,13 @@ const Discover = () => {
       });
     }
   };
-
   const handleTabChange = (tab: string) => {
     navigate(`/${tab === 'home' ? '' : tab}`);
   };
-
   const handleReviewSubmit = (data: any) => {
     console.log('Review submitted:', data);
     setReviewFormOpen(false);
   };
-
   return <div className="min-h-screen bg-background relative">
       <Header user={user} onProfileClick={() => navigate('/profile')} />
       
@@ -62,12 +55,12 @@ const Discover = () => {
             <MapView clubs={clubs} onClubSelect={handleClubSelect} />
           </div>
           
-          <div className="flex flex-row md:col-span-2 gap-2 py-4 px-4">
-            <Button variant="outline" className="flex-1" onClick={() => navigate('/add-club')}>
-              <Plus className="mr-2 h-4 w-4" /> Add a Visit
+          <div className="flex flex-col md:col-span-1 space-y-3 py-4 px-4">
+            <Button variant="outline" className="w-full" onClick={() => navigate('/add-club')}>
+              <Plus className="mr-2 h-4 w-4" /> Add a Club You've Visited
             </Button>
-            <Button variant="outline" className="flex-1" onClick={() => setReviewFormOpen(true)}>
-              <MessageSquare className="mr-2 h-4 w-4" /> Review a Club
+            <Button variant="outline" className="w-full" onClick={() => setReviewFormOpen(true)}>
+              <MessageSquare className="mr-2 h-4 w-4" /> Review a Club You've Visited
             </Button>
           </div>
           
@@ -84,5 +77,4 @@ const Discover = () => {
       <SupperClubReviewForm open={reviewFormOpen} onOpenChange={setReviewFormOpen} onSubmit={handleReviewSubmit} clubs={clubs} />
     </div>;
 };
-
 export default Discover;

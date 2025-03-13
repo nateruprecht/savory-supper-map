@@ -23,7 +23,7 @@ const DiscoverList: React.FC<DiscoverListProps> = ({
 
   // Sort by "trending" (mock implementation, would be based on recent visits/reviews)
   const trending = [...clubs].sort((a, b) => Math.random() - 0.5);
-  return <div className="bg-white rounded-xl shadow-sm p-4 sm:p-5 py-0">
+  return <div className="bg-white rounded-xl shadow-sm p-4 sm:p-5 py-[16px]">
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <TabsList className="w-full grid grid-cols-3 mb-4">
           <TabsTrigger value="nearby">Nearby</TabsTrigger>
