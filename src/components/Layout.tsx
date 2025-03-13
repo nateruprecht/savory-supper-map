@@ -57,13 +57,13 @@ const Layout: React.FC<LayoutProps> = ({ children, activeTab, requireAuth = true
   }
 
   return (
-    <div className="min-h-screen bg-background relative overflow-hidden">
+    <div className="min-h-screen bg-background relative">
       <Header 
         user={userForHeader} 
         onProfileClick={() => navigate('/profile')} 
       />
       
-      <main className="pt-16 md:pt-20 pb-16 min-h-screen overflow-hidden">
+      <main className="pt-16 md:pt-20 pb-16 min-h-screen">
         {children}
       </main>
       

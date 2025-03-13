@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { UserProfile } from '@/lib/types';
 import Header from '@/components/Header';
 import Navigation from '@/components/Navigation';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 type ProfileLayoutProps = {
   user: UserProfile;
@@ -51,7 +52,7 @@ const ProfileLayout: React.FC<ProfileLayoutProps> = ({
           </div>
         )}
         
-        <div className="flex-1 w-full overflow-hidden">
+        <ScrollArea className="flex-1 w-full overflow-hidden hide-scrollbar">
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -60,7 +61,7 @@ const ProfileLayout: React.FC<ProfileLayoutProps> = ({
           >
             {children}
           </motion.div>
-        </div>
+        </ScrollArea>
       </main>
       
       <Navigation
