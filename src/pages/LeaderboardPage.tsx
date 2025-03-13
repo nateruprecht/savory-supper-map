@@ -49,11 +49,14 @@ const LeaderboardPage = () => {
           </div>
           
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <TabsList className="w-full grid grid-cols-3 mb-8 bg-muted/50">
+            <TabsList className="w-full grid grid-cols-3 mb-2 bg-muted/50">
               <TabsTrigger value="overall" className="rounded-full">Overall</TabsTrigger>
               <TabsTrigger value="state" className="rounded-full">State</TabsTrigger>
               <TabsTrigger value="city" className="rounded-full">City</TabsTrigger>
             </TabsList>
+            
+            {/* Add more space after tabs and before the visualization */}
+            <div className="h-8"></div>
             
             {/* Top 3 Visualization */}
             <div className="flex justify-center items-end mb-8 mt-4 gap-3 h-48">
