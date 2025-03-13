@@ -9,7 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { Slider } from "@/components/ui/slider";
-import { Search } from 'lucide-react';
+import { Search, Plus } from 'lucide-react';
 import { SupperClub } from '@/lib/types';
 
 const reviewFormSchema = z.object({
@@ -115,7 +115,18 @@ const SupperClubReviewForm: React.FC<SupperClubReviewFormProps> = ({
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <div className="space-y-4">
-              <h3 className="font-medium">Search or add Supper Club</h3>
+              <div className="flex items-center justify-between">
+                <h3 className="font-medium">Search or add Supper Club</h3>
+                <Button 
+                  type="button" 
+                  size="sm"
+                  variant="outline"
+                  className="h-8 w-8 p-0"
+                  onClick={handleAddNew}
+                >
+                  <Plus className="h-4 w-4" />
+                </Button>
+              </div>
               
               <div className="relative">
                 <Input
@@ -224,15 +235,6 @@ const SupperClubReviewForm: React.FC<SupperClubReviewFormProps> = ({
                           </FormItem>
                         )}
                       />
-                      
-                      {!selectedClub && (
-                        <Button 
-                          type="button" 
-                          className="w-full bg-black text-white hover:bg-gray-800"
-                        >
-                          Add Supper Club
-                        </Button>
-                      )}
                     </>
                   )}
                 </>

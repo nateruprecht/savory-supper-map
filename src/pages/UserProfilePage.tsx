@@ -70,7 +70,7 @@ const UserProfilePage = () => {
         <div className="sticky top-16 md:top-20 z-10 bg-background border-b border-border/40 shadow-sm">
           <div className="w-full px-4 sm:max-w-4xl sm:mx-auto py-3 flex items-center">
             <button 
-              onClick={() => navigate(-1)} 
+              onClick={() => navigate('/leaderboard')} 
               className="text-sm text-muted-foreground hover:text-foreground transition-colors"
             >
               ← Back
@@ -92,7 +92,7 @@ const UserProfilePage = () => {
               <ProfileHeader user={viewedUser} />
               <ProfileStats user={viewedUser} clubs={sampleSupperClubs} />
               <StatusSection user={viewedUser} isCurrentUser={isCurrentUser} />
-              <BadgesSection user={viewedUser} badges={viewedUser.badges} isCurrentUser={isCurrentUser} />
+              <BadgesSection user={viewedUser} badges={badges} isCurrentUser={isCurrentUser} />
               <ReviewsSection user={viewedUser} clubs={sampleSupperClubs} isCurrentUser={isCurrentUser} />
               {/* Lists section is intentionally excluded for other users' profiles */}
             </div>
