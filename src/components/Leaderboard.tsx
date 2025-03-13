@@ -2,8 +2,9 @@
 import React, { useState } from 'react';
 import { LeaderboardEntry, LeaderboardFilter } from '@/lib/types';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Trophy, MapPin } from 'lucide-react';
+import { Trophy, MapPin, User, ArrowUpRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
 
 type LeaderboardProps = {
   entries: LeaderboardEntry[];
@@ -23,42 +24,11 @@ const Leaderboard: React.FC<LeaderboardProps> = ({
   const [activeFilter, setActiveFilter] = useState<LeaderboardFilter>('overall');
   const [selectedRegion, setSelectedRegion] = useState<string>('');
 
-  const filterTabs: { id: LeaderboardFilter; label: string }[] = [
-    { id: 'overall', label: 'Overall' },
-    { id: 'state', label: 'By State' },
-    { id: 'county', label: 'By County' },
-    { id: 'city', label: 'By City' },
-  ];
-
   // Mock filtered data - in a real app, this would come from an API
   const filteredEntries = entries;
 
   return (
-    <div className="bg-white rounded-xl shadow-sm p-5 animate-scale-in">
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="text-xl font-semibold flex items-center">
-          <Trophy className="h-5 w-5 text-amber-500 mr-2" /> 
-          Leaderboard
-        </h2>
-      </div>
-
-      <div className="flex space-x-2 mb-6 overflow-x-auto pb-2">
-        {filterTabs.map((tab) => (
-          <button
-            key={tab.id}
-            onClick={() => setActiveFilter(tab.id)}
-            className={cn(
-              "px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors",
-              activeFilter === tab.id
-                ? "bg-primary text-primary-foreground"
-                : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
-            )}
-          >
-            {tab.label}
-          </button>
-        ))}
-      </div>
-
+    <div className="animate-scale-in space-y-3">
       {activeFilter !== 'overall' && filterOptions && (
         <div className="mb-4">
           <select
@@ -94,8 +64,13 @@ const Leaderboard: React.FC<LeaderboardProps> = ({
                 : "bg-gray-50 hover:bg-gray-100 transition-colors"
             )}
           >
-            <div className="flex items-center justify-center h-8 w-8 rounded-full bg-white shadow-sm mr-3">
-              <span className="font-semibold text-sm">{entry.rank}</span>
+            <div className="flex items-center justify-center h-8 w-8 mr-3">
+              <span className={cn(
+                "font-bold text-lg",
+                entry.rank === 1 ? "text-amber-500" :
+                entry.rank === 2 ? "text-gray-500" :
+                entry.rank === 3 ? "text-amber-700" : "text-gray-700"
+              )}>#{entry.rank}</span>
             </div>
 
             <div className="flex-shrink-0 mr-3">
@@ -112,6 +87,9 @@ const Leaderboard: React.FC<LeaderboardProps> = ({
                   {entry.name} {entry.id === currentUserId && <span className="text-xs text-muted-foreground">(you)</span>}
                 </h3>
               </div>
+              <div className="text-sm text-muted-foreground">
+                Visited {entry.totalVisits} clubs
+              </div>
               {activeFilter !== 'overall' && selectedRegion && (
                 <div className="flex items-center text-xs text-muted-foreground mt-1">
                   <MapPin className="h-3 w-3 mr-1" />
@@ -120,10 +98,9 @@ const Leaderboard: React.FC<LeaderboardProps> = ({
               )}
             </div>
 
-            <div className="flex items-center">
-              <span className="font-semibold">{entry.totalVisits}</span>
-              <span className="text-xs text-muted-foreground ml-1">visits</span>
-            </div>
+            <Button variant="outline" size="sm" className="text-xs py-1 px-2 h-auto">
+              View Profile <ArrowUpRight className="ml-1 h-3 w-3" />
+            </Button>
           </motion.div>
         ))}
       </div>
