@@ -52,7 +52,7 @@ const ProfileLayout: React.FC<ProfileLayoutProps> = ({
           </div>
         )}
         
-        <ScrollArea className="flex-1 w-full overflow-hidden hide-scrollbar">
+        <ScrollArea className="flex-1 w-full overflow-hidden">
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
