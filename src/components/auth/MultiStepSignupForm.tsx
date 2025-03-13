@@ -16,12 +16,17 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { supabase } from '@/integrations/supabase/client';
 
-const signupSchema = z.object({
+// Schema for step 1
+const step1Schema = z.object({
   firstName: z.string().min(1, { message: 'First name is required' }),
   surname: z.string().min(1, { message: 'Surname is required' }),
   age: z.string().min(1, { message: 'Age is required' }),
   gender: z.string().min(1, { message: 'Gender is required' }),
   username: z.string().min(3, { message: 'Username must be at least 3 characters' }),
+});
+
+// Schema for step 2
+const step2Schema = z.object({
   city: z.string().min(1, { message: 'City is required' }),
   state: z.string().min(1, { message: 'State is required' }),
   email: z.string().email({ message: 'Please enter a valid email address' }),
@@ -32,22 +37,34 @@ const signupSchema = z.object({
   path: ["confirmPassword"],
 });
 
-type SignupFormValues = z.infer<typeof signupSchema>;
+// Types for form values
+type Step1FormValues = z.infer<typeof step1Schema>;
+type Step2FormValues = z.infer<typeof step2Schema>;
 
 const MultiStepSignupForm = () => {
   const [step, setStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
+  const [step1Data, setStep1Data] = useState<Step1FormValues | null>(null);
   const { signUp } = useAuth();
   const navigate = useNavigate();
 
-  const form = useForm<SignupFormValues>({
-    resolver: zodResolver(signupSchema),
+  // Form for step 1
+  const step1Form = useForm<Step1FormValues>({
+    resolver: zodResolver(step1Schema),
     defaultValues: {
       firstName: '',
       surname: '',
       age: '',
       gender: '',
       username: '',
+    },
+    mode: 'onChange',
+  });
+
+  // Form for step 2
+  const step2Form = useForm<Step2FormValues>({
+    resolver: zodResolver(step2Schema),
+    defaultValues: {
       city: '',
       state: '',
       email: '',
@@ -58,10 +75,12 @@ const MultiStepSignupForm = () => {
   });
 
   const handleContinue = async () => {
-    // Validate only the first step fields
-    const firstStepValid = await form.trigger(['firstName', 'surname', 'age', 'gender', 'username']);
+    // Validate step 1 fields
+    const step1Valid = await step1Form.trigger();
     
-    if (firstStepValid) {
+    if (step1Valid) {
+      // Save step 1 data
+      setStep1Data(step1Form.getValues());
       setStep(2);
     } else {
       // If validation fails, show a toast
@@ -73,9 +92,13 @@ const MultiStepSignupForm = () => {
     }
   };
 
-  const onSubmit = async (values: SignupFormValues) => {
-    if (step === 1) {
-      // This should not be called directly from form submit in step 1
+  const onStep2Submit = async (values: Step2FormValues) => {
+    if (!step1Data) {
+      toast({
+        title: 'Error',
+        description: 'Missing information from step 1. Please try again.',
+        variant: 'destructive',
+      });
       return;
     }
 
@@ -91,11 +114,11 @@ const MultiStepSignupForm = () => {
         const { error: profileError } = await supabase
           .from('profiles')
           .update({
-            first_name: values.firstName,
-            surname: values.surname,
-            age: parseInt(values.age),
-            gender: values.gender,
-            username: values.username,
+            first_name: step1Data.firstName,
+            surname: step1Data.surname,
+            age: parseInt(step1Data.age),
+            gender: step1Data.gender,
+            username: step1Data.username,
             city: values.city,
             state: values.state,
           })
@@ -156,215 +179,224 @@ const MultiStepSignupForm = () => {
         Join now to discover the best supper clubs!
       </p>
 
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-          {step === 1 ? (
-            <>
-              <FormField
-                control={form.control}
-                name="firstName"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input 
-                        placeholder="First Name" 
-                        {...field} 
-                        disabled={isLoading}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              
-              <FormField
-                control={form.control}
-                name="surname"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input 
-                        placeholder="Surname" 
-                        {...field} 
-                        disabled={isLoading}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              
-              <FormField
-                control={form.control}
-                name="age"
-                render={({ field }) => (
-                  <FormItem>
-                    <Select
+      {step === 1 ? (
+        <Form {...step1Form}>
+          <form className="space-y-4">
+            <FormField
+              control={step1Form.control}
+              name="firstName"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input 
+                      placeholder="First Name" 
+                      {...field} 
                       disabled={isLoading}
-                      onValueChange={field.onChange}
-                      value={field.value}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Age" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {renderAgeOptions()}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              
-              <FormField
-                control={form.control}
-                name="gender"
-                render={({ field }) => (
-                  <FormItem>
-                    <Select
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            
+            <FormField
+              control={step1Form.control}
+              name="surname"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input 
+                      placeholder="Surname" 
+                      {...field} 
                       disabled={isLoading}
-                      onValueChange={field.onChange}
-                      value={field.value}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Gender" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value="Male">Male</SelectItem>
-                        <SelectItem value="Female">Female</SelectItem>
-                        <SelectItem value="Other">Other</SelectItem>
-                        <SelectItem value="Prefer not to say">Prefer not to say</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              
-              <FormField
-                control={form.control}
-                name="username"
-                render={({ field }) => (
-                  <FormItem>
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            
+            <FormField
+              control={step1Form.control}
+              name="age"
+              render={({ field }) => (
+                <FormItem>
+                  <Select
+                    disabled={isLoading}
+                    onValueChange={field.onChange}
+                    value={field.value}
+                  >
                     <FormControl>
-                      <Input 
-                        placeholder="Username" 
-                        {...field} 
-                        disabled={isLoading}
-                      />
+                      <SelectTrigger>
+                        <SelectValue placeholder="Age" />
+                      </SelectTrigger>
                     </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+                    <SelectContent>
+                      {renderAgeOptions()}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            
+            <FormField
+              control={step1Form.control}
+              name="gender"
+              render={({ field }) => (
+                <FormItem>
+                  <Select
+                    disabled={isLoading}
+                    onValueChange={field.onChange}
+                    value={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Gender" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="Male">Male</SelectItem>
+                      <SelectItem value="Female">Female</SelectItem>
+                      <SelectItem value="Other">Other</SelectItem>
+                      <SelectItem value="Prefer not to say">Prefer not to say</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            
+            <FormField
+              control={step1Form.control}
+              name="username"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input 
+                      placeholder="Username" 
+                      {...field} 
+                      disabled={isLoading}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-              <Button 
-                type="button" 
-                className="w-full h-12 bg-supper-navy hover:bg-supper-navy/90 mt-6" 
-                disabled={isLoading}
-                onClick={handleContinue}
-              >
-                Continue
-                <ChevronRight className="ml-2 h-5 w-5" />
-              </Button>
-            </>
-          ) : (
-            <>
-              <FormField
-                control={form.control}
-                name="city"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input 
-                        placeholder="City" 
-                        {...field} 
-                        disabled={isLoading}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              
-              <FormField
-                control={form.control}
-                name="state"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input 
-                        placeholder="State" 
-                        {...field} 
-                        disabled={isLoading}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input 
-                        placeholder="Email Address" 
-                        type="email"
-                        {...field} 
-                        disabled={isLoading}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input 
-                        placeholder="Password" 
-                        type="password"
-                        {...field} 
-                        disabled={isLoading}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              
-              <FormField
-                control={form.control}
-                name="confirmPassword"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input 
-                        placeholder="Confirm Password" 
-                        type="password"
-                        {...field} 
-                        disabled={isLoading}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </>
-          )}
-        </form>
-      </Form>
+            <Button 
+              type="button" 
+              className="w-full h-12 bg-supper-navy hover:bg-supper-navy/90 mt-6" 
+              disabled={isLoading}
+              onClick={handleContinue}
+            >
+              Continue
+              <ChevronRight className="ml-2 h-5 w-5" />
+            </Button>
+          </form>
+        </Form>
+      ) : (
+        <Form {...step2Form}>
+          <form onSubmit={step2Form.handleSubmit(onStep2Submit)} className="space-y-4">
+            <FormField
+              control={step2Form.control}
+              name="city"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input 
+                      placeholder="City" 
+                      {...field} 
+                      disabled={isLoading}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            
+            <FormField
+              control={step2Form.control}
+              name="state"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input 
+                      placeholder="State" 
+                      {...field} 
+                      disabled={isLoading}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            
+            <FormField
+              control={step2Form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input 
+                      placeholder="Email Address" 
+                      type="email"
+                      {...field} 
+                      disabled={isLoading}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            
+            <FormField
+              control={step2Form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input 
+                      placeholder="Password" 
+                      type="password"
+                      {...field} 
+                      disabled={isLoading}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            
+            <FormField
+              control={step2Form.control}
+              name="confirmPassword"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input 
+                      placeholder="Confirm Password" 
+                      type="password"
+                      {...field} 
+                      disabled={isLoading}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <Button 
+              type="submit" 
+              className="w-full h-12 bg-supper-navy hover:bg-supper-navy/90 mt-6" 
+              disabled={isLoading}
+            >
+              Create Account
+              <ChevronRight className="ml-2 h-5 w-5" />
+            </Button>
+          </form>
+        </Form>
+      )}
 
       <div className="mt-6 text-center">
         <p className="text-sm text-muted-foreground">

@@ -57,10 +57,6 @@ const WelcomeScreens = () => {
     }
   };
 
-  const handleSkip = () => {
-    navigate('/signup');
-  };
-
   const currentScreenData = screens[currentScreen];
 
   // First screen has a special layout
@@ -74,7 +70,7 @@ const WelcomeScreens = () => {
       >
         <div 
           className="w-full h-full bg-cover bg-center relative"
-          style={{ backgroundImage: `url(${currentScreenData.image})` }}
+          style={{ backgroundImage: `url('/lovable-uploads/d6c96a5d-2559-4a9c-b644-2d5f00055c36.png')` }}
         >
           <div className="absolute inset-0 bg-black/50">
             <div className="flex flex-col justify-end h-full p-8 pb-16 text-center text-white">
