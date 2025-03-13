@@ -26,10 +26,22 @@ const Index = () => {
     navigate(`/${tab === 'home' ? '' : tab}`);
   };
   
+  // Create a user profile from the auth user if needed
+  const userForHeader = user ? {
+    id: user.id,
+    name: user.email?.split('@')[0] || 'User',
+    avatar: '',
+    clubsVisited: [],
+    badges: [],
+    totalVisits: 0,
+    rank: 0,
+    joinDate: user.created_at || new Date().toISOString()
+  } : currentUser;
+  
   return (
     <div className="min-h-screen bg-background relative">
       <Header 
-        user={user || currentUser} 
+        user={userForHeader} 
         onProfileClick={() => navigate('/profile')}
       />
       
