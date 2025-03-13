@@ -15,18 +15,18 @@ type MapPinsProps = {
 
 // Midwest states with their approximate positions on our map
 const midwestStates = [
-  { id: 'WI', name: 'Wisconsin', path: "M340,120 L400,120 L420,180 L380,220 L330,220 L310,180 Z", color: '#F5DEB3' },
-  { id: 'IL', name: 'Illinois', path: "M340,220 L380,220 L390,280 L350,320 L320,300 L320,240 Z", color: '#F5DEB3' },
-  { id: 'MI', name: 'Michigan', path: "M400,120 L440,100 L480,120 L470,170 L420,180 Z M390,190 L420,180 L410,220 L380,220 Z", color: '#F5DEB3' },
-  { id: 'MN', name: 'Minnesota', path: "M240,80 L320,80 L340,120 L310,180 L270,180 L240,150 Z", color: '#F5DEB3' },
-  { id: 'IA', name: 'Iowa', path: "M240,150 L270,180 L320,180 L320,240 L270,240 L240,210 Z", color: '#F5DEB3' },
-  { id: 'MO', name: 'Missouri', path: "M270,240 L320,240 L320,300 L280,300 L240,280 Z", color: '#F5DEB3' },
-  { id: 'IN', name: 'Indiana', path: "M380,220 L410,220 L410,280 L390,280 Z", color: '#F5DEB3' },
-  { id: 'OH', name: 'Ohio', path: "M410,220 L450,220 L450,280 L410,280 Z", color: '#F5DEB3' },
-  { id: 'ND', name: 'North Dakota', path: "M180,80 L240,80 L240,120 L180,120 Z", color: '#F5DEB3' },
-  { id: 'SD', name: 'South Dakota', path: "M180,120 L240,120 L240,150 L180,150 Z", color: '#F5DEB3' },
-  { id: 'NE', name: 'Nebraska', path: "M180,150 L240,150 L240,210 L180,210 Z", color: '#F5DEB3' },
-  { id: 'KS', name: 'Kansas', path: "M180,210 L240,210 L240,260 L180,260 Z", color: '#F5DEB3' }
+  { id: 'WI', name: 'Wisconsin', path: "M340,120 L400,120 L420,180 L380,220 L330,220 L310,180 Z", textPosition: { x: 360, y: 170 } },
+  { id: 'IL', name: 'Illinois', path: "M340,220 L380,220 L390,280 L350,320 L320,300 L320,240 Z", textPosition: { x: 350, y: 270 } },
+  { id: 'MI', name: 'Michigan', path: "M400,120 L440,100 L480,120 L470,170 L420,180 Z M390,190 L420,180 L410,220 L380,220 Z", textPosition: { x: 440, y: 140 } },
+  { id: 'MN', name: 'Minnesota', path: "M240,80 L320,80 L340,120 L310,180 L270,180 L240,150 Z", textPosition: { x: 280, y: 130 } },
+  { id: 'IA', name: 'Iowa', path: "M240,150 L270,180 L320,180 L320,240 L270,240 L240,210 Z", textPosition: { x: 280, y: 210 } },
+  { id: 'MO', name: 'Missouri', path: "M270,240 L320,240 L320,300 L280,300 L240,280 Z", textPosition: { x: 280, y: 270 } },
+  { id: 'IN', name: 'Indiana', path: "M380,220 L410,220 L410,280 L390,280 Z", textPosition: { x: 395, y: 250 } },
+  { id: 'OH', name: 'Ohio', path: "M410,220 L450,220 L450,280 L410,280 Z", textPosition: { x: 430, y: 250 } },
+  { id: 'ND', name: 'North Dakota', path: "M180,80 L240,80 L240,120 L180,120 Z", textPosition: { x: 210, y: 100 } },
+  { id: 'SD', name: 'South Dakota', path: "M180,120 L240,120 L240,150 L180,150 Z", textPosition: { x: 210, y: 135 } },
+  { id: 'NE', name: 'Nebraska', path: "M180,150 L240,150 L240,210 L180,210 Z", textPosition: { x: 210, y: 180 } },
+  { id: 'KS', name: 'Kansas', path: "M180,210 L240,210 L240,260 L180,260 Z", textPosition: { x: 210, y: 235 } }
 ];
 
 const MapPins: React.FC<MapPinsProps> = ({ 
@@ -52,18 +52,17 @@ const MapPins: React.FC<MapPinsProps> = ({
           <g key={state.id} onClick={() => onStateClick?.(state.id)}>
             <path 
               d={state.path} 
-              fill={selectedState === state.id ? '#F59E0B' : state.color}
-              stroke="#FFFFFF" 
+              fill="transparent"
+              stroke={selectedState === state.id ? '#F59E0B' : '#1E40AF'} 
               strokeWidth="2"
-              className="transition-colors duration-200 cursor-pointer hover:fill-amber-400"
+              className="transition-colors duration-200 cursor-pointer hover:stroke-amber-400"
             />
             <text 
-              x={state.path.split(' ')[0].replace('M', '')} 
-              y={state.path.split(' ')[1]} 
-              dx="20" 
-              dy="30" 
+              x={state.textPosition.x} 
+              y={state.textPosition.y} 
               className="text-xs font-medium pointer-events-none select-none"
               fill="#6B7280"
+              textAnchor="middle"
             >
               {state.name}
             </text>
