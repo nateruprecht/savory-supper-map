@@ -12,37 +12,55 @@ export type Database = {
       profiles: {
         Row: {
           age: number | null
+          avatar_url: string | null
+          badges: Json | null
+          bio: string | null
           city: string | null
+          clubs_visited: Json | null
           created_at: string | null
           first_name: string | null
           gender: string | null
           id: string
+          rank: number | null
           state: string | null
           surname: string | null
+          total_visits: number | null
           updated_at: string | null
           username: string | null
         }
         Insert: {
           age?: number | null
+          avatar_url?: string | null
+          badges?: Json | null
+          bio?: string | null
           city?: string | null
+          clubs_visited?: Json | null
           created_at?: string | null
           first_name?: string | null
           gender?: string | null
           id: string
+          rank?: number | null
           state?: string | null
           surname?: string | null
+          total_visits?: number | null
           updated_at?: string | null
           username?: string | null
         }
         Update: {
           age?: number | null
+          avatar_url?: string | null
+          badges?: Json | null
+          bio?: string | null
           city?: string | null
+          clubs_visited?: Json | null
           created_at?: string | null
           first_name?: string | null
           gender?: string | null
           id?: string
+          rank?: number | null
           state?: string | null
           surname?: string | null
+          total_visits?: number | null
           updated_at?: string | null
           username?: string | null
         }

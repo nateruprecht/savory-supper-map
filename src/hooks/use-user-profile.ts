@@ -39,6 +39,8 @@ export const useUserProfile = () => {
 
       if (error) throw error;
 
+      console.log('Profile data from DB:', data);
+
       return {
         id: user.id,
         name: data?.first_name ? `${data.first_name} ${data.surname || ''}`.trim() : user.email?.split('@')[0] || 'User',
@@ -70,7 +72,36 @@ export const useUserProfile = () => {
     }
   };
 
-  return { getUserProfile, loading, error };
+  /**
+   * Creates a user profile from auth data
+   */
+  const createUserProfile = (user: User | null): UserProfile => {
+    if (!user) {
+      return {
+        id: '',
+        name: 'Guest',
+        avatar: '',
+        clubsVisited: [],
+        badges: [],
+        totalVisits: 0,
+        rank: 0,
+        joinDate: new Date().toISOString()
+      };
+    }
+    
+    return {
+      id: user.id,
+      name: user.email?.split('@')[0] || 'User',
+      avatar: '',
+      clubsVisited: [],
+      badges: [],
+      totalVisits: 0,
+      rank: 0,
+      joinDate: user.created_at || new Date().toISOString()
+    };
+  };
+
+  return { getUserProfile, createUserProfile, loading, error };
 };
 
 export default useUserProfile;
