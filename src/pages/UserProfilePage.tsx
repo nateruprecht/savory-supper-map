@@ -12,12 +12,14 @@ import ReviewsSection from '@/components/home/ReviewsSection';
 import { useNavigate, useParams } from 'react-router-dom';
 import { currentUser } from '@/lib/data';
 import { UserProfile } from '@/lib/types';
+import useUserProfile from '@/hooks/use-user-profile';
 
 const UserProfilePage = () => {
   const [viewedUser, setViewedUser] = useState<UserProfile | null>(null);
   const [currentUserState] = useState(currentUser);
   const navigate = useNavigate();
   const { userId } = useParams<{ userId: string }>();
+  const { getUserProfile } = useUserProfile();
   
   useEffect(() => {
     // In a real app, we would fetch the user profile data from an API
@@ -35,7 +37,7 @@ const UserProfilePage = () => {
         totalVisits: userFromLeaderboard.totalVisits,
         rank: userFromLeaderboard.rank,
         joinDate: '2023-06-01', // Mock join date
-        bio: 'This is a fellow supper club explorer in the Midwest.'
+        bio: `This is a fellow supper club explorer in the Midwest.`
       };
       
       setViewedUser(mockUserProfile);
@@ -56,6 +58,8 @@ const UserProfilePage = () => {
       </div>
     );
   }
+
+  const isCurrentUser = currentUserState.id === viewedUser.id;
 
   return (
     <div className="min-h-screen bg-background relative">
@@ -83,9 +87,9 @@ const UserProfilePage = () => {
           <div className="space-y-6">
             <ProfileHeader user={viewedUser} />
             <ProfileStats user={viewedUser} clubs={sampleSupperClubs} />
-            <StatusSection user={viewedUser} />
-            <BadgesSection user={viewedUser} badges={viewedUser.badges} />
-            <ReviewsSection user={viewedUser} clubs={sampleSupperClubs} />
+            <StatusSection user={viewedUser} isCurrentUser={isCurrentUser} />
+            <BadgesSection user={viewedUser} badges={viewedUser.badges} isCurrentUser={isCurrentUser} />
+            <ReviewsSection user={viewedUser} clubs={sampleSupperClubs} isCurrentUser={isCurrentUser} />
             {/* Lists section is intentionally excluded for other users' profiles */}
           </div>
         </motion.div>

@@ -8,9 +8,10 @@ type ReviewsSectionProps = {
   user: UserProfile;
   clubs: SupperClub[];
   compact?: boolean;
+  isCurrentUser?: boolean;
 };
 
-const ReviewsSection: React.FC<ReviewsSectionProps> = ({ user, clubs, compact }) => {
+const ReviewsSection: React.FC<ReviewsSectionProps> = ({ user, clubs, compact, isCurrentUser = true }) => {
   // Get clubs that the user has reviewed
   const reviewedClubs = clubs.filter(club => 
     club.reviews.some(review => review.userId === user.id)
@@ -31,11 +32,17 @@ const ReviewsSection: React.FC<ReviewsSectionProps> = ({ user, clubs, compact })
     ? userRatings.reduce((sum, item) => sum + item.rating, 0) / userRatings.length
     : 0;
 
+  // Title changes based on whether viewing own profile or someone else's
+  const sectionTitle = isCurrentUser ? "Your Reviews" : `${user.name}'s Reviews`;
+  const emptyStateMessage = isCurrentUser 
+    ? "You haven't reviewed any supper clubs yet."
+    : `${user.name} hasn't reviewed any supper clubs yet.`;
+
   return (
     <div className={cn("bg-white rounded-xl shadow-sm", compact ? "p-3" : "p-4 sm:p-5")}>
       <h2 className={cn("font-semibold flex items-center", compact ? "text-base mb-2" : "text-lg sm:text-xl mb-3 sm:mb-4")}>
         <MessageSquare className="h-5 w-5 mr-2 text-primary" />
-        Your Reviews
+        {sectionTitle}
       </h2>
       
       {userRatings.length > 0 ? (
@@ -107,7 +114,7 @@ const ReviewsSection: React.FC<ReviewsSectionProps> = ({ user, clubs, compact })
       ) : (
         <div className="text-center py-6">
           <MessageSquare className="h-10 w-10 mx-auto text-muted-foreground mb-3" />
-          <p className="text-muted-foreground">You haven't reviewed any supper clubs yet.</p>
+          <p className="text-muted-foreground">{emptyStateMessage}</p>
         </div>
       )}
     </div>
