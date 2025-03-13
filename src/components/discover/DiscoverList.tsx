@@ -29,8 +29,6 @@ const DiscoverList: React.FC<DiscoverListProps> = ({
 
   return (
     <div className="bg-white rounded-xl shadow-sm p-4 sm:p-5">
-      <h2 className="text-lg sm:text-xl font-semibold mb-4">Discover Supper Clubs</h2>
-      
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <TabsList className="w-full grid grid-cols-3 mb-4">
           <TabsTrigger value="nearby">Nearby</TabsTrigger>
