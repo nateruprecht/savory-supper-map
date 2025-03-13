@@ -20,7 +20,7 @@ import { supabase } from '@/integrations/supabase/client';
 const step1Schema = z.object({
   firstName: z.string().min(1, { message: 'First name is required' }),
   surname: z.string().min(1, { message: 'Surname is required' }),
-  age: z.string().min(1, { message: 'Age is required' }),
+  age: z.string().min(1, { message: 'Age is required' }), // Using string for the select value
   gender: z.string().min(1, { message: 'Gender is required' }),
   username: z.string().min(3, { message: 'Username must be at least 3 characters' }),
 });
