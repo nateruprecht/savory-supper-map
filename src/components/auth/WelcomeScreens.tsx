@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { ChevronRight, ChevronLeft } from 'lucide-react';
+import { ChevronRight, ChevronLeft, Globe, ClipboardList, BarChart } from 'lucide-react';
 
 const WelcomeScreens = () => {
   const [currentScreen, setCurrentScreen] = useState(0);
