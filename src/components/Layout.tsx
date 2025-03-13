@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import Header from '@/components/Header';
@@ -11,18 +11,14 @@ import { UserProfile } from '@/lib/types';
 interface LayoutProps {
   children: React.ReactNode;
   activeTab: string;
+  requireAuth?: boolean;
 }
 
-const Layout: React.FC<LayoutProps> = ({ children, activeTab }) => {
-  const navigate = useNavigate();
-  const { user } = useAuth();
+// Helper function to create a user profile object from Supabase User
+const createUserProfile = (user: User | null): UserProfile => {
+  if (!user) return currentUser;
   
-  const handleTabChange = (tab: string) => {
-    navigate(`/${tab === 'home' ? '' : tab}`);
-  };
-
-  // Create a user profile from the auth user if needed
-  const userForHeader = user ? {
+  return {
     id: user.id,
     name: user.email?.split('@')[0] || 'User',
     avatar: '',
@@ -31,7 +27,34 @@ const Layout: React.FC<LayoutProps> = ({ children, activeTab }) => {
     totalVisits: 0,
     rank: 0,
     joinDate: user.created_at || new Date().toISOString()
-  } : currentUser;
+  };
+};
+
+const Layout: React.FC<LayoutProps> = ({ children, activeTab, requireAuth = true }) => {
+  const navigate = useNavigate();
+  const { user, loading } = useAuth();
+  
+  useEffect(() => {
+    if (requireAuth && !loading && !user) {
+      // Redirect to welcome screen if user is not authenticated
+      navigate('/welcome');
+    }
+  }, [user, loading, navigate, requireAuth]);
+  
+  const handleTabChange = (tab: string) => {
+    navigate(`/${tab === 'home' ? '' : tab}`);
+  };
+
+  // Create a user profile from the auth user
+  const userForHeader = createUserProfile(user);
+
+  if (loading && requireAuth) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="animate-spin h-8 w-8 border-4 border-primary border-t-transparent rounded-full"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background relative">

@@ -3,7 +3,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Home from "./pages/Home";
 import Discover from "./pages/Discover";
 import Leaderboard from "./pages/LeaderboardPage";
@@ -12,6 +12,9 @@ import NotFound from "./pages/NotFound";
 import Auth from "./pages/Auth";
 import Index from "./pages/Index";
 import Events from "./pages/Events";
+import Welcome from "./pages/Welcome";
+import Signup from "./pages/Signup";
+import Login from "./pages/Login";
 import { AuthProvider } from "./contexts/AuthContext";
 
 // Create client with retro-modern styling
@@ -51,6 +54,15 @@ const App = () => (
             <Route path="/auth" element={<Auth />} />
             <Route path="/index" element={<Index />} />
             <Route path="/events" element={<Events />} />
+            
+            {/* New auth routes */}
+            <Route path="/welcome" element={<Welcome />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/login" element={<Login />} />
+            
+            {/* Default route for landing - redirect to welcome for new users */}
+            <Route path="/" element={<Navigate to="/welcome" />} />
+            
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

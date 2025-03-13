@@ -7,13 +7,13 @@ import SignUpForm from '@/components/auth/SignUpForm';
 import LoginForm from '@/components/auth/LoginForm';
 import Header from '@/components/Header';
 import Navigation from '@/components/Navigation';
-import { currentUser } from '@/lib/data';
-import { UserProfile } from '@/lib/types';
+import useUserProfile from '@/hooks/use-user-profile';
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(false);
   const { user } = useAuth();
   const navigate = useNavigate();
+  const { createUserProfile } = useUserProfile();
 
   useEffect(() => {
     // If user is already logged in, redirect to home page
@@ -26,17 +26,8 @@ const Auth = () => {
     navigate(`/${tab === 'home' ? '' : tab}`);
   };
 
-  // Create a user profile from the auth user if needed
-  const userForHeader = user ? {
-    id: user.id,
-    name: user.email?.split('@')[0] || 'User',
-    avatar: '',
-    clubsVisited: [],
-    badges: [],
-    totalVisits: 0,
-    rank: 0,
-    joinDate: user.created_at || new Date().toISOString()
-  } : currentUser;
+  // Create a user profile from the auth user
+  const userForHeader = createUserProfile(user);
 
   return (
     <div className="min-h-screen bg-background relative">

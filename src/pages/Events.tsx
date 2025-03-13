@@ -1,29 +1,29 @@
 
 import React from 'react';
-import { motion } from 'framer-motion';
 import Layout from '@/components/Layout';
+import { motion } from 'framer-motion';
 
 const Events = () => {
   return (
     <Layout activeTab="events">
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        className="flex flex-col items-center justify-center min-h-screen p-4"
-      >
-        <div className="retro-pattern-bg retro-border p-8 rounded-lg max-w-md w-full text-center">
-          <h1 className="font-display text-3xl font-bold text-supper-red mb-4">
-            Events
-          </h1>
-          
-          <div className="retro-divider"></div>
-          
-          <p className="text-supper-brown text-xl mt-6">
-            Coming Soon
+      <div className="container px-4 py-8 mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="bg-white p-8 rounded-lg shadow-md text-center"
+        >
+          <h1 className="text-3xl font-bold text-supper-navy mb-4">Supper Club Events</h1>
+          <div className="bg-supper-cream rounded-full w-24 h-24 flex items-center justify-center mx-auto mb-6">
+            <span className="text-5xl">🍽️</span>
+          </div>
+          <p className="text-xl text-supper-brown mb-2">Coming Soon!</p>
+          <p className="text-gray-600">
+            We're cooking up something special. Check back for upcoming supper club events, 
+            meetups, and special dining experiences.
           </p>
-        </div>
-      </motion.div>
+        </motion.div>
+      </div>
     </Layout>
   );
 };
