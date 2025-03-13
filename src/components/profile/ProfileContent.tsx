@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { UserProfile, Badge, SupperClub } from '@/lib/types';
 import ProfileHeader from '@/components/profile/ProfileHeader';
@@ -34,7 +35,7 @@ const ProfileContent: React.FC<ProfileContentProps> = ({
   console.log('isCurrentUser:', isCurrentUser);
   
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 w-full px-1">
       {/* Profile Header and Stats */}
       <ProfileHeader user={user} />
       <ProfileStats user={user} clubs={clubs} />

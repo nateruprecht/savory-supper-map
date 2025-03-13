@@ -1,3 +1,4 @@
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
@@ -11,6 +12,8 @@ body {
   --tw-gradient-to: rgba(245, 241, 224, 0);
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
   min-height: 100vh;
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+  width: 100%;
 }
 
 .dark body {
@@ -91,4 +94,26 @@ body {
     padding-left: 1rem;
     padding-right: 1rem;
   }
+  
+  /* Fix grid in mobile view */
+  .grid {
+    width: 100%;
+  }
+  
+  /* Ensure content doesn't overflow on mobile */
+  .rounded-xl, .rounded-lg {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
 }
+
+/* Additional responsive fixes */
+.responsive-container {
+  width: 100%;
+  max-width: 100%;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  box-sizing: border-box;
+}
+

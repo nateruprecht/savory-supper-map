@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { UserProfile, SupperClub } from '@/lib/types';
 import { MapPin, Calendar, Award, ChevronRight } from 'lucide-react';
@@ -56,8 +55,8 @@ const StatusSection: React.FC<StatusSectionProps> = ({ user, clubs = [], isCurre
   const userStatuses = getUserStatuses(user, reviewedClubs);
   
   // Take only top 3 for initial display
-  const displayStatuses = userStatuses.slice(0, 3);
-  const hasMoreStatuses = userStatuses.length > 3;
+  const displayStatuses = userStatuses.slice(0, isMobile ? 2 : 3);
+  const hasMoreStatuses = userStatuses.length > (isMobile ? 2 : 3);
   
   // Text generators for different parts of the status section
   const getVisitText = (): string => {
@@ -111,7 +110,7 @@ const StatusSection: React.FC<StatusSectionProps> = ({ user, clubs = [], isCurre
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-sm p-4 sm:p-5" data-testid="status-section">
+    <div className="bg-white rounded-xl shadow-sm p-4 sm:p-5 w-full max-w-full" data-testid="status-section">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-lg sm:text-xl font-semibold flex items-center">
           <Award className="h-5 w-5 mr-2 text-primary" />
@@ -131,12 +130,12 @@ const StatusSection: React.FC<StatusSectionProps> = ({ user, clubs = [], isCurre
       
       {/* Status Badges */}
       {userStatuses.length > 0 ? (
-        <div className="mb-5">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <div className="mb-5 w-full overflow-hidden">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 w-full">
             {displayStatuses.map((status) => (
               <div
                 key={status.id}
-                className="bg-white rounded-lg shadow-sm p-3 border border-gray-100 flex flex-col items-center text-center transform transition-transform hover:scale-105"
+                className="bg-white rounded-lg shadow-sm p-3 border border-gray-100 flex flex-col items-center text-center transform transition-transform hover:scale-105 w-full"
               >
                 <div className="mb-2 p-2 rounded-full bg-gray-50">
                   <Award className={`h-6 w-6 ${status.category === 'visits' ? 'text-primary' : status.category === 'reviews' ? 'text-secondary' : 'text-supper-amber'}`} />
@@ -173,7 +172,7 @@ const StatusSection: React.FC<StatusSectionProps> = ({ user, clubs = [], isCurre
 
       {/* Dialog to show all statuses */}
       <Dialog open={showAllStatuses} onOpenChange={setShowAllStatuses}>
-        <DialogContent className="sm:max-w-lg">
+        <DialogContent className="sm:max-w-lg max-h-[80vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>{isCurrentUser ? 'Your Statuses' : `${user.name}'s Statuses`}</DialogTitle>
           </DialogHeader>

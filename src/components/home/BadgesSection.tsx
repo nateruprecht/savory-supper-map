@@ -38,12 +38,12 @@ const BadgesSection: React.FC<BadgesSectionProps> = ({
   const progressText = totalCount > 0 ? `${earnedCount} of ${totalCount} earned` : '';
 
   // Apply limit to badges if provided
-  const displayLimit = limit || (isMobile ? 6 : badges.length);
+  const displayLimit = limit || (isMobile ? 4 : badges.length);
   const displayBadges = badges.slice(0, displayLimit);
   const hasMoreBadges = badges.length > displayLimit;
 
   return (
-    <div className="bg-white rounded-xl shadow-sm p-4 sm:p-5">
+    <div className="bg-white rounded-xl shadow-sm p-4 sm:p-5 w-full max-w-full">
       <div className="flex items-center justify-between mb-4">
         <h2 className="font-semibold flex items-center text-lg sm:text-xl">
           <Trophy className="h-5 w-5 mr-2 text-primary" />
@@ -65,7 +65,7 @@ const BadgesSection: React.FC<BadgesSectionProps> = ({
       </div>
       
       {earnedCount > 0 ? (
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 w-full">
           {displayBadges.map(badge => (
             <Badge 
               key={badge.id} 
@@ -90,7 +90,7 @@ const BadgesSection: React.FC<BadgesSectionProps> = ({
 
       {/* Dialog to show all badges */}
       <Dialog open={showAllBadges} onOpenChange={setShowAllBadges}>
-        <DialogContent className="sm:max-w-lg">
+        <DialogContent className="sm:max-w-lg max-h-[80vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>{isCurrentUser ? 'Your Badges' : `${user.name}'s Badges`}</DialogTitle>
           </DialogHeader>
