@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { UserProfile, Badge, SupperClub } from '@/lib/types';
 import ProfileHeader from '@/components/profile/ProfileHeader';
@@ -27,13 +26,25 @@ const ProfileContent: React.FC<ProfileContentProps> = ({
   isCurrentUser = true,
   showListsSection = true
 }) => {
-  // Making sure StatusSection displays properly
+  // Debug log to ensure props are correctly passed
+  console.log('ProfileContent rendering with user:', user);
+  console.log('isCurrentUser:', isCurrentUser);
+  
   return (
     <div className="space-y-6">
-      {/* Profile sections */}
+      {/* Profile Header and Stats */}
       <ProfileHeader user={user} />
       <ProfileStats user={user} clubs={clubs} />
-      <StatusSection user={user} isCurrentUser={isCurrentUser} />
+      
+      {/* Status Section - explicitly adding key and data-testid to debug */}
+      <StatusSection 
+        user={user} 
+        isCurrentUser={isCurrentUser} 
+        key="status-section"
+        data-testid="profile-status-section"
+      />
+      
+      {/* Other Sections */}
       <BadgesSection user={user} badges={badges} isCurrentUser={isCurrentUser} />
       <ReviewsSection user={user} clubs={clubs} isCurrentUser={isCurrentUser} />
       {showListsSection && <ListsSection user={user} clubs={clubs} />}

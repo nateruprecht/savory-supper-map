@@ -10,6 +10,8 @@ type StatusSectionProps = {
 };
 
 const StatusSection: React.FC<StatusSectionProps> = ({ user, isCurrentUser = true }) => {
+  console.log('StatusSection rendering with user:', user);
+  
   const joinDate = new Date(user.joinDate);
   const formatJoinDate = !isNaN(joinDate.getTime()) 
     ? format(joinDate, 'MMMM yyyy')
@@ -60,7 +62,8 @@ const StatusSection: React.FC<StatusSectionProps> = ({ user, isCurrentUser = tru
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-sm p-4 sm:p-5">
+    <div className="bg-white rounded-xl shadow-sm p-4 sm:p-5" data-testid="status-section">
+      <h2 className="text-lg sm:text-xl font-semibold mb-4">Status</h2>
       <div className="space-y-3">
         <div className="flex items-start">
           <MapPin className="h-5 w-5 mr-3 text-primary flex-shrink-0 mt-0.5" />
