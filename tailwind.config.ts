@@ -23,6 +23,10 @@ export default {
       }
     },
     extend: {
+      fontFamily: {
+        'display': ['Playfair Display', 'serif'],
+        'sans': ['Inter', 'sans-serif'],
+      },
       colors: {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
@@ -95,6 +99,16 @@ export default {
           new: '#6366f1',
           experienced: '#8b5cf6',
           master: '#ec4899',
+        },
+        // Add warm retro-inspired colors
+        supper: {
+          red: '#9B2226',
+          amber: '#CA6702',
+          gold: '#E9C46A',
+          brown: '#774936',
+          cream: '#F5F1E0',
+          forest: '#2E5339',
+          navy: '#1D3557',
         }
       },
       borderRadius: {
@@ -150,6 +164,9 @@ export default {
         'scale-in': 'scale-in 0.3s ease-out',
         'pulse-subtle': 'pulse-subtle 3s infinite ease-in-out',
         'spin-slow': 'spin-slow 12s linear infinite',
+      },
+      backgroundImage: {
+        'retro-texture': "url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1IiBoZWlnaHQ9IjUiPgo8cmVjdCB3aWR0aD0iNSIgaGVpZ2h0PSI1IiBmaWxsPSIjZmZmIj48L3JlY3Q+CjxyZWN0IHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9IiNmNWYxZTAiPjwvcmVjdD4KPC9zdmc+')",
       }
     },
   },

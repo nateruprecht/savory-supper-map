@@ -10,16 +10,37 @@ import Leaderboard from "./pages/LeaderboardPage";
 import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
 import Auth from "./pages/Auth";
+import Index from "./pages/Index";
 import { AuthProvider } from "./contexts/AuthContext";
 
-const queryClient = new QueryClient();
+// Create client with retro-modern styling
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 1000 * 60 * 5, // 5 minutes
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <AuthProvider>
       <TooltipProvider>
         <Toaster />
-        <Sonner />
+        <Sonner 
+          theme="light"
+          position="top-right"
+          toastOptions={{
+            style: {
+              background: "white",
+              color: "#1D3557",
+              border: "1px solid #E9C46A",
+              fontFamily: "Inter, sans-serif",
+              boxShadow: "0 4px 12px rgba(0,0,0,0.05)"
+            }
+          }}
+        />
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Home />} />
@@ -27,6 +48,7 @@ const App = () => (
             <Route path="/leaderboard" element={<Leaderboard />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/auth" element={<Auth />} />
+            <Route path="/index" element={<Index />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

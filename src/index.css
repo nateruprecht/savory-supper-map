@@ -1,5 +1,5 @@
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -7,7 +7,7 @@
 
 @layer base {
   :root {
-    --background: 210 40% 98%;
+    --background: 36 33% 97%;
     --foreground: 222.2 84% 4.9%;
 
     --card: 0 0% 100%;
@@ -16,26 +16,26 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 210 100% 50%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 10 64% 38%;
+    --primary-foreground: 36 33% 97%;
 
-    --secondary: 210 40% 96.1%;
+    --secondary: 38 86% 67%;
     --secondary-foreground: 222.2 47.4% 11.2%;
 
-    --muted: 210 40% 96.1%;
+    --muted: 36 20% 92%;
     --muted-foreground: 215.4 16.3% 46.9%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 33 90% 40%;
+    --accent-foreground: 36 33% 97%;
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 36 33% 97%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
+    --border: 32 15% 85%;
+    --input: 32 15% 85%;
     --ring: 222.2 84% 4.9%;
 
-    --radius: 0.8rem;
+    --radius: 0.6rem;
 
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
@@ -48,41 +48,42 @@
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    --background: 25 40% 15%;
+    --foreground: 36 33% 97%;
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    --card: 25 40% 15%;
+    --card-foreground: 36 33% 97%;
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 25 40% 15%;
+    --popover-foreground: 36 33% 97%;
 
-    --primary: 210 100% 50%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: 10 64% 38%;
+    --primary-foreground: 36 33% 97%;
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 38 40% 30%;
+    --secondary-foreground: 36 33% 97%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 30 25% 25%;
+    --muted-foreground: 30 20% 70%;
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 33 60% 30%;
+    --accent-foreground: 36 33% 97%;
 
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 36 33% 97%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --border: 30 30% 25%;
+    --input: 30 30% 25%;
+    --ring: 32 15% 83.9%;
+
+    --sidebar-background: 25 40% 15%;
+    --sidebar-foreground: 36 30% 90%;
+    --sidebar-primary: 10 60% 35%;
+    --sidebar-primary-foreground: 36 33% 97%;
+    --sidebar-accent: 30 25% 20%;
+    --sidebar-accent-foreground: 36 30% 90%;
+    --sidebar-border: 30 25% 20%;
+    --sidebar-ring: 10 60% 40%;
   }
 }
 
@@ -98,7 +99,11 @@
     -moz-osx-font-smoothing: grayscale;
   }
   
-  h1, h2, h3, h4, h5, h6 {
+  h1, h2, h3 {
+    @apply font-display font-medium tracking-tight;
+  }
+
+  h4, h5, h6 {
     @apply font-medium tracking-tight;
   }
   
@@ -112,11 +117,11 @@
   }
   
   .map-pin-visited {
-    @apply text-success-600;
+    @apply text-supper-amber;
   }
   
   .map-pin-unvisited {
-    @apply text-primary-600;
+    @apply text-supper-red;
   }
   
   .card-hover {
@@ -155,5 +160,22 @@
   
   .scale-in-enter {
     @apply animate-scale-in;
+  }
+
+  /* Retro-inspired elements */
+  .retro-divider {
+    @apply h-px bg-gradient-to-r from-transparent via-supper-amber to-transparent my-4;
+  }
+
+  .retro-card {
+    @apply bg-white border border-supper-cream/50 shadow-md rounded-lg overflow-hidden;
+  }
+
+  .retro-pattern {
+    @apply bg-retro-texture bg-repeat;
+  }
+
+  .retro-button {
+    @apply bg-supper-red text-white hover:bg-supper-red/90 font-medium shadow-md transition-all;
   }
 }
