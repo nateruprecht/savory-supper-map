@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
@@ -91,19 +91,37 @@ const MultiStepSignupForm = () => {
     >
       <SignupHeader step={step} />
       
-      {step === 1 ? (
-        <Step1Form 
-          onContinue={handleContinue} 
-          isLoading={isLoading}
-          defaultValues={step1Data || undefined}
-        />
-      ) : (
-        <Step2Form 
-          onSubmit={onStep2Submit} 
-          onBack={handleBack} 
-          isLoading={isLoading}
-        />
-      )}
+      <AnimatePresence mode="wait">
+        {step === 1 ? (
+          <motion.div
+            key="step1"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+            transition={{ duration: 0.3 }}
+          >
+            <Step1Form 
+              onContinue={handleContinue} 
+              isLoading={isLoading}
+              defaultValues={step1Data || undefined}
+            />
+          </motion.div>
+        ) : (
+          <motion.div
+            key="step2"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 20 }}
+            transition={{ duration: 0.3 }}
+          >
+            <Step2Form 
+              onSubmit={onStep2Submit} 
+              onBack={handleBack} 
+              isLoading={isLoading}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <LoginLink />
     </motion.div>

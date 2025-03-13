@@ -55,19 +55,19 @@ const Step1Form: React.FC<Step1FormProps> = ({ onContinue, isLoading, defaultVal
 
   return (
     <Form {...form}>
-      <form className="space-y-4">
+      <form className="space-y-5">
         <FormField
           control={form.control}
           name="firstName"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>First Name</FormLabel>
+              <FormLabel className="text-supper-brown font-medium">First Name</FormLabel>
               <FormControl>
                 <div className="relative">
-                  <User className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
+                  <User className="absolute left-3 top-3 h-5 w-5 text-supper-amber" />
                   <Input 
                     placeholder="First Name" 
-                    className="pl-10"
+                    className="pl-10 h-12 border-supper-cream bg-background/50 focus-visible:ring-supper-amber"
                     {...field} 
                     disabled={isLoading}
                   />
@@ -83,13 +83,13 @@ const Step1Form: React.FC<Step1FormProps> = ({ onContinue, isLoading, defaultVal
           name="surname"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Surname</FormLabel>
+              <FormLabel className="text-supper-brown font-medium">Surname</FormLabel>
               <FormControl>
                 <div className="relative">
-                  <User className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
+                  <User className="absolute left-3 top-3 h-5 w-5 text-supper-amber" />
                   <Input 
                     placeholder="Surname" 
-                    className="pl-10"
+                    className="pl-10 h-12 border-supper-cream bg-background/50 focus-visible:ring-supper-amber"
                     {...field} 
                     disabled={isLoading}
                   />
@@ -105,16 +105,16 @@ const Step1Form: React.FC<Step1FormProps> = ({ onContinue, isLoading, defaultVal
           name="age"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Age</FormLabel>
+              <FormLabel className="text-supper-brown font-medium">Age</FormLabel>
               <FormControl>
                 <div className="relative">
-                  <Calendar className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
+                  <Calendar className="absolute left-3 top-3 h-5 w-5 text-supper-amber" />
                   <Select
                     disabled={isLoading}
                     onValueChange={field.onChange}
                     value={field.value}
                   >
-                    <SelectTrigger className="pl-10">
+                    <SelectTrigger className="pl-10 h-12 border-supper-cream bg-background/50 focus-visible:ring-supper-amber">
                       <SelectValue placeholder="Select your age" />
                     </SelectTrigger>
                     <SelectContent>
@@ -133,16 +133,16 @@ const Step1Form: React.FC<Step1FormProps> = ({ onContinue, isLoading, defaultVal
           name="gender"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Gender</FormLabel>
+              <FormLabel className="text-supper-brown font-medium">Gender</FormLabel>
               <FormControl>
                 <div className="relative">
-                  <Users className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
+                  <Users className="absolute left-3 top-3 h-5 w-5 text-supper-amber" />
                   <Select
                     disabled={isLoading}
                     onValueChange={field.onChange}
                     value={field.value}
                   >
-                    <SelectTrigger className="pl-10">
+                    <SelectTrigger className="pl-10 h-12 border-supper-cream bg-background/50 focus-visible:ring-supper-amber">
                       <SelectValue placeholder="Select your gender" />
                     </SelectTrigger>
                     <SelectContent>
@@ -164,13 +164,13 @@ const Step1Form: React.FC<Step1FormProps> = ({ onContinue, isLoading, defaultVal
           name="username"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Username</FormLabel>
+              <FormLabel className="text-supper-brown font-medium">Username</FormLabel>
               <FormControl>
                 <div className="relative">
-                  <User className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
+                  <User className="absolute left-3 top-3 h-5 w-5 text-supper-amber" />
                   <Input 
                     placeholder="Choose a username" 
-                    className="pl-10"
+                    className="pl-10 h-12 border-supper-cream bg-background/50 focus-visible:ring-supper-amber"
                     {...field} 
                     disabled={isLoading}
                   />
@@ -183,7 +183,7 @@ const Step1Form: React.FC<Step1FormProps> = ({ onContinue, isLoading, defaultVal
 
         <Button 
           type="button" 
-          className="w-full h-12 bg-supper-navy hover:bg-supper-navy/90 mt-6" 
+          className="w-full h-12 bg-supper-red hover:bg-supper-red/90 text-white font-medium text-base mt-6" 
           disabled={isLoading}
           onClick={handleContinue}
         >

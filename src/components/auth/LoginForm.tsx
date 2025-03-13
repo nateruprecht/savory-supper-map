@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { Mail, Lock } from 'lucide-react';
+import { Mail, Lock, Facebook } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
@@ -58,26 +58,26 @@ const LoginForm = () => {
   };
 
   const goToSignup = () => {
-    navigate('/welcome');
+    navigate('/signup');
   };
 
   return (
     <div className="w-full">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
           <FormField
             control={form.control}
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
+                <FormLabel className="text-supper-brown font-medium">Email</FormLabel>
                 <FormControl>
                   <div className="relative">
-                    <Mail className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
+                    <Mail className="absolute left-3 top-3 h-5 w-5 text-supper-amber" />
                     <Input 
                       placeholder="Your email address" 
                       type="email"
-                      className="pl-10"
+                      className="pl-10 h-12 border-supper-cream bg-background/50 focus-visible:ring-supper-amber"
                       {...field} 
                       disabled={isLoading}
                     />
@@ -93,14 +93,14 @@ const LoginForm = () => {
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Password</FormLabel>
+                <FormLabel className="text-supper-brown font-medium">Password</FormLabel>
                 <FormControl>
                   <div className="relative">
-                    <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
+                    <Lock className="absolute left-3 top-3 h-5 w-5 text-supper-amber" />
                     <Input 
                       placeholder="Your password" 
                       type="password"
-                      className="pl-10"
+                      className="pl-10 h-12 border-supper-cream bg-background/50 focus-visible:ring-supper-amber"
                       {...field} 
                       disabled={isLoading}
                     />
@@ -113,7 +113,7 @@ const LoginForm = () => {
 
           <Button 
             type="submit" 
-            className="w-full h-12 bg-supper-navy hover:bg-supper-navy/90 mt-6" 
+            className="w-full h-12 bg-supper-red hover:bg-supper-red/90 text-white font-medium text-base mt-6" 
             disabled={isLoading}
           >
             {isLoading ? (
@@ -128,17 +128,33 @@ const LoginForm = () => {
         </form>
       </Form>
 
-      <div className="mt-6 text-center">
-        <p className="text-sm text-muted-foreground">
+      <div className="mt-8 text-center">
+        <p className="text-sm text-muted-foreground mb-4">
           Don't have an account?{' '}
           <button
             type="button"
             onClick={goToSignup}
-            className="text-primary font-medium hover:underline"
+            className="text-supper-red font-medium hover:underline"
           >
             Sign up
           </button>
         </p>
+
+        <div className="flex items-center justify-center gap-2 my-4">
+          <div className="h-px bg-border flex-1"></div>
+          <span className="text-xs text-muted-foreground px-2">or continue with</span>
+          <div className="h-px bg-border flex-1"></div>
+        </div>
+
+        <Button 
+          type="button" 
+          variant="outline" 
+          className="w-full border-supper-navy/20 hover:bg-supper-navy/5 text-supper-navy"
+          disabled={isLoading}
+        >
+          <Facebook className="mr-2 h-5 w-5" />
+          Continue with Facebook
+        </Button>
       </div>
     </div>
   );

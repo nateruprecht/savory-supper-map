@@ -24,8 +24,14 @@ const Signup = () => {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-background">
-      <MultiStepSignupForm />
+    <div className="min-h-screen bg-supper-cream/50 retro-pattern">
+      <div className="container flex flex-col items-center justify-center min-h-screen p-4">
+        <div className="w-full max-w-md bg-white rounded-lg shadow-md border border-supper-amber/20 p-8 relative overflow-hidden">
+          <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-supper-red via-supper-amber to-supper-gold"></div>
+          
+          <MultiStepSignupForm />
+        </div>
+      </div>
     </div>
   );
 };
