@@ -35,7 +35,7 @@ const ProfileContent: React.FC<ProfileContentProps> = ({
   console.log('isCurrentUser:', isCurrentUser);
   
   return (
-    <div className="space-y-6 w-full mx-auto box-border">
+    <div className="grid grid-cols-1 gap-6 max-w-4xl mx-auto">
       {/* Profile Header and Stats */}
       <ProfileHeader user={user} />
       <ProfileStats user={user} clubs={clubs} />

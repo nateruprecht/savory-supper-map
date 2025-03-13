@@ -35,30 +35,31 @@ const ProfileLayout: React.FC<ProfileLayoutProps> = ({
     <div className="min-h-screen bg-background relative overflow-hidden">
       <Header user={user} onProfileClick={() => navigate('/profile')} />
       
-      <main className="pt-16 md:pt-20 pb-16 min-h-screen flex flex-col w-full overflow-hidden">
+      <main className="pt-16 md:pt-20 pb-16 min-h-screen">
         {backLink && (
           <div className="sticky top-16 md:top-20 z-10 bg-background border-b border-border/40 shadow-sm w-full">
-            <div className="w-full px-4 sm:max-w-xl sm:mx-auto py-3 flex items-center">
-              <button 
-                onClick={() => navigate(backLink.route)} 
-                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-              >
-                {backLink.text}
-              </button>
-              {title && (
-                <h1 className="text-lg font-medium ml-4">{title}</h1>
-              )}
+            <div className="container px-4 mx-auto">
+              <div className="py-3 flex items-center">
+                <button 
+                  onClick={() => navigate(backLink.route)} 
+                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  {backLink.text}
+                </button>
+                {title && (
+                  <h1 className="text-lg font-medium ml-4">{title}</h1>
+                )}
+              </div>
             </div>
           </div>
         )}
         
-        <ScrollArea className="flex-1 w-full overflow-hidden">
-          <div className="w-full flex justify-center">
+        <ScrollArea className="w-full">
+          <div className="container px-4 py-6 mx-auto">
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.2 }}
-              className="w-full px-4 sm:max-w-xl sm:mx-auto sm:p-4 pb-16 md:pb-0 box-border"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4 }}
             >
               {children}
             </motion.div>
