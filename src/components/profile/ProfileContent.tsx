@@ -27,8 +27,10 @@ const ProfileContent: React.FC<ProfileContentProps> = ({
   isCurrentUser = true,
   showListsSection = true
 }) => {
+  // Making sure StatusSection displays properly
   return (
     <div className="space-y-6">
+      {/* Profile sections */}
       <ProfileHeader user={user} />
       <ProfileStats user={user} clubs={clubs} />
       <StatusSection user={user} isCurrentUser={isCurrentUser} />
