@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Home, MapPin, Award, Users, User, Calendar } from 'lucide-react';
+import { Home, MapPin, Award, Trophy, User, Calendar } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -19,7 +19,7 @@ const Navigation: React.FC<NavigationProps> = ({ activeTab, onTabChange }) => {
     { id: 'home', icon: <Home className="h-5 w-5" />, label: 'Home' },
     { id: 'discover', icon: <MapPin className="h-5 w-5" />, label: 'Discover' },
     { id: 'events', icon: <Calendar className="h-5 w-5" />, label: 'Events' },
-    { id: 'leaderboard', icon: <Users className="h-5 w-5" />, label: 'Leaderboard' },
+    { id: 'leaderboard', icon: <Trophy className="h-5 w-5" />, label: 'Leaderboard' },
     { id: 'profile', icon: <User className="h-5 w-5" />, label: 'Profile' },
   ];
 

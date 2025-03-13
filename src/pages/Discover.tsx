@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { currentUser, sampleSupperClubs } from '@/lib/data';
@@ -34,7 +33,6 @@ const Discover = () => {
         : club
     ));
     
-    // Update user stats - simplified implementation
     const updatedClub = clubs.find(club => club.id === clubId);
     if (updatedClub) {
       const wasVisited = updatedClub.visited;
@@ -67,7 +65,7 @@ const Discover = () => {
             />
           </div>
           
-          <div className="md:col-span-2 px-4 md:px-0 py-6 md:py-0 space-y-4 md:overflow-y-auto md:max-h-[calc(100vh-8rem)]">
+          <div className="md:col-span-2 px-4 md:px-0 py-6 md:py-0 space-y-4 md:overflow-y-auto md:max-h-[calc(100vh-8rem)] md:pb-4">
             <DiscoverList 
               clubs={clubs}
               onClubSelect={handleClubSelect}
