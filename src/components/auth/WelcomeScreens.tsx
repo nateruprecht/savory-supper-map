@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
@@ -91,12 +90,6 @@ const WelcomeScreens = () => {
                   <ChevronRight className="ml-2 h-5 w-5" />
                 </Button>
               </div>
-              <button 
-                onClick={handleSkip}
-                className="mt-6 text-white/80 hover:text-white text-sm underline"
-              >
-                Skip Introduction
-              </button>
             </div>
           </div>
         </div>
