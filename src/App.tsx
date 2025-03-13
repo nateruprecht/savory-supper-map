@@ -37,6 +37,7 @@ const App = () => (
         <Sonner 
           theme="light"
           position="top-right"
+          duration={3000}
           toastOptions={{
             style: {
               background: "white",

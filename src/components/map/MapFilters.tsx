@@ -5,7 +5,7 @@ import { X, CheckCircle2, MapPin } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { MapFilter } from '@/lib/types';
 import { cn } from '@/lib/utils';
-import { cuisineTypes, regions } from '@/lib/data';
+import { regions } from '@/lib/data';
 
 type MapFiltersProps = {
   isOpen: boolean;
@@ -43,38 +43,20 @@ const MapFilters: React.FC<MapFiltersProps> = ({
           </Button>
         </div>
         
-        <div className="grid grid-cols-2 gap-3">
-          <div>
-            <label className="text-xs text-muted-foreground">Region</label>
-            <select 
-              className="w-full p-2 border border-border rounded-md text-sm mt-1"
-              value={filters.region || ''}
-              onChange={(e) => onFilterChange('region', e.target.value || undefined)}
-            >
-              <option value="">All Regions</option>
-              {regions.map(region => (
-                <option key={region.id} value={region.id}>
-                  {region.name}
-                </option>
-              ))}
-            </select>
-          </div>
-          
-          <div>
-            <label className="text-xs text-muted-foreground">Specialty</label>
-            <select 
-              className="w-full p-2 border border-border rounded-md text-sm mt-1"
-              value={filters.cuisine || ''}
-              onChange={(e) => onFilterChange('cuisine', e.target.value || undefined)}
-            >
-              <option value="">All Cuisines</option>
-              {cuisineTypes.map(cuisine => (
-                <option key={cuisine} value={cuisine}>
-                  {cuisine}
-                </option>
-              ))}
-            </select>
-          </div>
+        <div>
+          <label className="text-xs text-muted-foreground">Region</label>
+          <select 
+            className="w-full p-2 border border-border rounded-md text-sm mt-1"
+            value={filters.region || ''}
+            onChange={(e) => onFilterChange('region', e.target.value || undefined)}
+          >
+            <option value="">All Regions</option>
+            {regions.map(region => (
+              <option key={region.id} value={region.id}>
+                {region.name}
+              </option>
+            ))}
+          </select>
         </div>
         
         <div className="mt-3">

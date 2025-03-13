@@ -7,7 +7,6 @@ import Header from '@/components/Header';
 import Navigation from '@/components/Navigation';
 import MapView from '@/components/MapView';
 import DiscoverList from '@/components/discover/DiscoverList';
-import InfoSection from '@/components/discover/InfoSection';
 import ClubDetails from '@/components/ClubDetails';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -72,8 +71,6 @@ const Discover = () => {
               onClubSelect={handleClubSelect}
               onVisitToggle={handleVisitToggle}
             />
-            
-            <InfoSection />
           </div>
         </div>
       </main>

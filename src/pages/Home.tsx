@@ -9,7 +9,8 @@ import {
   Map, 
   Plus, 
   Facebook,
-  ChevronRight
+  ChevronRight,
+  Info
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { 
@@ -21,6 +22,7 @@ import {
 import StatusSection from '@/components/home/StatusSection';
 import BadgesSection from '@/components/home/BadgesSection';
 import ReviewsSection from '@/components/home/ReviewsSection';
+import InfoSection from '@/components/discover/InfoSection';
 import { useAuth } from '@/contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { currentUser, sampleSupperClubs, badges } from '@/lib/data';
@@ -208,6 +210,26 @@ const Home = () => {
                     Explore Supper Clubs
                   </Button>
                 </div>
+              </CardContent>
+            </Card>
+          </motion.div>
+          
+          {/* About Supper Clubs Section */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.98 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.4, delay: 0.5 }}
+            className="col-span-1 md:col-span-2"
+          >
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-xl font-semibold flex items-center">
+                  <Info className="mr-2 h-5 w-5 text-supper-blue" />
+                  About Supper Clubs
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <InfoSection />
               </CardContent>
             </Card>
           </motion.div>
