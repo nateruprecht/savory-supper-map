@@ -4,6 +4,7 @@ import { Home, MapPin, Award, Users, User, Calendar } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { useNavigate } from 'react-router-dom';
 
 type NavigationProps = {
   activeTab: string;
@@ -12,6 +13,7 @@ type NavigationProps = {
 
 const Navigation: React.FC<NavigationProps> = ({ activeTab, onTabChange }) => {
   const isMobile = useIsMobile();
+  const navigate = useNavigate();
 
   const navigationItems = [
     { id: 'home', icon: <Home className="h-5 w-5" />, label: 'Home' },
@@ -21,6 +23,12 @@ const Navigation: React.FC<NavigationProps> = ({ activeTab, onTabChange }) => {
     { id: 'profile', icon: <User className="h-5 w-5" />, label: 'Profile' },
   ];
 
+  // Direct navigation handler to ensure proper routing
+  const handleNavigation = (item: string) => {
+    onTabChange(item);
+    navigate(`/${item === 'home' ? '' : item}`);
+  };
+
   return (
     <>
       {/* Mobile Navigation - Bottom Tab Bar */}
@@ -29,7 +37,7 @@ const Navigation: React.FC<NavigationProps> = ({ activeTab, onTabChange }) => {
           {navigationItems.map((item) => (
             <button
               key={item.id}
-              onClick={() => onTabChange(item.id)}
+              onClick={() => handleNavigation(item.id)}
               className={cn(
                 "flex flex-col items-center justify-center py-3 px-4 rounded-lg transition-all duration-300 w-full max-w-[80px]",
                 activeTab === item.id
@@ -63,7 +71,7 @@ const Navigation: React.FC<NavigationProps> = ({ activeTab, onTabChange }) => {
           {navigationItems.map((item) => (
             <button
               key={item.id}
-              onClick={() => onTabChange(item.id)}
+              onClick={() => handleNavigation(item.id)}
               className={cn(
                 "relative p-3 rounded-full transition-all duration-300 hover:bg-secondary group",
                 activeTab === item.id && "bg-primary text-primary-foreground hover:bg-primary"

@@ -16,6 +16,7 @@ import Welcome from "./pages/Welcome";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import { AuthProvider } from "./contexts/AuthContext";
+import ProtectedRoute from "./components/auth/ProtectedRoute";
 
 // Create client with retro-modern styling
 const queryClient = new QueryClient({
@@ -51,19 +52,16 @@ const App = () => (
             <Route path="/discover" element={<Discover />} />
             <Route path="/leaderboard" element={<Leaderboard />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/events" element={<Events />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/index" element={<Index />} />
-            <Route path="/events" element={<Events />} />
             
-            {/* New auth routes */}
+            {/* Auth routes */}
             <Route path="/welcome" element={<Welcome />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/login" element={<Login />} />
             
-            {/* Default route for landing - redirect to welcome for new users */}
-            <Route path="/" element={<Navigate to="/welcome" />} />
-            
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            {/* Catch-all route */}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
