@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { ChevronRight, ChevronLeft, Globe, ClipboardList, BarChart } from 'lucide-react';
+import { ChevronRight, ChevronLeft, Globe, ClipboardList, BarChart, Image } from 'lucide-react';
 
 const WelcomeScreens = () => {
   const [currentScreen, setCurrentScreen] = useState(0);
@@ -24,7 +24,8 @@ const WelcomeScreens = () => {
       subtitle: "Discover Supper Clubs",
       description: "Find and enjoy the best supper clubs in the midwest!",
       buttonText: "Continue",
-      icon: <Globe className="h-12 w-12 text-supper-amber" />
+      icon: <Globe className="h-12 w-12 text-supper-amber" />,
+      image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80"
     },
     {
       id: 3,
@@ -32,7 +33,8 @@ const WelcomeScreens = () => {
       subtitle: "Review and Track Your Visits",
       description: "Check achievements as you explore the best supper clubs in the midwest!",
       buttonText: "Continue",
-      icon: <ClipboardList className="h-12 w-12 text-supper-red" />
+      icon: <ClipboardList className="h-12 w-12 text-supper-red" />,
+      image: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80"
     },
     {
       id: 4,
@@ -40,7 +42,8 @@ const WelcomeScreens = () => {
       subtitle: "Supper Club Status",
       description: "Watch the top of the leaderboards and share your status in the supper club community!",
       buttonText: "Explore",
-      icon: <BarChart className="h-12 w-12 text-supper-gold" />
+      icon: <BarChart className="h-12 w-12 text-supper-gold" />,
+      image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80"
     }
   ];
 
@@ -134,25 +137,11 @@ const WelcomeScreens = () => {
         </div>
 
         <div className="flex justify-center my-8">
-          {currentScreen === 1 && (
+          {currentScreenData.image && (
             <img 
-              src="/placeholder.svg" 
-              alt="Map" 
-              className="h-48 w-48 object-contain"
-            />
-          )}
-          {currentScreen === 2 && (
-            <img 
-              src="/placeholder.svg" 
-              alt="Journey" 
-              className="h-48 w-48 object-contain" 
-            />
-          )}
-          {currentScreen === 3 && (
-            <img 
-              src="/placeholder.svg" 
-              alt="Community" 
-              className="h-48 w-48 object-contain"
+              src={currentScreenData.image} 
+              alt={currentScreenData.subtitle} 
+              className="h-48 w-auto object-cover rounded-lg shadow-md" 
             />
           )}
         </div>

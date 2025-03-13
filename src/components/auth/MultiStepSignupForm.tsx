@@ -74,6 +74,7 @@ const MultiStepSignupForm = () => {
     mode: 'onChange',
   });
 
+  // Handle Continue button click for step 1
   const handleContinue = async () => {
     // Validate step 1 fields
     const step1Valid = await step1Form.trigger();
@@ -92,6 +93,7 @@ const MultiStepSignupForm = () => {
     }
   };
 
+  // Handle submit for step 2
   const onStep2Submit = async (values: Step2FormValues) => {
     if (!step1Data) {
       toast({
