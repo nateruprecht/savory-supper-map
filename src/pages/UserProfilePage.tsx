@@ -1,9 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
 import { sampleSupperClubs, badges, leaderboard } from '@/lib/data';
-import Header from '@/components/Header';
-import Navigation from '@/components/Navigation';
 import ProfileHeader from '@/components/profile/ProfileHeader';
 import ProfileStats from '@/components/profile/ProfileStats';
 import StatusSection from '@/components/home/StatusSection';
@@ -13,7 +10,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { currentUser } from '@/lib/data';
 import { UserProfile } from '@/lib/types';
 import useUserProfile from '@/hooks/use-user-profile';
-import { ScrollArea } from '@/components/ui/scroll-area';
+import ProfileLayout from '@/components/profile/ProfileLayout';
 
 const UserProfilePage = () => {
   const [viewedUser, setViewedUser] = useState<UserProfile | null>(null);
@@ -47,10 +44,6 @@ const UserProfilePage = () => {
       navigate('/leaderboard');
     }
   }, [userId, navigate]);
-  
-  const handleTabChange = (tab: string) => {
-    navigate(`/${tab === 'home' ? '' : tab}`);
-  };
 
   if (!viewedUser) {
     return (
@@ -63,48 +56,21 @@ const UserProfilePage = () => {
   const isCurrentUser = currentUserState.id === viewedUser.id;
 
   return (
-    <div className="min-h-screen bg-background relative">
-      <Header user={currentUserState} onProfileClick={() => navigate('/profile')} />
-      
-      <main className="pt-16 md:pt-20 pb-16 min-h-screen flex flex-col">
-        <div className="sticky top-16 md:top-20 z-10 bg-background border-b border-border/40 shadow-sm">
-          <div className="w-full px-4 sm:max-w-4xl sm:mx-auto py-3 flex items-center">
-            <button 
-              onClick={() => navigate('/leaderboard')} 
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-            >
-              ← Back
-            </button>
-            <h1 className="text-lg font-medium ml-4">
-              {viewedUser.name}'s Profile
-            </h1>
-          </div>
-        </div>
-        
-        <ScrollArea className="flex-1 w-full">
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.2 }}
-            className="w-full px-4 sm:max-w-4xl sm:mx-auto sm:p-4 pb-16 md:pb-0"
-          >
-            <div className="space-y-6 pt-4">
-              <ProfileHeader user={viewedUser} />
-              <ProfileStats user={viewedUser} clubs={sampleSupperClubs} />
-              <StatusSection user={viewedUser} isCurrentUser={isCurrentUser} />
-              <BadgesSection user={viewedUser} badges={badges} isCurrentUser={isCurrentUser} />
-              <ReviewsSection user={viewedUser} clubs={sampleSupperClubs} isCurrentUser={isCurrentUser} />
-              {/* Lists section is intentionally excluded for other users' profiles */}
-            </div>
-          </motion.div>
-        </ScrollArea>
-      </main>
-      
-      <Navigation
-        activeTab="leaderboard"
-        onTabChange={handleTabChange}
-      />
-    </div>
+    <ProfileLayout 
+      user={currentUserState} 
+      activeTab="leaderboard"
+      backLink={{ text: "← Back", route: "/leaderboard" }}
+      title={`${viewedUser.name}'s Profile`}
+    >
+      <div className="space-y-6 pt-4">
+        <ProfileHeader user={viewedUser} />
+        <ProfileStats user={viewedUser} clubs={sampleSupperClubs} />
+        <StatusSection user={viewedUser} isCurrentUser={isCurrentUser} />
+        <BadgesSection user={viewedUser} badges={badges} isCurrentUser={isCurrentUser} />
+        <ReviewsSection user={viewedUser} clubs={sampleSupperClubs} isCurrentUser={isCurrentUser} />
+        {/* Lists section is intentionally excluded for other users' profiles */}
+      </div>
+    </ProfileLayout>
   );
 };
 
