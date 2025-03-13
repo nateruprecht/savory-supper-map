@@ -9,18 +9,17 @@ import { ChevronRight } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { useAuth } from '@/contexts/AuthContext';
 import { toast } from '@/hooks/use-toast';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { supabase } from '@/integrations/supabase/client';
 
-// Schema for step 1
+// Schema for step 1 - completely revised
 const step1Schema = z.object({
   firstName: z.string().min(1, { message: 'First name is required' }),
   surname: z.string().min(1, { message: 'Surname is required' }),
-  age: z.string().min(1, { message: 'Age is required' }), // Using string for the select value
+  age: z.string().min(1, { message: 'Age is required' }), 
   gender: z.string().min(1, { message: 'Gender is required' }),
   username: z.string().min(3, { message: 'Username must be at least 3 characters' }),
 });
@@ -223,6 +222,7 @@ const MultiStepSignupForm = () => {
               name="age"
               render={({ field }) => (
                 <FormItem>
+                  <FormLabel>Age</FormLabel>
                   <Select
                     disabled={isLoading}
                     onValueChange={field.onChange}
@@ -230,7 +230,7 @@ const MultiStepSignupForm = () => {
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Age" />
+                        <SelectValue placeholder="Select your age" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -247,6 +247,7 @@ const MultiStepSignupForm = () => {
               name="gender"
               render={({ field }) => (
                 <FormItem>
+                  <FormLabel>Gender</FormLabel>
                   <Select
                     disabled={isLoading}
                     onValueChange={field.onChange}
@@ -254,7 +255,7 @@ const MultiStepSignupForm = () => {
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Gender" />
+                        <SelectValue placeholder="Select your gender" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
