@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import Layout from '@/components/Layout';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -62,17 +61,13 @@ const Home = () => {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
-          className="mb-4"
+          className="mb-2"
         >
-          <h1 className="text-2xl font-bold text-supper-navy mb-1">
+          <h1 className="text-2xl font-bold text-supper-navy">
             Welcome back, {userData.name}
           </h1>
-          <p className="text-supper-brown">
-            Track your supper club journey across the Midwest.
-          </p>
         </motion.div>
 
-        {/* New tagline and description section */}
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -88,7 +83,6 @@ const Home = () => {
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-          {/* Status Section */}
           <motion.div
             initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -128,7 +122,6 @@ const Home = () => {
             </Card>
           </motion.div>
 
-          {/* Badges Section */}
           <motion.div
             initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -168,7 +161,6 @@ const Home = () => {
             </Card>
           </motion.div>
 
-          {/* Reviews Section */}
           <motion.div
             initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -197,7 +189,6 @@ const Home = () => {
             </Card>
           </motion.div>
 
-          {/* Map Section */}
           <motion.div
             initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -229,7 +220,6 @@ const Home = () => {
             </Card>
           </motion.div>
           
-          {/* About Supper Clubs Section */}
           <motion.div
             initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -251,7 +241,6 @@ const Home = () => {
         </div>
       </div>
 
-      {/* Plus Button */}
       <div className="fixed bottom-20 right-6 z-40 md:bottom-6">
         <motion.button
           whileHover={{ scale: 1.05 }}
@@ -263,7 +252,6 @@ const Home = () => {
           <Plus className="h-7 w-7" />
         </motion.button>
 
-        {/* Add Menu Popup */}
         <AnimatePresence>
           {isAddMenuOpen && (
             <motion.div
