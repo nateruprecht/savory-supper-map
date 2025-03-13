@@ -5,17 +5,16 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { motion } from 'framer-motion';
-import { ChevronRight } from 'lucide-react';
+import { ChevronRight, User, Mail, Lock, MapPin, Calendar, Users } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { useAuth } from '@/contexts/AuthContext';
-import { toast } from '@/hooks/use-toast';
-import { Label } from '@/components/ui/label';
+import { useToast } from '@/hooks/use-toast';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { supabase } from '@/integrations/supabase/client';
 
-// Schema for step 1 - completely revised
+// Schema for step 1
 const step1Schema = z.object({
   firstName: z.string().min(1, { message: 'First name is required' }),
   surname: z.string().min(1, { message: 'Surname is required' }),
@@ -46,6 +45,7 @@ const MultiStepSignupForm = () => {
   const [step1Data, setStep1Data] = useState<Step1FormValues | null>(null);
   const { signUp } = useAuth();
   const navigate = useNavigate();
+  const { toast } = useToast();
 
   // Form for step 1
   const step1Form = useForm<Step1FormValues>({
@@ -75,21 +75,23 @@ const MultiStepSignupForm = () => {
 
   // Handle Continue button click for step 1
   const handleContinue = async () => {
-    // Validate step 1 fields
     const step1Valid = await step1Form.trigger();
     
     if (step1Valid) {
-      // Save step 1 data
       setStep1Data(step1Form.getValues());
       setStep(2);
     } else {
-      // If validation fails, show a toast
       toast({
         title: 'Please complete all required fields',
         description: 'Make sure all fields are filled out correctly.',
         variant: 'destructive',
       });
     }
+  };
+
+  // Handle back button click
+  const handleBack = () => {
+    setStep(1);
   };
 
   // Handle submit for step 2
@@ -105,13 +107,13 @@ const MultiStepSignupForm = () => {
 
     setIsLoading(true);
     try {
-      // Create the user account
+      // First, create the user account with Supabase auth
       const { error: signUpError, data } = await signUp(values.email, values.password);
       
       if (signUpError) throw signUpError;
-      
-      if (data) {
-        // Update the profile with additional information
+
+      if (data?.user) {
+        // Now update the profile information
         const { error: profileError } = await supabase
           .from('profiles')
           .update({
@@ -123,21 +125,24 @@ const MultiStepSignupForm = () => {
             city: values.city,
             state: values.state,
           })
-          .eq('id', data.user?.id);
+          .eq('id', data.user.id);
         
-        if (profileError) throw profileError;
+        if (profileError) {
+          console.error('Profile update error:', profileError);
+          throw new Error('Failed to update profile. ' + profileError.message);
+        }
         
         toast({
           title: 'Account created!',
           description: 'Please check your email to confirm your account.',
         });
         
-        // Navigate to welcome screen or home
         navigate('/');
       }
     } catch (error: any) {
+      console.error('Signup error:', error);
       toast({
-        title: 'Error',
+        title: 'Error creating account',
         description: error.message || 'Something went wrong. Please try again.',
         variant: 'destructive',
       });
@@ -175,10 +180,18 @@ const MultiStepSignupForm = () => {
         </div>
       </div>
       
-      <h1 className="text-2xl font-bold text-center mb-2">SupperClubs</h1>
+      <h1 className="text-2xl font-bold text-center mb-2">Join SupperClubs</h1>
       <p className="text-center text-muted-foreground mb-6">
-        Join now to discover the best supper clubs!
+        Create an account to discover the best supper clubs
       </p>
+
+      {/* Progress indicator */}
+      <div className="mb-6 flex justify-center">
+        <div className="flex items-center space-x-2">
+          <div className={`w-3 h-3 rounded-full ${step === 1 ? 'bg-supper-red' : 'bg-gray-300'}`}></div>
+          <div className={`w-3 h-3 rounded-full ${step === 2 ? 'bg-supper-red' : 'bg-gray-300'}`}></div>
+        </div>
+      </div>
 
       {step === 1 ? (
         <Form {...step1Form}>
@@ -190,11 +203,15 @@ const MultiStepSignupForm = () => {
                 <FormItem>
                   <FormLabel>First Name</FormLabel>
                   <FormControl>
-                    <Input 
-                      placeholder="First Name" 
-                      {...field} 
-                      disabled={isLoading}
-                    />
+                    <div className="relative">
+                      <User className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
+                      <Input 
+                        placeholder="First Name" 
+                        className="pl-10"
+                        {...field} 
+                        disabled={isLoading}
+                      />
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -208,11 +225,15 @@ const MultiStepSignupForm = () => {
                 <FormItem>
                   <FormLabel>Surname</FormLabel>
                   <FormControl>
-                    <Input 
-                      placeholder="Surname" 
-                      {...field} 
-                      disabled={isLoading}
-                    />
+                    <div className="relative">
+                      <User className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
+                      <Input 
+                        placeholder="Surname" 
+                        className="pl-10"
+                        {...field} 
+                        disabled={isLoading}
+                      />
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -226,18 +247,21 @@ const MultiStepSignupForm = () => {
                 <FormItem>
                   <FormLabel>Age</FormLabel>
                   <FormControl>
-                    <Select
-                      disabled={isLoading}
-                      onValueChange={field.onChange}
-                      value={field.value}
-                    >
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select your age" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {renderAgeOptions()}
-                      </SelectContent>
-                    </Select>
+                    <div className="relative">
+                      <Calendar className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
+                      <Select
+                        disabled={isLoading}
+                        onValueChange={field.onChange}
+                        value={field.value}
+                      >
+                        <SelectTrigger className="pl-10">
+                          <SelectValue placeholder="Select your age" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {renderAgeOptions()}
+                        </SelectContent>
+                      </Select>
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -251,21 +275,24 @@ const MultiStepSignupForm = () => {
                 <FormItem>
                   <FormLabel>Gender</FormLabel>
                   <FormControl>
-                    <Select
-                      disabled={isLoading}
-                      onValueChange={field.onChange}
-                      value={field.value}
-                    >
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select your gender" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="Male">Male</SelectItem>
-                        <SelectItem value="Female">Female</SelectItem>
-                        <SelectItem value="Other">Other</SelectItem>
-                        <SelectItem value="Prefer not to say">Prefer not to say</SelectItem>
-                      </SelectContent>
-                    </Select>
+                    <div className="relative">
+                      <Users className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
+                      <Select
+                        disabled={isLoading}
+                        onValueChange={field.onChange}
+                        value={field.value}
+                      >
+                        <SelectTrigger className="pl-10">
+                          <SelectValue placeholder="Select your gender" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="Male">Male</SelectItem>
+                          <SelectItem value="Female">Female</SelectItem>
+                          <SelectItem value="Other">Other</SelectItem>
+                          <SelectItem value="Prefer not to say">Prefer not to say</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -279,11 +306,15 @@ const MultiStepSignupForm = () => {
                 <FormItem>
                   <FormLabel>Username</FormLabel>
                   <FormControl>
-                    <Input 
-                      placeholder="Username" 
-                      {...field} 
-                      disabled={isLoading}
-                    />
+                    <div className="relative">
+                      <User className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
+                      <Input 
+                        placeholder="Choose a username" 
+                        className="pl-10"
+                        {...field} 
+                        disabled={isLoading}
+                      />
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -311,11 +342,15 @@ const MultiStepSignupForm = () => {
                 <FormItem>
                   <FormLabel>City</FormLabel>
                   <FormControl>
-                    <Input 
-                      placeholder="City" 
-                      {...field} 
-                      disabled={isLoading}
-                    />
+                    <div className="relative">
+                      <MapPin className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
+                      <Input 
+                        placeholder="Your city" 
+                        className="pl-10"
+                        {...field} 
+                        disabled={isLoading}
+                      />
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -329,11 +364,15 @@ const MultiStepSignupForm = () => {
                 <FormItem>
                   <FormLabel>State</FormLabel>
                   <FormControl>
-                    <Input 
-                      placeholder="State" 
-                      {...field} 
-                      disabled={isLoading}
-                    />
+                    <div className="relative">
+                      <MapPin className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
+                      <Input 
+                        placeholder="Your state" 
+                        className="pl-10"
+                        {...field} 
+                        disabled={isLoading}
+                      />
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -347,12 +386,16 @@ const MultiStepSignupForm = () => {
                 <FormItem>
                   <FormLabel>Email Address</FormLabel>
                   <FormControl>
-                    <Input 
-                      placeholder="Email Address" 
-                      type="email"
-                      {...field} 
-                      disabled={isLoading}
-                    />
+                    <div className="relative">
+                      <Mail className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
+                      <Input 
+                        placeholder="Your email" 
+                        type="email"
+                        className="pl-10"
+                        {...field} 
+                        disabled={isLoading}
+                      />
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -366,12 +409,16 @@ const MultiStepSignupForm = () => {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input 
-                      placeholder="Password" 
-                      type="password"
-                      {...field} 
-                      disabled={isLoading}
-                    />
+                    <div className="relative">
+                      <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
+                      <Input 
+                        placeholder="Create a password" 
+                        type="password"
+                        className="pl-10"
+                        {...field} 
+                        disabled={isLoading}
+                      />
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -385,37 +432,58 @@ const MultiStepSignupForm = () => {
                 <FormItem>
                   <FormLabel>Confirm Password</FormLabel>
                   <FormControl>
-                    <Input 
-                      placeholder="Confirm Password" 
-                      type="password"
-                      {...field} 
-                      disabled={isLoading}
-                    />
+                    <div className="relative">
+                      <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
+                      <Input 
+                        placeholder="Confirm password" 
+                        type="password"
+                        className="pl-10"
+                        {...field} 
+                        disabled={isLoading}
+                      />
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
 
-            <Button 
-              type="submit" 
-              className="w-full h-12 bg-supper-navy hover:bg-supper-navy/90 mt-6" 
-              disabled={isLoading}
-            >
-              Create Account
-              <ChevronRight className="ml-2 h-5 w-5" />
-            </Button>
+            <div className="flex gap-3 mt-6">
+              <Button 
+                type="button" 
+                variant="outline"
+                className="w-1/3 h-12"
+                onClick={handleBack}
+                disabled={isLoading}
+              >
+                Back
+              </Button>
+              <Button 
+                type="submit" 
+                className="w-2/3 h-12 bg-supper-navy hover:bg-supper-navy/90" 
+                disabled={isLoading}
+              >
+                {isLoading ? (
+                  <div className="flex items-center">
+                    <div className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full mr-2"></div>
+                    Creating...
+                  </div>
+                ) : (
+                  <>Create Account</>
+                )}
+              </Button>
+            </div>
           </form>
         </Form>
       )}
 
       <div className="mt-6 text-center">
         <p className="text-sm text-muted-foreground">
-          Already have an account?
+          Already have an account?{' '}
           <button
             type="button"
             onClick={goToLogin}
-            className="ml-1 text-primary font-medium hover:underline"
+            className="text-primary font-medium hover:underline"
           >
             Log in
           </button>
