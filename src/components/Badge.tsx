@@ -11,6 +11,15 @@ type BadgeProps = {
 };
 
 const Badge: React.FC<BadgeProps> = ({ badge, earned, compact = false }) => {
+  // Create badge description that doesn't use "you've" format
+  const getDescription = () => {
+    if (earned) {
+      return badge.description;
+    } else {
+      return `Visit ${badge.requiredVisits} clubs to earn`;
+    }
+  };
+
   return (
     <motion.div
       initial={{ scale: 0.95, opacity: 0 }}
@@ -57,7 +66,7 @@ const Badge: React.FC<BadgeProps> = ({ badge, earned, compact = false }) => {
       </h3>
       {!compact && (
         <p className="text-xs text-gray-500 text-center mt-1">
-          {earned ? badge.description : `Visit ${badge.requiredVisits} clubs to earn`}
+          {getDescription()}
         </p>
       )}
     </motion.div>

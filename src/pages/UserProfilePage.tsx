@@ -13,6 +13,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { currentUser } from '@/lib/data';
 import { UserProfile } from '@/lib/types';
 import useUserProfile from '@/hooks/use-user-profile';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 const UserProfilePage = () => {
   const [viewedUser, setViewedUser] = useState<UserProfile | null>(null);
@@ -65,14 +66,9 @@ const UserProfilePage = () => {
     <div className="min-h-screen bg-background relative">
       <Header user={currentUserState} onProfileClick={() => navigate('/profile')} />
       
-      <main className="pt-16 md:pt-20 pb-16 min-h-screen">
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.2 }}
-          className="w-full px-4 sm:max-w-4xl sm:mx-auto sm:p-4 pb-16 md:pb-0"
-        >
-          <div className="mb-4 flex items-center">
+      <main className="pt-16 md:pt-20 pb-16 min-h-screen flex flex-col">
+        <div className="sticky top-16 md:top-20 z-10 bg-background border-b border-border/40 shadow-sm">
+          <div className="w-full px-4 sm:max-w-4xl sm:mx-auto py-3 flex items-center">
             <button 
               onClick={() => navigate(-1)} 
               className="text-sm text-muted-foreground hover:text-foreground transition-colors"
@@ -83,16 +79,25 @@ const UserProfilePage = () => {
               {viewedUser.name}'s Profile
             </h1>
           </div>
-          
-          <div className="space-y-6">
-            <ProfileHeader user={viewedUser} />
-            <ProfileStats user={viewedUser} clubs={sampleSupperClubs} />
-            <StatusSection user={viewedUser} isCurrentUser={isCurrentUser} />
-            <BadgesSection user={viewedUser} badges={viewedUser.badges} isCurrentUser={isCurrentUser} />
-            <ReviewsSection user={viewedUser} clubs={sampleSupperClubs} isCurrentUser={isCurrentUser} />
-            {/* Lists section is intentionally excluded for other users' profiles */}
-          </div>
-        </motion.div>
+        </div>
+        
+        <ScrollArea className="flex-1 w-full">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.2 }}
+            className="w-full px-4 sm:max-w-4xl sm:mx-auto sm:p-4 pb-16 md:pb-0"
+          >
+            <div className="space-y-6 pt-4">
+              <ProfileHeader user={viewedUser} />
+              <ProfileStats user={viewedUser} clubs={sampleSupperClubs} />
+              <StatusSection user={viewedUser} isCurrentUser={isCurrentUser} />
+              <BadgesSection user={viewedUser} badges={badges} isCurrentUser={isCurrentUser} />
+              <ReviewsSection user={viewedUser} clubs={sampleSupperClubs} isCurrentUser={isCurrentUser} />
+              {/* Lists section is intentionally excluded for other users' profiles */}
+            </div>
+          </motion.div>
+        </ScrollArea>
       </main>
       
       <Navigation
