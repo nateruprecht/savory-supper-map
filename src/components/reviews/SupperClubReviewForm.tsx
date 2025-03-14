@@ -133,7 +133,7 @@ const SupperClubReviewForm: React.FC<SupperClubReviewFormProps> = ({
               {!preselectedClub && (
                 <>
                   <div className="flex items-center justify-between">
-                    <h3 className="font-medium">Search or add Supper Club</h3>
+                    <h3 className="font-medium">Add a Review - Search Clubs or Add a New Club</h3>
                     <Button 
                       type="button" 
                       size="sm"

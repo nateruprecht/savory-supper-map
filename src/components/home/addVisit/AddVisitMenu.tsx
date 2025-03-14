@@ -24,6 +24,7 @@ const AddVisitMenu: React.FC<AddVisitMenuProps> = ({
   activeTab,
   setActiveTab,
   searchQuery,
+  setSearchQuery,
   isSearching,
   searchResults,
   handleSearch,
@@ -47,7 +48,7 @@ const AddVisitMenu: React.FC<AddVisitMenuProps> = ({
         
         <TabsContent value="visit" className="mt-0">
           <SearchBar
-            title="Search or add Supper Club"
+            title="Add a Visit - Search Clubs or Add a New Club"
             searchQuery={searchQuery}
             onSearchChange={handleSearch}
             onAddNew={handleAddNew}
@@ -64,7 +65,7 @@ const AddVisitMenu: React.FC<AddVisitMenuProps> = ({
         
         <TabsContent value="review" className="mt-0">
           <SearchBar
-            title="Search or add Supper Club to review"
+            title="Add a Review - Search Clubs or Add a New Club"
             searchQuery={searchQuery}
             onSearchChange={handleSearch}
             onAddNew={handleAddNew}
