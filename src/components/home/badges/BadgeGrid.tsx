@@ -44,7 +44,11 @@ const BadgeGrid: React.FC<BadgeGridProps> = ({
               {earnedCount}/{totalBadges} badges
             </span>
           </div>
-          <Progress value={progressPercentage} className="h-2" indicatorClassName="bg-supper-amber" />
+          <Progress 
+            value={progressPercentage} 
+            className="h-2" 
+            indicatorClassName="bg-supper-amber" 
+          />
         </div>
       )}
       

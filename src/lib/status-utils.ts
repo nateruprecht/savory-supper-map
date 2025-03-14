@@ -6,6 +6,10 @@ export type UserStatus = {
   description: string;
   category: 'visits' | 'reviews' | 'leaderboard';
   icon?: string; // Optional path to status icon
+  progress?: {
+    current: number;
+    max: number;
+  };
 };
 
 // Status threshold configurations
@@ -513,7 +517,19 @@ export const getUserStatuses = (user: UserProfile, reviewCount: number = 0): Use
   // Add visit-based statuses
   for (let i = visitStatuses.length - 1; i >= 0; i--) {
     if (user.totalVisits >= visitStatuses[i].threshold) {
-      statuses.push(visitStatuses[i].status);
+      // Find the next threshold to calculate progress
+      const nextThreshold = i < visitStatuses.length - 1 ? visitStatuses[i + 1].threshold : visitStatuses[i].threshold * 1.5;
+      
+      // Create a copy of the status with progress information
+      const statusWithProgress = {
+        ...visitStatuses[i].status,
+        progress: {
+          current: user.totalVisits - visitStatuses[i].threshold,
+          max: nextThreshold - visitStatuses[i].threshold
+        }
+      };
+      
+      statuses.push(statusWithProgress);
       break; // Only add the highest earned status
     }
   }
@@ -521,7 +537,19 @@ export const getUserStatuses = (user: UserProfile, reviewCount: number = 0): Use
   // Add review-based statuses
   for (let i = reviewStatuses.length - 1; i >= 0; i--) {
     if (reviewCount >= reviewStatuses[i].threshold) {
-      statuses.push(reviewStatuses[i].status);
+      // Find the next threshold to calculate progress
+      const nextThreshold = i < reviewStatuses.length - 1 ? reviewStatuses[i + 1].threshold : reviewStatuses[i].threshold * 1.5;
+      
+      // Create a copy of the status with progress information
+      const statusWithProgress = {
+        ...reviewStatuses[i].status,
+        progress: {
+          current: reviewCount - reviewStatuses[i].threshold,
+          max: nextThreshold - reviewStatuses[i].threshold
+        }
+      };
+      
+      statuses.push(statusWithProgress);
       break; // Only add the highest earned status
     }
   }
@@ -531,12 +559,22 @@ export const getUserStatuses = (user: UserProfile, reviewCount: number = 0): Use
   if (user.rank > 0 && user.rank <= 10) {
     const overallStatus = overallLeaderboardStatuses.find(s => s.rank === user.rank);
     if (overallStatus) {
-      statuses.push(overallStatus.status);
+      // For leaderboard statuses, progress is based on maintaining position
+      // Simple placeholder for now
+      const statusWithProgress = {
+        ...overallStatus.status,
+        progress: {
+          current: 1,
+          max: 1 // Max is 1 since you're already at the top
+        }
+      };
+      
+      statuses.push(statusWithProgress);
     }
   }
   
   // We would need user's state rank and city rank for those statuses
-  // For now, we'll add them if available in the user profile
+  // For now, we'll leave this as is
   
   return statuses;
 };

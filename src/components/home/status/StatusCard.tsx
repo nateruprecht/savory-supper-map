@@ -27,7 +27,7 @@ const StatusCard: React.FC<StatusCardProps> = ({ status, isPrimary = false }) =>
     }
   };
 
-  // Progress calculation - this would be based on actual data in a real implementation
+  // Progress calculation - using the progress property if available
   const currentProgress = status.progress?.current || 0;
   const maxProgress = status.progress?.max || 100;
   const progressPercentage = Math.min(100, Math.max(0, (currentProgress / maxProgress) * 100));
@@ -61,10 +61,12 @@ const StatusCard: React.FC<StatusCardProps> = ({ status, isPrimary = false }) =>
           <span className="text-xs text-gray-500">Progress to next level</span>
           <span className="text-xs font-medium text-gray-700">{currentProgress}/{maxProgress}</span>
         </div>
-        <Progress value={progressPercentage} className="h-2" 
+        <Progress 
+          value={progressPercentage} 
+          className="h-2" 
           indicatorClassName={status.category === 'visits' ? 'bg-primary' : 
                              status.category === 'reviews' ? 'bg-secondary' : 
-                             'bg-supper-amber'} 
+                             'bg-supper-amber'}
         />
       </div>
       
