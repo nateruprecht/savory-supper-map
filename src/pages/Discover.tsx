@@ -93,13 +93,36 @@ const Discover = () => {
     setAddVisitOpen(false);
   };
 
+  const handleViewMap = () => {
+    // Navigate to the interactive map page
+    navigate('/map');
+  };
+
   return <div className="min-h-screen bg-background relative">
       <Header user={user} onProfileClick={() => navigate('/profile')} />
       
       <main className="pt-16 md:pt-20 pb-16 min-h-screen">
         <div className="md:grid md:grid-cols-5 md:gap-4 md:p-4 h-full">
           <div className="md:col-span-3 h-[50vh] md:h-[calc(100vh-8rem)] relative">
-            <MapView clubs={clubs} onClubSelect={handleClubSelect} />
+            <div className="w-full h-full rounded-xl overflow-hidden flex items-center justify-center">
+              <img 
+                src="https://images.unsplash.com/photo-1577071331591-12db5d6361d4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" 
+                alt="Midwest Supper Clubs" 
+                className="object-cover w-full h-full rounded-xl"
+              />
+              <div className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center">
+                <h2 className="text-white text-2xl font-bold mb-4">Discover Supper Clubs</h2>
+                <Button 
+                  variant="default" 
+                  size="lg" 
+                  onClick={handleViewMap}
+                  className="bg-supper-amber hover:bg-supper-amber/90"
+                >
+                  <MapPin className="mr-2 h-5 w-5" />
+                  View Interactive Map
+                </Button>
+              </div>
+            </div>
           </div>
           
           <div className="flex flex-row md:col-span-2 gap-2 py-4 px-4">
