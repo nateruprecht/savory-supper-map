@@ -1,4 +1,3 @@
-
 export type Location = {
   lat: number;
   lng: number;
@@ -78,4 +77,16 @@ export type Region = {
   id: string;
   name: string;
   states: string[];
+};
+
+export type UserStatus = {
+  id: string;
+  title: string;
+  description: string;
+  category: 'visits' | 'reviews' | 'leaderboard';
+  icon?: string;
+  progress?: {
+    current: number;
+    max: number;
+  };
 };
