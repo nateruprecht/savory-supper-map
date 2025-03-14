@@ -1,11 +1,12 @@
 
 import React from 'react';
-import { Trophy, ChevronRight } from 'lucide-react';
+import { Trophy, ChevronRight, Facebook } from 'lucide-react';
 import { UserProfile, Badge as BadgeType } from '@/lib/types';
 import Badge from '@/components/Badge';
 import { Button } from '@/components/ui/button';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { toast } from 'sonner';
 
 type BadgesSectionProps = {
   user: UserProfile;
@@ -44,6 +45,12 @@ const BadgesSection: React.FC<BadgesSectionProps> = ({
   const displayBadges = badges.slice(0, displayLimit);
   const hasMoreBadges = badges.length > displayLimit;
 
+  // Handle share on Facebook
+  const handleShareOnFacebook = () => {
+    // In a real implementation, this would use the Facebook Share API
+    toast.success(`Shared your badge "Club Explorer" on Facebook!`);
+  };
+
   return (
     <div className="bg-white rounded-xl shadow-sm p-4 sm:p-5 w-full max-w-full">
       {showTitle && (
@@ -69,17 +76,34 @@ const BadgesSection: React.FC<BadgesSectionProps> = ({
       )}
       
       {earnedCount > 0 ? (
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 w-full">
-          {displayBadges.map(badge => (
-            <Badge 
-              key={badge.id} 
-              badge={badge} 
-              earned={earnedBadgeIds.includes(badge.id)}
-              isCurrentUser={isCurrentUser}
-              compact={isMobile}
-            />
-          ))}
-        </div>
+        <>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 w-full">
+            {displayBadges.map(badge => (
+              <Badge 
+                key={badge.id} 
+                badge={badge} 
+                earned={earnedBadgeIds.includes(badge.id)}
+                isCurrentUser={isCurrentUser}
+                compact={isMobile}
+              />
+            ))}
+          </div>
+
+          {/* Facebook Share Button */}
+          {isCurrentUser && (
+            <div className="mt-4 flex justify-end">
+              <Button 
+                size="sm" 
+                variant="outline"
+                className="flex items-center gap-2"
+                onClick={handleShareOnFacebook}
+              >
+                <Facebook className="h-4 w-4" />
+                <span className="text-xs">Share on Facebook</span>
+              </Button>
+            </div>
+          )}
+        </>
       ) : (
         <div className="text-center py-10">
           <Trophy className="h-12 w-12 mx-auto text-muted-foreground mb-3 opacity-30" />

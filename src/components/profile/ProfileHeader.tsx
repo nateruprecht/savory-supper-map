@@ -41,22 +41,8 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({ user }) => {
         <div className="h-full w-full bg-black/30 backdrop-blur-[1px]"></div>
       </div>
       
-      {/* Profile picture overlapping the banner */}
-      <div className="flex justify-center -mt-12 relative z-10">
-        <Avatar className="h-24 w-24 border-4 border-white">
-          <AvatarImage src={user.avatar} alt={user.name} />
-          <AvatarFallback>{firstName.charAt(0)}{lastName.charAt(0)}</AvatarFallback>
-        </Avatar>
-      </div>
-      
-      {/* Name and username */}
-      <div className="text-center pb-3 pt-2">
-        <h1 className="text-xl font-bold">{user.name}</h1>
-        <p className="text-sm text-muted-foreground">{username}</p>
-      </div>
-
-      {/* Date joined and location information */}
-      <div className="flex justify-between items-center px-4 pb-4 text-sm text-muted-foreground">
+      {/* Date joined and location information - moved below banner */}
+      <div className="flex justify-between items-center px-4 py-2 text-sm text-muted-foreground">
         <div className="flex items-center">
           <Calendar className="h-4 w-4 mr-1" />
           <span>{joinDateFormatted}</span>
@@ -66,6 +52,20 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({ user }) => {
           <MapPin className="h-4 w-4 mr-1" />
           <span>{city}, {state}</span>
         </div>
+      </div>
+      
+      {/* Profile picture overlapping the banner */}
+      <div className="flex justify-center -mt-20 relative z-10">
+        <Avatar className="h-24 w-24 border-4 border-white">
+          <AvatarImage src={user.avatar} alt={user.name} />
+          <AvatarFallback>{firstName.charAt(0)}{lastName.charAt(0)}</AvatarFallback>
+        </Avatar>
+      </div>
+      
+      {/* Name and username */}
+      <div className="text-center pb-4 pt-2">
+        <h1 className="text-xl font-bold">{user.name}</h1>
+        <p className="text-sm text-muted-foreground">{username}</p>
       </div>
     </div>
   );

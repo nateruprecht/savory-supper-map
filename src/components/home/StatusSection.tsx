@@ -1,11 +1,12 @@
 
 import React, { useState } from 'react';
 import { UserProfile, SupperClub } from '@/lib/types';
-import { Award, ChevronRight } from 'lucide-react';
+import { Award, ChevronRight, Facebook } from 'lucide-react';
 import { getUserStatuses, UserStatus } from '@/lib/status-utils';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { toast } from 'sonner';
 
 type StatusSectionProps = {
   user: UserProfile;
@@ -44,6 +45,12 @@ const StatusSection: React.FC<StatusSectionProps> = ({ user, clubs = [], isCurre
   const displayCount = isMobile ? 2 : 3;
   const displayStatuses = userStatuses.slice(0, displayCount);
   const hasMoreStatuses = userStatuses.length > displayCount;
+
+  // Handle share on Facebook
+  const handleShareOnFacebook = () => {
+    // In a real implementation, this would use the Facebook Share API
+    toast.success(`Shared your status "Supper Enthusiast" on Facebook!`);
+  };
 
   // Render status card to avoid repetition
   const renderStatusCard = (status: UserStatus) => (
@@ -104,9 +111,26 @@ const StatusSection: React.FC<StatusSectionProps> = ({ user, clubs = [], isCurre
       
       {/* Status Badges */}
       {userStatuses.length > 0 ? (
-        <div className="space-y-4">
-          {displayStatuses.map(renderStatusCard)}
-        </div>
+        <>
+          <div className="space-y-4">
+            {displayStatuses.map(renderStatusCard)}
+          </div>
+          
+          {/* Facebook Share Button */}
+          {isCurrentUser && (
+            <div className="mt-4 flex justify-end">
+              <Button 
+                size="sm" 
+                variant="outline"
+                className="flex items-center gap-2"
+                onClick={handleShareOnFacebook}
+              >
+                <Facebook className="h-4 w-4" />
+                <span className="text-xs">Share on Facebook</span>
+              </Button>
+            </div>
+          )}
+        </>
       ) : (
         <EmptyStatusState />
       )}
