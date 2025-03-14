@@ -39,7 +39,7 @@ const ProfileLayout: React.FC<ProfileLayoutProps> = ({
       
       <main className="pt-16 md:pt-20 pb-16 min-h-screen">
         {backLink && (
-          <div className={`${stickyHeader ? 'sticky top-16 md:top-20 z-10' : ''} bg-background border-b border-border/40 shadow-sm w-full`}>
+          <div className="sticky top-16 md:top-20 z-10 bg-background border-b border-border/40 shadow-sm w-full">
             <div className="container px-4 mx-auto">
               <div className="py-3 flex items-center">
                 <button 

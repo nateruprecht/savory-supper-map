@@ -80,8 +80,8 @@ const LeaderboardPage = () => {
                           className="w-full h-full object-cover"
                         />
                       </div>
-                      <span className="text-xs font-medium mt-1 truncate w-20">{user.name}</span>
-                      <span className="text-sm font-bold">{user.totalVisits} Clubs</span>
+                      {/* Removed name and only show club count */}
+                      <span className="text-sm font-bold mt-1">{user.totalVisits} Clubs</span>
                     </div>
                     <div 
                       className={`${height} w-14 bg-primary/90 rounded-t-lg flex items-center justify-center relative`}
