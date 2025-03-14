@@ -3,7 +3,6 @@ import React from 'react';
 import { MapPin, Calendar } from 'lucide-react';
 import { UserProfile } from '@/lib/types';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { formatDistanceToNow } from 'date-fns';
 
 type ProfileHeaderProps = {
   user: UserProfile;
@@ -30,17 +29,16 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({ user }) => {
 
   return (
     <div className="bg-white rounded-xl shadow-sm overflow-hidden">
-      {/* Banner section with joined date and location */}
-      <div className="bg-gray-100 p-3 flex justify-between items-center">
-        <div className="flex items-center text-sm text-muted-foreground">
-          <Calendar className="h-4 w-4 mr-1" />
-          <span>{joinDateFormatted}</span>
-        </div>
-        
-        <div className="flex items-center text-sm text-muted-foreground">
-          <span>{city}, {state}</span>
-          <MapPin className="h-4 w-4 ml-1" />
-        </div>
+      {/* Banner section with background image */}
+      <div 
+        className="h-32 bg-cover bg-center"
+        style={{ 
+          backgroundImage: 'url("https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2400&q=80")',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+      >
+        <div className="h-full w-full bg-black/30 backdrop-blur-[1px]"></div>
       </div>
       
       {/* Profile picture overlapping the banner */}
@@ -52,9 +50,22 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({ user }) => {
       </div>
       
       {/* Name and username */}
-      <div className="text-center pb-5 pt-2">
+      <div className="text-center pb-3 pt-2">
         <h1 className="text-xl font-bold">{user.name}</h1>
         <p className="text-sm text-muted-foreground">{username}</p>
+      </div>
+
+      {/* Date joined and location information */}
+      <div className="flex justify-between items-center px-4 pb-4 text-sm text-muted-foreground">
+        <div className="flex items-center">
+          <Calendar className="h-4 w-4 mr-1" />
+          <span>{joinDateFormatted}</span>
+        </div>
+        
+        <div className="flex items-center">
+          <MapPin className="h-4 w-4 mr-1" />
+          <span>{city}, {state}</span>
+        </div>
       </div>
     </div>
   );

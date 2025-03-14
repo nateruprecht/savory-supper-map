@@ -1,7 +1,9 @@
 
 import React from 'react';
+import { motion } from 'framer-motion';
+import { CupSoda, Star, MapPin } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { UserProfile, SupperClub } from '@/lib/types';
-import { CupSoda, Star } from 'lucide-react';
 
 type ProfileStatsProps = {
   user: UserProfile;
@@ -14,42 +16,63 @@ const ProfileStats: React.FC<ProfileStatsProps> = ({ user, clubs }) => {
     club.reviews.some(review => review.userId === user.id)
   ).length;
   
-  // Calculate average rating given by user
-  const userReviews = clubs.flatMap(club => 
-    club.reviews.filter(review => review.userId === user.id)
-  );
+  // For demo purposes, assuming we're in Wisconsin - this would normally
+  // come from user preferences or location data
+  const defaultState = "Wisconsin";
   
-  const averageRating = userReviews.length > 0
-    ? userReviews.reduce((sum, review) => sum + review.rating, 0) / userReviews.length
-    : 0;
+  // Count clubs in the user's state (using default for now)
+  const clubsInState = clubs.filter(club => 
+    club.state === defaultState && 
+    user.clubsVisited.includes(club.id)
+  ).length;
 
   const stats = [
     {
       label: "Clubs Visited",
       value: user.totalVisits,
-      icon: <CupSoda className="h-5 w-5 text-primary" />
+      icon: <CupSoda className="h-5 w-5 text-supper-red" />
     },
     {
       label: "Reviews Written",
       value: reviewedClubs,
-      icon: <Star className="h-5 w-5 text-primary" />
+      icon: <Star className="h-5 w-5 text-supper-amber" />
+    },
+    {
+      label: `In ${defaultState}`,
+      value: clubsInState,
+      icon: <MapPin className="h-5 w-5 text-supper-brown" />
     }
   ];
 
   return (
-    <div className="bg-white rounded-xl shadow-sm p-4 sm:p-5">
-      <h2 className="text-lg sm:text-xl font-semibold mb-4">Statistics</h2>
-      
-      <div className="grid grid-cols-2 sm:grid-cols-2 gap-4">
-        {stats.map((stat, index) => (
-          <div key={index} className="bg-gray-50 rounded-lg p-3 text-center">
-            <div className="flex justify-center mb-2">{stat.icon}</div>
-            <div className="text-2xl sm:text-3xl font-bold">{stat.value}</div>
-            <div className="text-xs sm:text-sm text-muted-foreground">{stat.label}</div>
+    <motion.div
+      initial={{ opacity: 0, scale: 0.98 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.4 }}
+      className="col-span-1 md:col-span-2"
+    >
+      <Card>
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardTitle className="text-xl font-semibold">
+            Statistics
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-3 gap-2">
+            {stats.map((stat, index) => (
+              <div 
+                key={index} 
+                className="flex flex-col items-center justify-center p-2 bg-gray-50 rounded-lg"
+              >
+                <div className="mb-1">{stat.icon}</div>
+                <span className="text-xl font-bold">{stat.value}</span>
+                <span className="text-xs text-muted-foreground text-center">{stat.label}</span>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
-    </div>
+        </CardContent>
+      </Card>
+    </motion.div>
   );
 };
 
