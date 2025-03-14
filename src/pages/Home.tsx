@@ -38,34 +38,46 @@ const Home = () => {
   
   return (
     <Layout activeTab="home">
-      <div className="container px-4 py-6 mx-auto">
-        <WelcomeSection userData={userData} />
+      <div 
+        className="min-h-screen bg-cover bg-center bg-fixed"
+        style={{ 
+          backgroundImage: 'url("/lovable-uploads/2fc68b39-3eee-4a2b-bea9-86c98a2ac107.png")',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundAttachment: 'fixed'
+        }}
+      >
+        <div className="backdrop-blur-[2px] backdrop-brightness-[0.9] min-h-screen">
+          <div className="container px-4 py-6 mx-auto">
+            <WelcomeSection userData={userData} />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-          {/* Stats Card */}
-          <StatsCard user={userData} clubs={clubs} />
-          
-          {/* Nearby Clubs - New addition */}
-          <NearbyClubsCard clubs={clubs} />
-          
-          <StatusCard 
-            user={userData}
-            handleSeeAllStatuses={handleSeeAllStatuses}
-            handleShareOnFacebook={handleShareOnFacebook}
-          />
-          
-          <BadgesCard 
-            user={userData}
-            badges={badges}
-            handleSeeAllBadges={handleSeeAllBadges}
-            handleShareOnFacebook={handleShareOnFacebook}
-          />
-          
-          <ReviewsCard user={userData} clubs={clubs} />
-          
-          <JourneyMapCard />
-          
-          <AboutSupperClubsCard />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+              {/* Stats Card */}
+              <StatsCard user={userData} clubs={clubs} />
+              
+              {/* Nearby Clubs - Updated to be full width */}
+              <NearbyClubsCard clubs={clubs} />
+              
+              <StatusCard 
+                user={userData}
+                handleSeeAllStatuses={handleSeeAllStatuses}
+                handleShareOnFacebook={handleShareOnFacebook}
+              />
+              
+              <BadgesCard 
+                user={userData}
+                badges={badges}
+                handleSeeAllBadges={handleSeeAllBadges}
+                handleShareOnFacebook={handleShareOnFacebook}
+              />
+              
+              <ReviewsCard user={userData} clubs={clubs} />
+              
+              <JourneyMapCard />
+              
+              <AboutSupperClubsCard />
+            </div>
+          </div>
         </div>
       </div>
 
