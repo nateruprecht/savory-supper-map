@@ -16,31 +16,45 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({ user }) => {
   const lastName = nameParts.slice(1).join(' ');
   
   // Mock city and state
-  const city = "Madison";
-  const state = "Wisconsin";
+  const city = "City";
+  const state = "State";
   
   // Format join date
-  const joinDateFormatted = formatDistanceToNow(new Date(user.joinDate), { addSuffix: true });
+  const joinDate = new Date(user.joinDate);
+  const joinMonth = joinDate.toLocaleString('default', { month: 'long' });
+  const joinYear = joinDate.getFullYear();
+  const joinDateFormatted = `Joined ${joinMonth} ${joinYear}`;
+
+  // Generate username from name (for example purposes)
+  const username = `@${firstName.toLowerCase()}${lastName.toLowerCase()}`;
 
   return (
-    <div className="bg-white rounded-xl shadow-sm p-4 sm:p-6">
-      <div className="flex items-center">
-        <Avatar className="h-20 w-20 sm:h-24 sm:w-24 border-4 border-background">
+    <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+      {/* Banner section with joined date and location */}
+      <div className="bg-gray-100 p-3 flex justify-between items-center">
+        <div className="flex items-center text-sm text-muted-foreground">
+          <Calendar className="h-4 w-4 mr-1" />
+          <span>{joinDateFormatted}</span>
+        </div>
+        
+        <div className="flex items-center text-sm text-muted-foreground">
+          <span>{city}, {state}</span>
+          <MapPin className="h-4 w-4 ml-1" />
+        </div>
+      </div>
+      
+      {/* Profile picture overlapping the banner */}
+      <div className="flex justify-center -mt-12 relative z-10">
+        <Avatar className="h-24 w-24 border-4 border-white">
           <AvatarImage src={user.avatar} alt={user.name} />
           <AvatarFallback>{firstName.charAt(0)}{lastName.charAt(0)}</AvatarFallback>
         </Avatar>
-        
-        <div className="ml-4 sm:ml-6">
-          <h1 className="text-xl sm:text-2xl font-bold mb-1">{user.name}</h1>
-          <div className="flex items-center text-sm text-muted-foreground mb-1">
-            <MapPin className="h-4 w-4 mr-1" />
-            <span>{city}, {state}</span>
-          </div>
-          <div className="flex items-center text-sm text-muted-foreground">
-            <Calendar className="h-4 w-4 mr-1" />
-            <span>Joined {joinDateFormatted}</span>
-          </div>
-        </div>
+      </div>
+      
+      {/* Name and username */}
+      <div className="text-center pb-5 pt-2">
+        <h1 className="text-xl font-bold">{user.name}</h1>
+        <p className="text-sm text-muted-foreground">{username}</p>
       </div>
     </div>
   );
