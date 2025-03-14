@@ -1,13 +1,13 @@
 
 import React from 'react';
-import { Trophy, ChevronRight, Facebook } from 'lucide-react';
 import { UserProfile, Badge as BadgeType } from '@/lib/types';
-import Badge from '@/components/Badge';
-import { Button } from '@/components/ui/button';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { toast } from 'sonner';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
+import BadgeSectionHeader from './badges/BadgeSectionHeader';
+import BadgeGrid from './badges/BadgeGrid';
+import EmptyBadgesState from './badges/EmptyBadgesState';
+import ShareButton from './status/ShareButton';
 
 type BadgesSectionProps = {
   user: UserProfile;
@@ -19,6 +19,9 @@ type BadgesSectionProps = {
   handleSeeAllBadges?: () => void;
 };
 
+/**
+ * BadgesSection component displays user's badges
+ */
 const BadgesSection: React.FC<BadgesSectionProps> = ({ 
   user, 
   badges = [], 
@@ -34,12 +37,6 @@ const BadgesSection: React.FC<BadgesSectionProps> = ({
   const earnedBadges = user.badges || [];
   const earnedBadgeIds = earnedBadges.map(badge => badge.id);
   
-  // Determine the title and empty state message based on whether it's the current user
-  const sectionTitle = isCurrentUser ? "Your Badges" : `${user.name}'s Badges`;
-  const emptyStateMessage = isCurrentUser 
-    ? "You haven't earned any badges yet." 
-    : `${user.name} hasn't earned any badges yet.`;
-  
   // Calculate progress for the title
   const earnedCount = earnedBadgeIds.length;
   const totalCount = badges.length;
@@ -49,12 +46,6 @@ const BadgesSection: React.FC<BadgesSectionProps> = ({
   const displayLimit = limit || (isMobile ? 3 : badges.length);
   const displayBadges = badges.slice(0, displayLimit);
   const hasMoreBadges = badges.length > displayLimit;
-
-  // Handle share on Facebook
-  const handleShareOnFacebook = () => {
-    // In a real implementation, this would use the Facebook Share API
-    toast.success(`Shared your badge "Club Explorer" on Facebook!`);
-  };
 
   // Use external handler if provided, otherwise default to dialog
   const handleSeeAll = () => {
@@ -70,96 +61,55 @@ const BadgesSection: React.FC<BadgesSectionProps> = ({
     (props: React.HTMLAttributes<HTMLDivElement>) => (
       <div 
         className="bg-white rounded-xl shadow-sm p-4 sm:p-5 w-full max-w-full"
+        data-testid="badges-section"
         {...props}
       />
     ) :
     Card;
 
-  const TitleComponent = showTitle ? 'h2' : CardTitle;
-
   return (
     <ContainerComponent>
-      {showTitle ? (
-        <div className="flex items-center justify-between mb-4">
-          <TitleComponent className="font-semibold flex items-center text-lg sm:text-xl">
-            <Trophy className="h-5 w-5 mr-2 text-primary" />
-            Badges
-          </TitleComponent>
-          <div className="flex items-center gap-2">
-            <span className="text-sm text-muted-foreground hidden sm:inline">{progressText}</span>
-            {hasMoreBadges && (
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                className="text-primary flex items-center"
-                onClick={handleSeeAll}
-              >
-                See all <ChevronRight className="h-4 w-4 ml-1" />
-              </Button>
-            )}
-          </div>
-        </div>
-      ) : (
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-xl font-semibold flex items-center">
-            <Trophy className="mr-2 h-5 w-5 text-supper-red" />
-            Badges
-          </CardTitle>
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            onClick={handleSeeAll}
-            className="flex items-center text-muted-foreground hover:text-foreground"
-          >
-            <span className="text-xs">See all</span>
-            <ChevronRight className="ml-1 h-4 w-4" />
-          </Button>
-        </CardHeader>
-      )}
+      <BadgeSectionHeader
+        showTitle={showTitle}
+        hasMoreBadges={hasMoreBadges}
+        progressText={progressText}
+        handleSeeAll={handleSeeAll}
+      />
       
       {!showTitle && (
         <CardContent>
           {earnedCount > 0 ? (
             <>
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 w-full">
-                {displayBadges.map(badge => (
-                  <Badge 
-                    key={badge.id} 
-                    badge={badge} 
-                    earned={earnedBadgeIds.includes(badge.id)}
-                    isCurrentUser={isCurrentUser}
-                    compact={isMobile}
-                  />
-                ))}
-              </div>
-
-              {/* Facebook Share Button - Only shown if showShareButton is true */}
-              {isCurrentUser && showShareButton && (
-                <div className="mt-4 flex justify-end">
-                  <Button 
-                    size="sm" 
-                    variant="outline"
-                    className="flex items-center gap-2"
-                    onClick={handleShareOnFacebook}
-                  >
-                    <Facebook className="h-4 w-4" />
-                    <span className="text-xs">Share on Facebook</span>
-                  </Button>
-                </div>
-              )}
+              <BadgeGrid
+                badges={displayBadges}
+                earnedBadgeIds={earnedBadgeIds}
+                isCurrentUser={isCurrentUser}
+                compact={isMobile}
+              />
+              <ShareButton show={showShareButton} isCurrentUser={isCurrentUser} />
             </>
           ) : (
-            <div className="text-center py-10">
-              <Trophy className="h-12 w-12 mx-auto text-muted-foreground mb-3 opacity-30" />
-              <p className="text-muted-foreground">{emptyStateMessage}</p>
-              {isCurrentUser && (
-                <p className="text-sm text-muted-foreground mt-1">
-                  Keep visiting supper clubs to earn badges!
-                </p>
-              )}
-            </div>
+            <EmptyBadgesState isCurrentUser={isCurrentUser} userName={user.name} />
           )}
         </CardContent>
+      )}
+      
+      {showTitle && (
+        <>
+          {earnedCount > 0 ? (
+            <>
+              <BadgeGrid
+                badges={displayBadges}
+                earnedBadgeIds={earnedBadgeIds}
+                isCurrentUser={isCurrentUser}
+                compact={isMobile}
+              />
+              <ShareButton show={showShareButton} isCurrentUser={isCurrentUser} />
+            </>
+          ) : (
+            <EmptyBadgesState isCurrentUser={isCurrentUser} userName={user.name} />
+          )}
+        </>
       )}
       
       {/* Dialog to show all badges - only shown if handleSeeAllBadges is not provided */}
@@ -170,27 +120,15 @@ const BadgesSection: React.FC<BadgesSectionProps> = ({
               <DialogTitle>{isCurrentUser ? 'Your Badges' : `${user.name}'s Badges`}</DialogTitle>
             </DialogHeader>
             <div className="mt-4">
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                {badges.map(badge => (
-                  <Badge 
-                    key={badge.id} 
-                    badge={badge} 
-                    earned={earnedBadgeIds.includes(badge.id)}
-                    isCurrentUser={isCurrentUser}
-                  />
-                ))}
-              </div>
+              <BadgeGrid
+                badges={badges}
+                earnedBadgeIds={earnedBadgeIds}
+                isCurrentUser={isCurrentUser}
+                compact={false}
+              />
               
               {earnedCount === 0 && (
-                <div className="text-center py-8">
-                  <Trophy className="h-12 w-12 mx-auto text-muted-foreground mb-3 opacity-30" />
-                  <p className="text-muted-foreground">{emptyStateMessage}</p>
-                  {isCurrentUser && (
-                    <p className="text-sm text-muted-foreground mt-1">
-                      Keep visiting supper clubs to earn badges!
-                    </p>
-                  )}
-                </div>
+                <EmptyBadgesState isCurrentUser={isCurrentUser} userName={user.name} />
               )}
             </div>
           </DialogContent>

@@ -1,13 +1,14 @@
 
 import React, { useState } from 'react';
 import { UserProfile, SupperClub } from '@/lib/types';
-import { Trophy, ChevronRight, Facebook } from 'lucide-react';
 import { getUserStatuses, UserStatus } from '@/lib/status-utils';
-import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { toast } from 'sonner';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Card, CardContent } from '@/components/ui/card';
+import StatusCard from './status/StatusCard';
+import EmptyStatusState from './status/EmptyStatusState';
+import StatusSectionHeader from './status/StatusSectionHeader';
+import ShareButton from './status/ShareButton';
 
 type StatusSectionProps = {
   user: UserProfile;
@@ -17,20 +18,6 @@ type StatusSectionProps = {
   showShareButton?: boolean;
   limit?: number;
   handleSeeAllStatuses?: () => void;
-};
-
-// Helper function - extracted to improve readability
-const getStatusColor = (category: string): string => {
-  switch (category) {
-    case 'visits':
-      return 'bg-primary text-primary-foreground';
-    case 'reviews':
-      return 'bg-secondary text-secondary-foreground';
-    case 'leaderboard':
-      return 'bg-supper-amber text-white';
-    default:
-      return 'bg-gray-200 text-gray-800';
-  }
 };
 
 /**
@@ -59,12 +46,6 @@ const StatusSection: React.FC<StatusSectionProps> = ({
   const displayStatuses = userStatuses.slice(0, displayCount);
   const hasMoreStatuses = userStatuses.length > displayCount;
 
-  // Handle share on Facebook
-  const handleShareOnFacebook = () => {
-    // In a real implementation, this would use the Facebook Share API
-    toast.success(`Shared your status "Supper Club Virtuoso" on Facebook!`);
-  };
-
   // Handle see all statuses - use provided handler or default
   const handleSeeAll = () => {
     if (handleSeeAllStatuses) {
@@ -73,37 +54,6 @@ const StatusSection: React.FC<StatusSectionProps> = ({
       setShowAllStatuses(true);
     }
   };
-
-  // Render status card to avoid repetition
-  const renderStatusCard = (status: UserStatus) => (
-    <div
-      key={status.id}
-      className="bg-white rounded-lg shadow-sm p-4 mb-3 flex flex-col items-center text-center"
-    >
-      <h3 className="font-semibold text-lg mb-1">{status.title}</h3>
-      <p className="text-sm text-muted-foreground mb-2">{status.description}</p>
-      <div className={`px-3 py-1 rounded-full text-xs ${getStatusColor(status.category)}`}>
-        {status.category}
-      </div>
-    </div>
-  );
-
-  // Empty state component
-  const EmptyStatusState = () => (
-    <div className="text-center py-8">
-      <Trophy className="h-12 w-12 mx-auto text-muted-foreground mb-3 opacity-30" />
-      <p className="text-muted-foreground">
-        {isCurrentUser 
-          ? "You haven't earned any statuses yet." 
-          : `${user.name} hasn't earned any statuses yet.`}
-      </p>
-      {isCurrentUser && (
-        <p className="text-sm text-muted-foreground mt-1">
-          Visit and review more supper clubs to earn statuses!
-        </p>
-      )}
-    </div>
-  );
 
   // Container can be either Card or simple div based on usage context
   const ContainerComponent = showTitle ? 
@@ -116,73 +66,48 @@ const StatusSection: React.FC<StatusSectionProps> = ({
     ) :
     Card;
 
-  const TitleComponent = showTitle ? 'h2' : CardTitle;
-
   return (
     <ContainerComponent>
-      {showTitle ? (
-        <div className="flex justify-between items-center mb-4">
-          <TitleComponent className="text-lg sm:text-xl font-semibold flex items-center">
-            <Trophy className="h-5 w-5 mr-2 text-supper-gold" />
-            Status Level
-          </TitleComponent>
-          {hasMoreStatuses && (
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              className="text-primary flex items-center"
-              onClick={handleSeeAll}
-            >
-              See all <ChevronRight className="h-4 w-4 ml-1" />
-            </Button>
-          )}
-        </div>
-      ) : (
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-xl font-semibold flex items-center">
-            <Trophy className="mr-2 h-5 w-5 text-supper-gold" />
-            Status Level
-          </CardTitle>
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            onClick={handleSeeAll}
-            className="flex items-center text-muted-foreground hover:text-foreground"
-          >
-            <span className="text-xs">See all</span>
-            <ChevronRight className="ml-1 h-4 w-4" />
-          </Button>
-        </CardHeader>
-      )}
+      <StatusSectionHeader 
+        showTitle={showTitle} 
+        hasMoreStatuses={hasMoreStatuses} 
+        handleSeeAll={handleSeeAll} 
+      />
       
       {!showTitle && (
         <CardContent>
-          {/* Status Badges */}
           {userStatuses.length > 0 ? (
             <>
               <div className="space-y-4">
-                {displayStatuses.map(renderStatusCard)}
+                {displayStatuses.map(status => (
+                  <StatusCard key={status.id} status={status} />
+                ))}
               </div>
               
-              {/* Facebook Share Button */}
-              {isCurrentUser && showShareButton && (
-                <div className="mt-4 flex justify-end">
-                  <Button 
-                    size="sm" 
-                    variant="outline"
-                    className="flex items-center gap-2"
-                    onClick={handleShareOnFacebook}
-                  >
-                    <Facebook className="h-4 w-4" />
-                    <span className="text-xs">Share on Facebook</span>
-                  </Button>
-                </div>
-              )}
+              <ShareButton show={showShareButton} isCurrentUser={isCurrentUser} />
             </>
           ) : (
-            <EmptyStatusState />
+            <EmptyStatusState isCurrentUser={isCurrentUser} userName={user.name} />
           )}
         </CardContent>
+      )}
+
+      {showTitle && (
+        <>
+          {userStatuses.length > 0 ? (
+            <>
+              <div className="space-y-4">
+                {displayStatuses.map(status => (
+                  <StatusCard key={status.id} status={status} />
+                ))}
+              </div>
+              
+              <ShareButton show={showShareButton} isCurrentUser={isCurrentUser} />
+            </>
+          ) : (
+            <EmptyStatusState isCurrentUser={isCurrentUser} userName={user.name} />
+          )}
+        </>
       )}
 
       {/* Dialog to show all statuses - only used if handleSeeAllStatuses not provided */}
@@ -195,10 +120,12 @@ const StatusSection: React.FC<StatusSectionProps> = ({
             <div className="mt-4">
               {userStatuses.length > 0 ? (
                 <div className="space-y-4">
-                  {userStatuses.map(renderStatusCard)}
+                  {userStatuses.map(status => (
+                    <StatusCard key={status.id} status={status} />
+                  ))}
                 </div>
               ) : (
-                <EmptyStatusState />
+                <EmptyStatusState isCurrentUser={isCurrentUser} userName={user.name} />
               )}
             </div>
           </DialogContent>
