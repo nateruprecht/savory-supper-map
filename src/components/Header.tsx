@@ -35,9 +35,9 @@ const Header: React.FC<HeaderProps> = ({ user, onProfileClick }) => {
   };
   
   return (
-    <header className="fixed top-0 left-0 right-0 z-40 px-4 sm:px-6 py-3 bg-background/70 backdrop-blur-lg border-b border-border flex items-center justify-between animate-slide-down">
+    <header className="fixed top-0 left-0 right-0 z-40 px-4 sm:px-6 py-2.5 bg-background/80 backdrop-blur-lg border-b border-supper-amber/20 flex items-center justify-between animate-slide-down shadow-sm">
       <div className="flex items-center">
-        <div className="font-medium text-lg sm:text-xl tracking-tight truncate max-w-[200px] sm:max-w-none">
+        <div className="font-display text-lg sm:text-xl font-medium tracking-tight truncate max-w-[200px] sm:max-w-none text-supper-brown">
           {isMobile ? 'Supper Club' : 'Supper Club Roadmap'}
         </div>
       </div>
@@ -46,9 +46,9 @@ const Header: React.FC<HeaderProps> = ({ user, onProfileClick }) => {
         {authUser ? (
           <>
             <div className="relative">
-              <Button variant="ghost" size="icon" className="relative h-8 w-8 sm:h-9 sm:w-9">
-                <Bell className="h-5 w-5" />
-                <span className="absolute top-0 right-0 h-2 w-2 bg-destructive rounded-full"></span>
+              <Button variant="ghost" size="icon" className="relative h-8 w-8 sm:h-9 sm:w-9 hover:bg-supper-cream/50">
+                <Bell className="h-5 w-5 text-supper-brown" />
+                <span className="absolute top-0 right-0 h-2 w-2 bg-supper-red rounded-full"></span>
               </Button>
             </div>
             
@@ -58,21 +58,21 @@ const Header: React.FC<HeaderProps> = ({ user, onProfileClick }) => {
                   className="flex items-center space-x-2 cursor-pointer" 
                   aria-label="User profile"
                 >
-                  <Avatar className="h-8 w-8 border border-border">
+                  <Avatar className="h-8 w-8 border border-supper-amber/30">
                     <AvatarImage src={user.avatar} alt={user.name} />
                     <AvatarFallback><User className="h-4 w-4" /></AvatarFallback>
                   </Avatar>
-                  <span className="text-sm font-medium hidden md:inline-block">{user.name}</span>
+                  <span className="text-sm font-medium hidden md:inline-block text-supper-brown">{user.name}</span>
                 </div>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuItem onClick={onProfileClick}>
-                  <User className="mr-2 h-4 w-4" />
+              <DropdownMenuContent align="end" className="border-supper-amber/30">
+                <DropdownMenuItem onClick={onProfileClick} className="hover:bg-supper-cream/20">
+                  <User className="mr-2 h-4 w-4 text-supper-brown" />
                   Profile
                 </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={handleLogoutClick}>
-                  <LogOut className="mr-2 h-4 w-4" />
+                <DropdownMenuSeparator className="bg-supper-amber/20" />
+                <DropdownMenuItem onClick={handleLogoutClick} className="hover:bg-supper-cream/20">
+                  <LogOut className="mr-2 h-4 w-4 text-supper-red" />
                   Logout
                 </DropdownMenuItem>
               </DropdownMenuContent>
@@ -83,6 +83,7 @@ const Header: React.FC<HeaderProps> = ({ user, onProfileClick }) => {
             variant="default" 
             size="sm" 
             onClick={handleLoginClick}
+            className="bg-supper-red hover:bg-supper-red/90 text-white"
           >
             Login
           </Button>

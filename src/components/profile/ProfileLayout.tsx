@@ -37,19 +37,19 @@ const ProfileLayout: React.FC<ProfileLayoutProps> = ({
     <div className="min-h-screen bg-background relative overflow-hidden">
       <Header user={user} onProfileClick={() => navigate('/profile')} />
       
-      <main className="pt-16 md:pt-20 pb-16 min-h-screen flex flex-col">
+      <main className="pt-14 md:pt-16 pb-16 min-h-screen flex flex-col">
         {backLink && (
-          <div className="sticky top-16 md:top-20 z-30 bg-background/95 backdrop-blur-sm border-b border-border/40 shadow-sm w-full">
+          <div className="sticky top-14 md:top-16 z-30 bg-background/95 backdrop-blur-sm border-b border-supper-amber/20 shadow-sm w-full">
             <div className="container px-4 mx-auto">
-              <div className="py-3 flex items-center">
+              <div className="py-2.5 flex items-center">
                 <button 
                   onClick={() => navigate(backLink.route)} 
-                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  className="text-sm text-supper-brown hover:text-supper-red transition-colors"
                 >
                   {backLink.text}
                 </button>
                 {title && (
-                  <h1 className="text-lg font-medium ml-4">{title}</h1>
+                  <h1 className="text-lg font-medium ml-4 font-display text-supper-brown">{title}</h1>
                 )}
               </div>
             </div>
@@ -58,7 +58,7 @@ const ProfileLayout: React.FC<ProfileLayoutProps> = ({
         
         <div className="flex-1 overflow-hidden">
           <ScrollArea className="h-full w-full">
-            <div className="container px-4 py-6 mx-auto">
+            <div className="container px-4 py-4 mx-auto">
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
