@@ -74,6 +74,8 @@ const BadgesSection: React.FC<BadgesSectionProps> = ({
             earnedBadgeIds={earnedBadgeIds}
             isCurrentUser={isCurrentUser}
             isMobile={isMobile}
+            onSeeAll={handleSeeAll}
+            showSeeAllButton={hasMoreBadges && !showTitle}
           />
 
           {/* Facebook Share Button - Only shown if showShareButton is true */}

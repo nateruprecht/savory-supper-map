@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { UserProfile, Badge, SupperClub } from '@/lib/types';
 import ProfileHeader from '@/components/profile/ProfileHeader';
@@ -8,6 +9,7 @@ import ReviewsSection from '@/components/home/ReviewsSection';
 import ListsSection from '@/components/profile/ListsSection';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { toast } from 'sonner';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 
 type ProfileContentProps = {
   user: UserProfile;
@@ -29,6 +31,7 @@ const ProfileContent: React.FC<ProfileContentProps> = ({
   showListsSection = true
 }) => {
   const isMobile = useIsMobile();
+  const [showAllBadges, setShowAllBadges] = React.useState(false);
   
   // Debug log to ensure props are correctly passed
   console.log('ProfileContent rendering with user:', user);
@@ -36,7 +39,7 @@ const ProfileContent: React.FC<ProfileContentProps> = ({
   
   // Handle see all badges
   const handleSeeAllBadges = () => {
-    toast.info("All badges view coming soon");
+    setShowAllBadges(true);
   };
   
   return (
@@ -59,9 +62,27 @@ const ProfileContent: React.FC<ProfileContentProps> = ({
         user={user} 
         badges={badges} 
         isCurrentUser={isCurrentUser} 
-        limit={isMobile ? 4 : undefined}
+        limit={isMobile ? 4 : 8}
         handleSeeAllBadges={handleSeeAllBadges}
       />
+      
+      <Dialog open={showAllBadges} onOpenChange={setShowAllBadges}>
+        <DialogContent className="sm:max-w-lg max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>{isCurrentUser ? 'Your Badges' : `${user.name}'s Badges`}</DialogTitle>
+          </DialogHeader>
+          <div className="mt-4">
+            <BadgesSection 
+              user={user} 
+              badges={badges} 
+              isCurrentUser={isCurrentUser}
+              showTitle={false}
+              showShareButton={false}
+            />
+          </div>
+        </DialogContent>
+      </Dialog>
+      
       <ReviewsSection user={user} clubs={clubs} isCurrentUser={isCurrentUser} />
       {showListsSection && <ListsSection user={user} clubs={clubs} />}
     </div>

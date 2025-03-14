@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { UserProfile, SupperClub } from '@/lib/types';
 import { Award, ChevronRight, Facebook } from 'lucide-react';
-import { getUserStatuses, UserStatus } from '@/lib/status-utils';
+import { getUserStatuses, UserStatus, getPrimaryUserStatus } from '@/lib/status-utils';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -30,15 +30,38 @@ const StatusSection: React.FC<StatusSectionProps> = ({ user, clubs = [], isCurre
   ).length;
   const userStatuses = getUserStatuses(user, reviewedClubs);
   
+  // Get primary status for profile display
+  // For this version, we'll use simulated values for state/city rankings
+  // In a real implementation, these would come from the database
+  const primaryStatus = getPrimaryUserStatus(
+    user, 
+    'Wisconsin', // Example state - in production this would come from user profile
+    user.rank ? null : 3, // Example state rank - only used if user isn't on overall leaderboard
+    'Madison', // Example city - in production this would come from user profile
+    user.rank ? null : 2 // Example city rank - only used if user isn't on overall leaderboard
+  );
+  
   // Take only top items for initial display based on screen size
   const displayCount = isMobile ? 2 : 3;
-  const displayStatuses = userStatuses.slice(0, displayCount);
+  // If there's a primary status, make sure it's first in the list
+  let displayStatuses = [];
+  if (primaryStatus) {
+    displayStatuses = [primaryStatus];
+    displayStatuses = displayStatuses.concat(
+      userStatuses
+        .filter(status => status.id !== primaryStatus.id)
+        .slice(0, displayCount - 1)
+    );
+  } else {
+    displayStatuses = userStatuses.slice(0, displayCount);
+  }
+  
   const hasMoreStatuses = userStatuses.length > displayCount;
 
   // Handle share on Facebook
   const handleShareOnFacebook = () => {
     // In a real implementation, this would use the Facebook Share API
-    toast.success(`Shared your status "Supper Enthusiast" on Facebook!`);
+    toast.success(`Shared your status "${primaryStatus?.title || 'Supper Enthusiast'}" on Facebook!`);
   };
 
   return (
@@ -52,7 +75,7 @@ const StatusSection: React.FC<StatusSectionProps> = ({ user, clubs = [], isCurre
         <>
           <div className="space-y-4">
             {displayStatuses.map(status => (
-              <StatusCard key={status.id} status={status} />
+              <StatusCard key={status.id} status={status} isPrimary={status.id === primaryStatus?.id} />
             ))}
           </div>
           
@@ -85,7 +108,7 @@ const StatusSection: React.FC<StatusSectionProps> = ({ user, clubs = [], isCurre
             {userStatuses.length > 0 ? (
               <div className="space-y-4">
                 {userStatuses.map(status => (
-                  <StatusCard key={status.id} status={status} />
+                  <StatusCard key={status.id} status={status} isPrimary={status.id === primaryStatus?.id} />
                 ))}
               </div>
             ) : (

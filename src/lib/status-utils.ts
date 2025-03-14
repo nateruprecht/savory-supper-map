@@ -1,4 +1,3 @@
-
 import { UserProfile } from '@/lib/types';
 
 export type UserStatus = {
@@ -9,7 +8,13 @@ export type UserStatus = {
   icon?: string; // Optional path to status icon
 };
 
-// Status definitions for visit counts
+// Status threshold configurations
+export const VISIT_THRESHOLDS = [5, 10, 25, 50, 100, 150, 200, 300, 400, 500];
+export const REVIEW_THRESHOLDS = [5, 10, 25, 50, 100, 150, 200, 250, 300, 400];
+
+/**
+ * Visit status definitions
+ */
 export const visitStatuses: { threshold: number; status: UserStatus }[] = [
   {
     threshold: 5,
@@ -103,7 +108,9 @@ export const visitStatuses: { threshold: number; status: UserStatus }[] = [
   },
 ];
 
-// Status definitions for review counts
+/**
+ * Review status definitions
+ */
 export const reviewStatuses: { threshold: number; status: UserStatus }[] = [
   {
     threshold: 5,
@@ -197,7 +204,9 @@ export const reviewStatuses: { threshold: number; status: UserStatus }[] = [
   },
 ];
 
-// Leaderboard statuses - Overall (Midwest)
+/**
+ * Overall leaderboard status definitions (Midwest)
+ */
 export const overallLeaderboardStatuses: { rank: number; status: UserStatus }[] = [
   {
     rank: 1,
@@ -226,7 +235,6 @@ export const overallLeaderboardStatuses: { rank: number; status: UserStatus }[] 
       category: 'leaderboard',
     }
   },
-  // Ranks 4-10
   {
     rank: 4,
     status: {
@@ -292,7 +300,12 @@ export const overallLeaderboardStatuses: { rank: number; status: UserStatus }[] 
   },
 ];
 
-// Helper function to get state-specific leaderboard status
+/**
+ * Get state-specific leaderboard status
+ * @param rank The user's leaderboard rank in the state
+ * @param state The state name
+ * @returns A UserStatus object or null if rank is invalid
+ */
 export const getStateLeaderboardStatus = (rank: number, state: string): UserStatus | null => {
   if (rank < 1 || rank > 10 || !state) return null;
   
@@ -354,13 +367,18 @@ export const getStateLeaderboardStatus = (rank: number, state: string): UserStat
   
   return {
     id: `state-${rank}-${state.toLowerCase().replace(/\s+/g, '-')}`,
-    title: statusTemplate.titleTemplate.replace('{state}', state),
-    description: statusTemplate.description.replace('{state}', state),
+    title: statusTemplate.titleTemplate.replace(/{state}/g, state),
+    description: statusTemplate.description.replace(/{state}/g, state),
     category: 'leaderboard',
   };
 };
 
-// Helper function to get city-specific leaderboard status
+/**
+ * Get city-specific leaderboard status
+ * @param rank The user's leaderboard rank in the city
+ * @param city The city name
+ * @returns A UserStatus object or null if rank is invalid
+ */
 export const getCityLeaderboardStatus = (rank: number, city: string): UserStatus | null => {
   if (rank < 1 || rank > 10 || !city) return null;
   
@@ -429,7 +447,65 @@ export const getCityLeaderboardStatus = (rank: number, city: string): UserStatus
 };
 
 /**
+ * Get the highest status a user has earned based on priority hierarchy:
+ * 1. Overall leaderboard status (if user is on overall leaderboard)
+ * 2. State leaderboard status (if user is on state leaderboard)
+ * 3. City leaderboard status (if user is on city leaderboard)
+ * 4. Visit count status (fallback)
+ * 
+ * @param user The user profile
+ * @param state Optional state name for state leaderboard lookup
+ * @param stateRank Optional state rank for state leaderboard lookup
+ * @param city Optional city name for city leaderboard lookup
+ * @param cityRank Optional city rank for city leaderboard lookup
+ * @returns The user's highest earned status
+ */
+export function getPrimaryUserStatus(
+  user: UserProfile, 
+  state?: string,
+  stateRank?: number,
+  city?: string,
+  cityRank?: number
+): UserStatus | null {
+  // Check overall leaderboard status (priority 1)
+  if (user.rank > 0 && user.rank <= 10) {
+    const overallStatus = overallLeaderboardStatuses.find(s => s.rank === user.rank);
+    if (overallStatus) {
+      return overallStatus.status;
+    }
+  }
+
+  // Check state leaderboard status (priority 2)
+  if (state && stateRank && stateRank > 0 && stateRank <= 10) {
+    const stateStatus = getStateLeaderboardStatus(stateRank, state);
+    if (stateStatus) {
+      return stateStatus;
+    }
+  }
+
+  // Check city leaderboard status (priority 3)
+  if (city && cityRank && cityRank > 0 && cityRank <= 10) {
+    const cityStatus = getCityLeaderboardStatus(cityRank, city);
+    if (cityStatus) {
+      return cityStatus;
+    }
+  }
+
+  // Fallback to visit-based status (priority 4)
+  for (let i = visitStatuses.length - 1; i >= 0; i--) {
+    if (user.totalVisits >= visitStatuses[i].threshold) {
+      return visitStatuses[i].status;
+    }
+  }
+
+  return null;
+}
+
+/**
  * Get all applicable statuses for a user based on their profile
+ * @param user The user profile
+ * @param reviewCount Number of reviews the user has written
+ * @returns An array of user statuses
  */
 export const getUserStatuses = (user: UserProfile, reviewCount: number = 0): UserStatus[] => {
   const statuses: UserStatus[] = [];
@@ -467,6 +543,7 @@ export const getUserStatuses = (user: UserProfile, reviewCount: number = 0): Use
 
 /**
  * Get all potential statuses a user could earn
+ * @returns An array of all possible user statuses
  */
 export const getAllPossibleStatuses = (): UserStatus[] => {
   const allStatuses: UserStatus[] = [];
