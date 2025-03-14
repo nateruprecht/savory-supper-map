@@ -5,6 +5,7 @@ import { currentUser, sampleSupperClubs } from '@/lib/data';
 import { SupperClub } from '@/lib/types';
 import Header from '@/components/Header';
 import Navigation from '@/components/Navigation';
+import MapView from '@/components/MapView';
 import DiscoverList from '@/components/discover/DiscoverList';
 import ClubDetails from '@/components/ClubDetails';
 import { useNavigate } from 'react-router-dom';
@@ -96,117 +97,21 @@ const Discover = () => {
       <Header user={user} onProfileClick={() => navigate('/profile')} />
       
       <main className="pt-16 md:pt-20 pb-16 min-h-screen">
-        <div className="container mx-auto px-4 py-6">
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-8">
-              <span className="px-3 py-1 bg-red-100 text-supper-red rounded-full text-xs font-medium">
-                Interactive Map
-              </span>
-              <h1 className="text-3xl font-display font-bold mt-4 mb-3 text-gray-800">
-                Discover Supper Clubs Near You
-              </h1>
-              <p className="text-gray-600 max-w-2xl mx-auto">
-                Explore the rich culinary traditions of the Midwest through our interactive map. Find hidden gems and plan your next visit.
-              </p>
-            </div>
-            
-            <div className="bg-amber-50 rounded-xl overflow-hidden shadow-lg mb-8">
-              <div className="grid md:grid-cols-3">
-                <div className="bg-amber-100/50 p-6">
-                  <h3 className="font-semibold text-supper-brown mb-4">Midwest Regions</h3>
-                  
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between p-3 bg-red-100 rounded-lg">
-                      <div className="flex items-center">
-                        <MapPin className="h-4 w-4 text-supper-red mr-2" />
-                        <span className="text-gray-800">Wisconsin</span>
-                      </div>
-                      <span className="text-xs font-medium text-gray-500">65 clubs</span>
-                    </div>
-                    
-                    <div className="flex items-center justify-between p-3 hover:bg-gray-100 rounded-lg">
-                      <div className="flex items-center">
-                        <MapPin className="h-4 w-4 text-gray-400 mr-2" />
-                        <span className="text-gray-800">Minnesota</span>
-                      </div>
-                      <span className="text-xs font-medium text-gray-500">42 clubs</span>
-                    </div>
-                    
-                    <div className="flex items-center justify-between p-3 hover:bg-gray-100 rounded-lg">
-                      <div className="flex items-center">
-                        <MapPin className="h-4 w-4 text-gray-400 mr-2" />
-                        <span className="text-gray-800">Michigan</span>
-                      </div>
-                      <span className="text-xs font-medium text-gray-500">38 clubs</span>
-                    </div>
-                    
-                    <div className="flex items-center justify-between p-3 hover:bg-gray-100 rounded-lg">
-                      <div className="flex items-center">
-                        <MapPin className="h-4 w-4 text-gray-400 mr-2" />
-                        <span className="text-gray-800">Illinois</span>
-                      </div>
-                      <span className="text-xs font-medium text-gray-500">27 clubs</span>
-                    </div>
-                    
-                    <div className="flex items-center justify-between p-3 hover:bg-gray-100 rounded-lg">
-                      <div className="flex items-center">
-                        <MapPin className="h-4 w-4 text-gray-400 mr-2" />
-                        <span className="text-gray-800">Iowa</span>
-                      </div>
-                      <span className="text-xs font-medium text-gray-500">18 clubs</span>
-                    </div>
-                  </div>
-                  
-                  <div className="mt-6">
-                    <Button 
-                      variant="link" 
-                      size="sm" 
-                      className="text-supper-red flex items-center px-0"
-                      onClick={() => navigate('/map')}
-                    >
-                      <span>Explore full map</span>
-                      <span className="ml-1">→</span>
-                    </Button>
-                  </div>
-                </div>
-                
-                <div className="md:col-span-2 p-6 flex items-center justify-center">
-                  <div className="relative w-full h-full min-h-[250px]">
-                    <div className="absolute inset-0 bg-red-200/50 rounded-xl border-2 border-red-800/30" style={{
-                      clipPath: "polygon(40% 10%, 70% 20%, 90% 40%, 80% 70%, 50% 90%, 20% 80%, 10% 40%, 20% 20%)"
-                    }}>
-                      {/* Sample pins */}
-                      <div className="absolute top-[30%] left-[30%] h-3 w-3 rounded-full bg-white shadow-md"></div>
-                      <div className="absolute top-[50%] left-[50%] h-3 w-3 rounded-full bg-white shadow-md"></div>
-                      <div className="absolute top-[40%] left-[70%] h-3 w-3 rounded-full bg-white shadow-md"></div>
-                      <div className="absolute top-[70%] left-[40%] h-3 w-3 rounded-full bg-white shadow-md"></div>
-                      <div className="absolute top-[60%] left-[60%] h-3 w-3 rounded-full bg-white shadow-md"></div>
-                      
-                      {/* Highlighted pins */}
-                      <div className="absolute top-[35%] left-[40%] h-4 w-4 rounded-full bg-red-800 shadow-md"></div>
-                      <div className="absolute top-[45%] left-[55%] h-4 w-4 rounded-full bg-red-800 shadow-md"></div>
-                    </div>
-                    
-                    <div className="absolute top-5 left-1/2 transform -translate-x-1/2 bg-white px-3 py-1 rounded-lg shadow-sm text-sm font-medium text-supper-brown border border-amber-200">
-                      Wisconsin
-                      <div className="text-xs text-gray-500">65 supper clubs</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            <div className="flex justify-center mb-8">
-              <Button 
-                className="bg-supper-red hover:bg-supper-red/90 text-white" 
-                onClick={() => navigate('/map')}
-              >
-                <MapPin className="mr-2 h-4 w-4" /> View Interactive Map
-              </Button>
-            </div>
+        <div className="md:grid md:grid-cols-5 md:gap-4 md:p-4 h-full">
+          <div className="md:col-span-3 h-[50vh] md:h-[calc(100vh-8rem)] relative">
+            <MapView clubs={clubs} onClubSelect={handleClubSelect} />
           </div>
           
-          <div className="max-w-4xl mx-auto">
+          <div className="flex flex-row md:col-span-2 gap-2 py-4 px-4">
+            <Button variant="outline" className="flex-1" onClick={() => setAddVisitOpen(true)}>
+              <Plus className="mr-2 h-4 w-4" /> Add a Visit
+            </Button>
+            <Button variant="outline" className="flex-1" onClick={() => setReviewFormOpen(true)}>
+              <MessageSquare className="mr-2 h-4 w-4" /> Review a Club
+            </Button>
+          </div>
+          
+          <div className="md:col-span-2 px-4 md:px-0 md:py-0 space-y-4 md:overflow-y-auto md:max-h-[calc(100vh-8rem)] md:pb-4 py-0 my-px">
             <DiscoverList clubs={clubs} onClubSelect={handleClubSelect} onVisitToggle={handleVisitToggle} />
           </div>
         </div>
