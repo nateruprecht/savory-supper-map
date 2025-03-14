@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { UserProfile, Badge, SupperClub } from '@/lib/types';
 import ProfileHeader from '@/components/profile/ProfileHeader';
@@ -34,12 +33,6 @@ const ProfileContent: React.FC<ProfileContentProps> = ({
   // Debug log to ensure props are correctly passed
   console.log('ProfileContent rendering with user:', user);
   console.log('isCurrentUser:', isCurrentUser);
-  
-  // Handle share on Facebook
-  const handleShareOnFacebook = (type: 'status' | 'badge', title: string) => {
-    // Mock implementation - would use the Facebook Share API in production
-    toast.success(`Shared your ${type} "${title}" on Facebook!`);
-  };
   
   // Handle see all badges
   const handleSeeAllBadges = () => {

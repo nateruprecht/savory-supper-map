@@ -7,25 +7,14 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { toast } from 'sonner';
+import StatusCard from '@/components/home/status/StatusCard';
+import EmptyStatusState from '@/components/home/status/EmptyStatusState';
+import StatusSectionHeader from '@/components/home/status/StatusSectionHeader';
 
 type StatusSectionProps = {
   user: UserProfile;
   clubs?: SupperClub[];
   isCurrentUser?: boolean;
-};
-
-// Helper function - extracted to improve readability
-const getStatusColor = (category: string): string => {
-  switch (category) {
-    case 'visits':
-      return 'bg-primary text-primary-foreground';
-    case 'reviews':
-      return 'bg-secondary text-secondary-foreground';
-    case 'leaderboard':
-      return 'bg-supper-amber text-white';
-    default:
-      return 'bg-gray-200 text-gray-800';
-  }
 };
 
 /**
@@ -52,68 +41,19 @@ const StatusSection: React.FC<StatusSectionProps> = ({ user, clubs = [], isCurre
     toast.success(`Shared your status "Supper Enthusiast" on Facebook!`);
   };
 
-  // Render status card to avoid repetition
-  const renderStatusCard = (status: UserStatus) => (
-    <div
-      key={status.id}
-      className="bg-white rounded-lg shadow-sm p-4 border border-gray-100 flex flex-col items-center text-center mb-4"
-    >
-      <div className="mb-2">
-        <Award 
-          className={`h-6 w-6 ${
-            status.category === 'visits' ? 'text-primary' : 
-            status.category === 'reviews' ? 'text-secondary' : 
-            'text-supper-amber'
-          }`} 
-        />
-      </div>
-      <h3 className="font-semibold text-base mb-1">{status.title}</h3>
-      <p className="text-sm text-muted-foreground mb-2">{status.description}</p>
-      <div className={`px-3 py-1 rounded-full text-xs ${getStatusColor(status.category)}`}>
-        {status.category}
-      </div>
-    </div>
-  );
-
-  // Empty state component
-  const EmptyStatusState = () => (
-    <div className="text-center py-8">
-      <Award className="h-12 w-12 mx-auto text-muted-foreground mb-3 opacity-30" />
-      <p className="text-muted-foreground">
-        {isCurrentUser 
-          ? "You haven't earned any statuses yet." 
-          : `${user.name} hasn't earned any statuses yet.`}
-      </p>
-      {isCurrentUser && (
-        <p className="text-sm text-muted-foreground mt-1">
-          Visit and review more supper clubs to earn statuses!
-        </p>
-      )}
-    </div>
-  );
-
   return (
     <div className="bg-white rounded-xl shadow-sm p-4 sm:p-5 w-full max-w-full box-border" data-testid="status-section">
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-lg sm:text-xl font-semibold flex items-center">
-          <Award className="h-5 w-5 mr-2 text-primary" />
-          Status
-        </h2>
-        <Button 
-          variant="ghost" 
-          size="sm" 
-          className="text-primary flex items-center"
-          onClick={() => setShowAllStatuses(true)}
-        >
-          See all <ChevronRight className="h-4 w-4 ml-1" />
-        </Button>
-      </div>
+      <StatusSectionHeader 
+        hasMoreStatuses={hasMoreStatuses} 
+        onSeeAll={() => setShowAllStatuses(true)} 
+      />
       
-      {/* Status Badges */}
       {userStatuses.length > 0 ? (
         <>
           <div className="space-y-4">
-            {displayStatuses.map(renderStatusCard)}
+            {displayStatuses.map(status => (
+              <StatusCard key={status.id} status={status} />
+            ))}
           </div>
           
           {/* Facebook Share Button */}
@@ -132,7 +72,7 @@ const StatusSection: React.FC<StatusSectionProps> = ({ user, clubs = [], isCurre
           )}
         </>
       ) : (
-        <EmptyStatusState />
+        <EmptyStatusState isCurrentUser={isCurrentUser} user={user} />
       )}
 
       {/* Dialog to show all statuses */}
@@ -144,10 +84,12 @@ const StatusSection: React.FC<StatusSectionProps> = ({ user, clubs = [], isCurre
           <div className="mt-4">
             {userStatuses.length > 0 ? (
               <div className="space-y-4">
-                {userStatuses.map(renderStatusCard)}
+                {userStatuses.map(status => (
+                  <StatusCard key={status.id} status={status} />
+                ))}
               </div>
             ) : (
-              <EmptyStatusState />
+              <EmptyStatusState isCurrentUser={isCurrentUser} user={user} />
             )}
           </div>
         </DialogContent>
