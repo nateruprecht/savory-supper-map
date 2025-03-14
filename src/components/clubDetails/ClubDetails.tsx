@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { SupperClub } from '@/lib/types';
@@ -9,6 +8,7 @@ import ClubInfoDetails from './ClubInfoDetails';
 import ClubSpecialties from './ClubSpecialties';
 import ClubReviewsSection from './ClubReviewsSection';
 import ClubFooterActions from './ClubFooterActions';
+import { Button } from '@/components/ui/button';
 
 type ClubDetailsProps = {
   club: SupperClub;
@@ -27,7 +27,6 @@ const ClubDetails: React.FC<ClubDetailsProps> = ({
   const [showReviewForm, setShowReviewForm] = useState(false);
   const detailsRef = useRef<HTMLDivElement>(null);
   
-  // Mock multiple images for the image gallery
   const images = [
     club.image,
     'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4',
@@ -43,7 +42,6 @@ const ClubDetails: React.FC<ClubDetailsProps> = ({
   };
 
   const shareClub = () => {
-    // In a real app, this would open a share dialog
     alert('Sharing is not implemented in this demo');
   };
   
@@ -52,7 +50,6 @@ const ClubDetails: React.FC<ClubDetailsProps> = ({
     setShowReviewForm(false);
   };
 
-  // Handle click outside to close the dialog
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (detailsRef.current && !detailsRef.current.contains(event.target as Node)) {
@@ -98,21 +95,31 @@ const ClubDetails: React.FC<ClubDetailsProps> = ({
                 visited={club.visited}
               />
               
-              {/* Content */}
               <div className="flex-1 overflow-y-auto p-4">
                 <ClubInfoDetails club={club} />
                 
-                {/* Specialties */}
+                <div className="my-4">
+                  <Button 
+                    onClick={onVisitToggle}
+                    className="w-full"
+                    variant={club.visited ? "outline" : "default"}
+                  >
+                    {club.visited ? (
+                      <><Check className="mr-2 h-4 w-4" /> Marked as Visited</>
+                    ) : (
+                      "Mark as Visited"
+                    )}
+                  </Button>
+                </div>
+                
                 <ClubSpecialties specialties={club.specialties} />
                 
-                {/* Reviews */}
                 <ClubReviewsSection 
                   reviews={club.reviews}
                   onOpenReviewForm={() => setShowReviewForm(true)}
                 />
               </div>
               
-              {/* Footer */}
               <ClubFooterActions
                 clubName={club.name}
                 visited={!!club.visited}
@@ -124,13 +131,12 @@ const ClubDetails: React.FC<ClubDetailsProps> = ({
         )}
       </AnimatePresence>
 
-      {/* Review Form Dialog */}
       <SupperClubReviewForm
         open={showReviewForm}
         onOpenChange={setShowReviewForm}
         onSubmit={handleReviewSubmit}
-        clubs={[club]} // Pass only the current club for the review
-        preselectedClub={club} // Pass the preselected club
+        clubs={[club]}
+        preselectedClub={club}
       />
     </>
   );

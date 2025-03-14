@@ -19,12 +19,7 @@ const AddClubForm: React.FC<AddClubFormProps> = ({ onClose }) => {
     e.preventDefault();
     
     // In a real implementation, this would save the club to the database
-    toast.success(`Club "${clubName}" added and marked as visited!`);
-    onClose();
-  };
-  
-  const handleSubmitAndVisit = () => {
-    // Similar to handleSubmit but also marks the club as visited
+    // and automatically mark it as visited
     toast.success(`Club "${clubName}" added and marked as visited!`);
     onClose();
   };
@@ -86,15 +81,8 @@ const AddClubForm: React.FC<AddClubFormProps> = ({ onClose }) => {
         />
       </div>
       
-      <div className="flex gap-2 pt-2">
-        <Button type="submit" className="flex-1">Add Club</Button>
-        <Button 
-          type="button" 
-          className="flex-1"
-          onClick={handleSubmitAndVisit}
-        >
-          Mark as Visited
-        </Button>
+      <div className="pt-2">
+        <Button type="submit" className="w-full">Add Club and Mark as Visited</Button>
       </div>
     </form>
   );
