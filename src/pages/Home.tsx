@@ -55,7 +55,7 @@ const Home = () => {
               {/* Stats Card */}
               <StatsCard user={userData} clubs={clubs} />
               
-              {/* Nearby Clubs - Updated to be full width */}
+              {/* Nearby Clubs - Card with horizontal scrolling */}
               <NearbyClubsCard clubs={clubs} />
               
               <StatusCard 

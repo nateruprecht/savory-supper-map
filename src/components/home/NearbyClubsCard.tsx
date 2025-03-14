@@ -86,7 +86,7 @@ const NearbyClubsCard: React.FC<NearbyClubsCardProps> = ({ clubs }) => {
             </Button>
           </div>
         </CardHeader>
-        <CardContent>
+        <CardContent className="relative">
           <div 
             ref={scrollContainerRef}
             className="flex overflow-x-auto pb-4 space-x-4 hide-scrollbar snap-x snap-mandatory"
@@ -115,6 +115,15 @@ const NearbyClubsCard: React.FC<NearbyClubsCardProps> = ({ clubs }) => {
               </div>
             ))}
           </div>
+          
+          {/* Arrow on the right side for scrolling */}
+          <button 
+            onClick={scrollRight}
+            className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white rounded-full shadow-md w-10 h-10 flex items-center justify-center z-10 hover:bg-gray-100 transition-colors"
+            aria-label="Scroll right"
+          >
+            <ChevronRight className="h-6 w-6 text-gray-700" />
+          </button>
         </CardContent>
       </Card>
     </motion.div>
