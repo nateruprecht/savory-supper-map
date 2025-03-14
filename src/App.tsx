@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Home from "./pages/Home";
 import Discover from "./pages/Discover";
+import InteractiveMap from "./pages/InteractiveMap";  // Add this import
 import Leaderboard from "./pages/LeaderboardPage";
 import Profile from "./pages/Profile";
 import UserProfilePage from "./pages/UserProfilePage";
@@ -60,6 +61,11 @@ const App = () => (
             <Route path="/discover" element={
               <ProtectedRoute>
                 <Discover />
+              </ProtectedRoute>
+            } />
+            <Route path="/map" element={
+              <ProtectedRoute>
+                <InteractiveMap />
               </ProtectedRoute>
             } />
             <Route path="/leaderboard" element={

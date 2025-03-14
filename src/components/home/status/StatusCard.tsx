@@ -2,6 +2,7 @@
 import React from 'react';
 import { Award, Star } from 'lucide-react';
 import { UserStatus } from '@/lib/status-utils';
+import { Progress } from '@/components/ui/progress';
 
 type StatusCardProps = {
   status: UserStatus;
@@ -26,6 +27,11 @@ const StatusCard: React.FC<StatusCardProps> = ({ status, isPrimary = false }) =>
     }
   };
 
+  // Progress calculation - this would be based on actual data in a real implementation
+  const currentProgress = status.progress?.current || 0;
+  const maxProgress = status.progress?.max || 100;
+  const progressPercentage = Math.min(100, Math.max(0, (currentProgress / maxProgress) * 100));
+
   return (
     <div
       className={`bg-white rounded-lg shadow-sm p-4 border ${isPrimary 
@@ -48,6 +54,20 @@ const StatusCard: React.FC<StatusCardProps> = ({ status, isPrimary = false }) =>
       </div>
       <h3 className="font-semibold text-base mb-1">{status.title}</h3>
       <p className="text-sm text-muted-foreground mb-2">{status.description}</p>
+      
+      {/* Progress indicator */}
+      <div className="w-full space-y-1 mb-2">
+        <div className="flex justify-between items-center">
+          <span className="text-xs text-gray-500">Progress to next level</span>
+          <span className="text-xs font-medium text-gray-700">{currentProgress}/{maxProgress}</span>
+        </div>
+        <Progress value={progressPercentage} className="h-2" 
+          indicatorClassName={status.category === 'visits' ? 'bg-primary' : 
+                             status.category === 'reviews' ? 'bg-secondary' : 
+                             'bg-supper-amber'} 
+        />
+      </div>
+      
       <div className={`px-3 py-1 rounded-full text-xs ${getStatusColor(status.category)}`}>
         {status.category}
       </div>
