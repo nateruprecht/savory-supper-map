@@ -42,14 +42,14 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({ user }) => {
       </div>
       
       {/* Date joined and location information - moved below banner */}
-      <div className="flex justify-between items-center px-4 py-2 text-sm text-muted-foreground">
+      <div className="flex justify-between items-center px-4 py-2 text-xs text-muted-foreground">
         <div className="flex items-center">
-          <Calendar className="h-4 w-4 mr-1" />
+          <Calendar className="h-3 w-3 mr-1" />
           <span>{joinDateFormatted}</span>
         </div>
         
         <div className="flex items-center">
-          <MapPin className="h-4 w-4 mr-1" />
+          <MapPin className="h-3 w-3 mr-1" />
           <span>{city}, {state}</span>
         </div>
       </div>

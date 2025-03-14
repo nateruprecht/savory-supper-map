@@ -9,6 +9,7 @@ import Discover from "./pages/Discover";
 import Leaderboard from "./pages/LeaderboardPage";
 import Profile from "./pages/Profile";
 import UserProfilePage from "./pages/UserProfilePage";
+import UserReviews from "./pages/UserReviews";
 import NotFound from "./pages/NotFound";
 import Auth from "./pages/Auth";
 import Index from "./pages/Index";
@@ -74,6 +75,11 @@ const App = () => (
             <Route path="/user-profile/:userId" element={
               <ProtectedRoute>
                 <UserProfilePage />
+              </ProtectedRoute>
+            } />
+            <Route path="/user-reviews" element={
+              <ProtectedRoute>
+                <UserReviews />
               </ProtectedRoute>
             } />
             <Route path="/events" element={

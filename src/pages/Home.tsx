@@ -9,7 +9,6 @@ import { currentUser, sampleSupperClubs, badges } from '@/lib/data';
 import WelcomeSection from '@/components/home/WelcomeSection';
 import StatusCard from '@/components/home/StatusCard';
 import BadgesCard from '@/components/home/BadgesCard';
-import ReviewsCard from '@/components/home/ReviewsCard';
 import JourneyMapCard from '@/components/home/JourneyMapCard';
 import AboutSupperClubsCard from '@/components/home/AboutSupperClubsCard';
 import AddVisitButton from '@/components/home/addVisit/AddVisitButton';
@@ -41,7 +40,7 @@ const Home = () => {
       <div 
         className="min-h-screen bg-cover bg-center bg-fixed"
         style={{ 
-          backgroundImage: 'url("https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2400&q=80")',
+          backgroundImage: 'url("https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2400&q=80")',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundAttachment: 'fixed'
@@ -70,8 +69,6 @@ const Home = () => {
                 handleSeeAllBadges={handleSeeAllBadges}
                 handleShareOnFacebook={handleShareOnFacebook}
               />
-              
-              <ReviewsCard user={userData} clubs={clubs} />
               
               <JourneyMapCard />
               
