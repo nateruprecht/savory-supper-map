@@ -12,13 +12,15 @@ type BadgesSectionProps = {
   badges?: BadgeType[];
   isCurrentUser?: boolean;
   limit?: number;
+  showTitle?: boolean;
 };
 
 const BadgesSection: React.FC<BadgesSectionProps> = ({ 
   user, 
   badges = [], 
   isCurrentUser = true,
-  limit
+  limit,
+  showTitle = true
 }) => {
   const [showAllBadges, setShowAllBadges] = React.useState(false);
   const isMobile = useIsMobile();
@@ -44,25 +46,27 @@ const BadgesSection: React.FC<BadgesSectionProps> = ({
 
   return (
     <div className="bg-white rounded-xl shadow-sm p-4 sm:p-5 w-full max-w-full">
-      <div className="flex items-center justify-between mb-4">
-        <h2 className="font-semibold flex items-center text-lg sm:text-xl">
-          <Trophy className="h-5 w-5 mr-2 text-primary" />
-          {sectionTitle}
-        </h2>
-        <div className="flex items-center gap-2">
-          <span className="text-sm text-muted-foreground hidden sm:inline">{progressText}</span>
-          {hasMoreBadges && (
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              className="text-primary flex items-center"
-              onClick={() => setShowAllBadges(true)}
-            >
-              See all <ChevronRight className="h-4 w-4 ml-1" />
-            </Button>
-          )}
+      {showTitle && (
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="font-semibold flex items-center text-lg sm:text-xl">
+            <Trophy className="h-5 w-5 mr-2 text-primary" />
+            {sectionTitle}
+          </h2>
+          <div className="flex items-center gap-2">
+            <span className="text-sm text-muted-foreground hidden sm:inline">{progressText}</span>
+            {hasMoreBadges && (
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                className="text-primary flex items-center"
+                onClick={() => setShowAllBadges(true)}
+              >
+                See all <ChevronRight className="h-4 w-4 ml-1" />
+              </Button>
+            )}
+          </div>
         </div>
-      </div>
+      )}
       
       {earnedCount > 0 ? (
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 w-full">

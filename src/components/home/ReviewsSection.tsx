@@ -12,9 +12,16 @@ type ReviewsSectionProps = {
   clubs: SupperClub[];
   compact?: boolean;
   isCurrentUser?: boolean;
+  showTitle?: boolean;
 };
 
-const ReviewsSection: React.FC<ReviewsSectionProps> = ({ user, clubs, compact, isCurrentUser = true }) => {
+const ReviewsSection: React.FC<ReviewsSectionProps> = ({ 
+  user, 
+  clubs, 
+  compact, 
+  isCurrentUser = true,
+  showTitle = true 
+}) => {
   const [reviewDialogOpen, setReviewDialogOpen] = useState(false);
 
   // Get clubs that the user has reviewed
@@ -51,24 +58,26 @@ const ReviewsSection: React.FC<ReviewsSectionProps> = ({ user, clubs, compact, i
 
   return (
     <div className={cn("bg-white rounded-xl shadow-sm", compact ? "p-3" : "p-4 sm:p-5")}>
-      <div className="flex items-center justify-between mb-3 sm:mb-4">
-        <h2 className={cn("font-semibold flex items-center", compact ? "text-base" : "text-lg sm:text-xl")}>
-          <MessageSquare className="h-5 w-5 mr-2 text-primary" />
-          {sectionTitle}
-        </h2>
-        
-        {isCurrentUser && (
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setReviewDialogOpen(true)}
-            title="Add a review"
-            className="h-8 w-8"
-          >
-            <Plus className="h-5 w-5" />
-          </Button>
-        )}
-      </div>
+      {showTitle && (
+        <div className="flex items-center justify-between mb-3 sm:mb-4">
+          <h2 className={cn("font-semibold flex items-center", compact ? "text-base" : "text-lg sm:text-xl")}>
+            <MessageSquare className="h-5 w-5 mr-2 text-primary" />
+            {sectionTitle}
+          </h2>
+          
+          {isCurrentUser && (
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setReviewDialogOpen(true)}
+              title="Add a review"
+              className="h-8 w-8"
+            >
+              <Plus className="h-5 w-5" />
+            </Button>
+          )}
+        </div>
+      )}
       
       {userRatings.length > 0 ? (
         <>

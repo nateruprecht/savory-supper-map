@@ -5,9 +5,7 @@ import { Trophy, ChevronRight, Facebook } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { UserProfile } from '@/lib/types';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { getUserStatuses } from '@/lib/status-utils';
-import { useIsMobile } from '@/hooks/use-mobile';
 
 type StatusCardProps = {
   user: UserProfile;

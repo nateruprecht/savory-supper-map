@@ -38,7 +38,7 @@ const ReviewsCard: React.FC<ReviewsCardProps> = ({ user, clubs }) => {
           </Button>
         </CardHeader>
         <CardContent>
-          <ReviewsSection user={user} clubs={clubs} />
+          <ReviewsSection user={user} clubs={clubs} showTitle={false} />
         </CardContent>
       </Card>
     </motion.div>

@@ -6,7 +6,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import BadgesSection from '@/components/home/BadgesSection';
 import { UserProfile, Badge } from '@/lib/types';
-import { toast } from 'sonner';
 
 type BadgesCardProps = {
   user: UserProfile;
@@ -45,7 +44,7 @@ const BadgesCard: React.FC<BadgesCardProps> = ({
           </Button>
         </CardHeader>
         <CardContent>
-          <BadgesSection user={user} badges={badges} limit={3} />
+          <BadgesSection user={user} badges={badges} limit={3} showTitle={false} />
           <div className="mt-4 flex justify-end">
             <Button 
               size="sm" 
