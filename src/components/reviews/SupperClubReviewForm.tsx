@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -32,13 +32,15 @@ type SupperClubReviewFormProps = {
   onOpenChange: (open: boolean) => void;
   onSubmit: (data: ReviewFormValues) => void;
   clubs: SupperClub[];
+  preselectedClub?: SupperClub;
 };
 
 const SupperClubReviewForm: React.FC<SupperClubReviewFormProps> = ({
   open,
   onOpenChange,
   onSubmit,
-  clubs
+  clubs,
+  preselectedClub
 }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<SupperClub[]>([]);
@@ -60,6 +62,19 @@ const SupperClubReviewForm: React.FC<SupperClubReviewFormProps> = ({
       comment: "",
     },
   });
+
+  // Set the preselected club if provided
+  useEffect(() => {
+    if (preselectedClub) {
+      setSelectedClub(preselectedClub);
+      form.setValue("clubId", preselectedClub.id);
+      form.setValue("clubName", preselectedClub.name);
+      form.setValue("address", preselectedClub.address);
+      form.setValue("city", preselectedClub.city);
+      form.setValue("state", preselectedClub.state);
+      setSearchQuery(preselectedClub.name);
+    }
+  }, [preselectedClub, form]);
 
   const handleSearch = (query: string) => {
     setSearchQuery(query);
@@ -115,59 +130,63 @@ const SupperClubReviewForm: React.FC<SupperClubReviewFormProps> = ({
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <h3 className="font-medium">Search or add Supper Club</h3>
-                <Button 
-                  type="button" 
-                  size="sm"
-                  variant="outline"
-                  className="h-8 w-8 p-0"
-                  onClick={handleAddNew}
-                >
-                  <Plus className="h-4 w-4" />
-                </Button>
-              </div>
-              
-              <div className="relative">
-                <Input
-                  type="text"
-                  placeholder="Search supper clubs..."
-                  value={searchQuery}
-                  onChange={(e) => handleSearch(e.target.value)}
-                  className="pr-10"
-                />
-                <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                
-                {isSearching && (
-                  <div className="absolute z-10 mt-1 w-full bg-white border rounded-md shadow-lg max-h-60 overflow-auto">
-                    {searchResults.length > 0 ? (
-                      searchResults.map((club) => (
-                        <div
-                          key={club.id}
-                          className="p-2 hover:bg-gray-100 cursor-pointer"
-                          onClick={() => handleSelectClub(club)}
-                        >
-                          {club.name} - {club.city}, {club.state}
-                        </div>
-                      ))
-                    ) : (
-                      <div className="p-3 space-y-2">
-                        <p className="text-sm text-gray-500">No results found</p>
-                        <Button
-                          type="button"
-                          variant="outline"
-                          className="w-full text-sm"
-                          onClick={handleAddNew}
-                        >
-                          Add "{searchQuery}" as new supper club
-                        </Button>
+              {!preselectedClub && (
+                <>
+                  <div className="flex items-center justify-between">
+                    <h3 className="font-medium">Search or add Supper Club</h3>
+                    <Button 
+                      type="button" 
+                      size="sm"
+                      variant="outline"
+                      className="h-8 w-8 p-0"
+                      onClick={handleAddNew}
+                    >
+                      <Plus className="h-4 w-4" />
+                    </Button>
+                  </div>
+                  
+                  <div className="relative">
+                    <Input
+                      type="text"
+                      placeholder="Search supper clubs..."
+                      value={searchQuery}
+                      onChange={(e) => handleSearch(e.target.value)}
+                      className="pr-10"
+                    />
+                    <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                    
+                    {isSearching && (
+                      <div className="absolute z-10 mt-1 w-full bg-white border rounded-md shadow-lg max-h-60 overflow-auto">
+                        {searchResults.length > 0 ? (
+                          searchResults.map((club) => (
+                            <div
+                              key={club.id}
+                              className="p-2 hover:bg-gray-100 cursor-pointer"
+                              onClick={() => handleSelectClub(club)}
+                            >
+                              {club.name} - {club.city}, {club.state}
+                            </div>
+                          ))
+                        ) : (
+                          <div className="p-3 space-y-2">
+                            <p className="text-sm text-gray-500">No results found</p>
+                            <Button
+                              type="button"
+                              variant="outline"
+                              className="w-full text-sm"
+                              onClick={handleAddNew}
+                            >
+                              Add "{searchQuery}" as new supper club
+                            </Button>
+                          </div>
+                        )}
                       </div>
                     )}
                   </div>
-                )}
-              </div>
+                </>
+              )}
               
-              {(showAddNew || selectedClub) && (
+              {(showAddNew || selectedClub || preselectedClub) && (
                 <>
                   <FormField
                     control={form.control}
@@ -176,7 +195,7 @@ const SupperClubReviewForm: React.FC<SupperClubReviewFormProps> = ({
                       <FormItem>
                         <FormLabel>Club Name</FormLabel>
                         <FormControl>
-                          <Input {...field} readOnly={!!selectedClub} />
+                          <Input {...field} readOnly={!!selectedClub || !!preselectedClub} />
                         </FormControl>
                       </FormItem>
                     )}
@@ -241,7 +260,7 @@ const SupperClubReviewForm: React.FC<SupperClubReviewFormProps> = ({
               )}
             </div>
             
-            {(showAddNew || selectedClub) && (
+            {(showAddNew || selectedClub || preselectedClub) && (
               <>
                 <div className="space-y-6 pt-4">
                   <h3 className="font-medium">Rate the Supper Club</h3>
