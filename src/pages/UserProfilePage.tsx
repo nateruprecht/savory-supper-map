@@ -65,7 +65,7 @@ const UserProfilePage = () => {
           clubs={sampleSupperClubs}
           badges={badges}
           isCurrentUser={isCurrentUser}
-          showListsSection={false} // Lists section is intentionally excluded for other users' profiles
+          showListsSection={false}
         />
       </div>
     </ProfileLayout>

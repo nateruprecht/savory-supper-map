@@ -37,9 +37,9 @@ const ProfileLayout: React.FC<ProfileLayoutProps> = ({
     <div className="min-h-screen bg-background relative overflow-hidden">
       <Header user={user} onProfileClick={() => navigate('/profile')} />
       
-      <main className="pt-16 md:pt-20 pb-16 min-h-screen">
+      <main className="pt-16 md:pt-20 pb-16 min-h-screen flex flex-col">
         {backLink && (
-          <div className="sticky top-16 md:top-20 z-10 bg-background border-b border-border/40 shadow-sm w-full">
+          <div className="sticky top-16 md:top-20 z-30 bg-background/95 backdrop-blur-sm border-b border-border/40 shadow-sm w-full">
             <div className="container px-4 mx-auto">
               <div className="py-3 flex items-center">
                 <button 
@@ -56,17 +56,19 @@ const ProfileLayout: React.FC<ProfileLayoutProps> = ({
           </div>
         )}
         
-        <ScrollArea className="w-full">
-          <div className="container px-4 py-6 mx-auto">
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4 }}
-            >
-              {children}
-            </motion.div>
-          </div>
-        </ScrollArea>
+        <div className="flex-1 overflow-hidden">
+          <ScrollArea className="h-full w-full">
+            <div className="container px-4 py-6 mx-auto">
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4 }}
+              >
+                {children}
+              </motion.div>
+            </div>
+          </ScrollArea>
+        </div>
       </main>
       
       <Navigation
