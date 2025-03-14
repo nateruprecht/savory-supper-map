@@ -62,7 +62,7 @@ const BadgesSection: React.FC<BadgesSectionProps> = ({
         <BadgeSectionHeader 
           sectionTitle={sectionTitle} 
           progressText={progressText}
-          hasMoreBadges={hasMoreBadges}
+          hasMoreBadges={true}
           onSeeAll={handleSeeAll}
         />
       )}
@@ -75,7 +75,7 @@ const BadgesSection: React.FC<BadgesSectionProps> = ({
             isCurrentUser={isCurrentUser}
             isMobile={isMobile}
             onSeeAll={handleSeeAll}
-            showSeeAllButton={hasMoreBadges && !showTitle}
+            showSeeAllButton={!showTitle}
           />
 
           {/* Facebook Share Button - Only shown if showShareButton is true */}

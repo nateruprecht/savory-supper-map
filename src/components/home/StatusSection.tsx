@@ -67,7 +67,7 @@ const StatusSection: React.FC<StatusSectionProps> = ({ user, clubs = [], isCurre
   return (
     <div className="bg-white rounded-xl shadow-sm p-4 sm:p-5 w-full max-w-full box-border" data-testid="status-section">
       <StatusSectionHeader 
-        hasMoreStatuses={hasMoreStatuses} 
+        hasMoreStatuses={true} 
         onSeeAll={() => setShowAllStatuses(true)} 
       />
       

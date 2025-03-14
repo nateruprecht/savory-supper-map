@@ -21,16 +21,14 @@ const StatusSectionHeader: React.FC<StatusSectionHeaderProps> = ({
         <Award className="h-5 w-5 mr-2 text-primary" />
         Status
       </h2>
-      {hasMoreStatuses && (
-        <Button 
-          variant="ghost" 
-          size="sm" 
-          className="text-primary flex items-center"
-          onClick={onSeeAll}
-        >
-          See all <ChevronRight className="h-4 w-4 ml-1" />
-        </Button>
-      )}
+      <Button 
+        variant="ghost" 
+        size="sm" 
+        className="text-primary flex items-center"
+        onClick={onSeeAll}
+      >
+        See all <ChevronRight className="h-4 w-4 ml-1" />
+      </Button>
     </div>
   );
 };

@@ -3,6 +3,7 @@ import React from 'react';
 import { MapPin, Calendar } from 'lucide-react';
 import { UserProfile } from '@/lib/types';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { getPrimaryUserStatus } from '@/lib/status-utils';
 
 type ProfileHeaderProps = {
   user: UserProfile;
@@ -26,6 +27,15 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({ user }) => {
 
   // Generate username from name (for example purposes)
   const username = `@${firstName.toLowerCase()}${lastName.toLowerCase()}`;
+
+  // Get primary status for display
+  const primaryStatus = getPrimaryUserStatus(
+    user, 
+    'Wisconsin', // Example state - in production this would come from user profile
+    user.rank ? null : 3, // Example state rank - only used if user isn't on overall leaderboard
+    'Madison', // Example city - in production this would come from user profile
+    user.rank ? null : 2 // Example city rank - only used if user isn't on overall leaderboard
+  );
 
   return (
     <div className="bg-white rounded-xl shadow-sm overflow-hidden">
@@ -56,7 +66,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({ user }) => {
       </div>
       
       {/* Date joined and location information - moved below name to prevent overlap */}
-      <div className="flex flex-wrap justify-center items-center gap-4 px-4 py-2 text-xs text-muted-foreground mb-4">
+      <div className="flex flex-wrap justify-center items-center gap-4 px-4 py-2 text-xs text-muted-foreground mb-1">
         <div className="flex items-center">
           <Calendar className="h-3 w-3 mr-1 flex-shrink-0" />
           <span>{joinDateFormatted}</span>
@@ -67,6 +77,13 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({ user }) => {
           <span>{city}, {state}</span>
         </div>
       </div>
+
+      {/* User's best status display */}
+      {primaryStatus && (
+        <div className="text-center text-xs text-amber-600 font-medium mb-4">
+          {primaryStatus.title}
+        </div>
+      )}
     </div>
   );
 };

@@ -27,16 +27,14 @@ const BadgeSectionHeader: React.FC<BadgeSectionHeaderProps> = ({
       </h2>
       <div className="flex items-center gap-2">
         <span className="text-sm text-muted-foreground hidden sm:inline">{progressText}</span>
-        {hasMoreBadges && (
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            className="text-primary flex items-center"
-            onClick={onSeeAll}
-          >
-            See all <ChevronRight className="h-4 w-4 ml-1" />
-          </Button>
-        )}
+        <Button 
+          variant="ghost" 
+          size="sm" 
+          className="text-primary flex items-center"
+          onClick={onSeeAll}
+        >
+          See all <ChevronRight className="h-4 w-4 ml-1" />
+        </Button>
       </div>
     </div>
   );
