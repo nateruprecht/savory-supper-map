@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { currentUser, sampleSupperClubs } from '@/lib/data';
@@ -11,12 +12,15 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { MapPin, Star, Plus, MessageSquare } from 'lucide-react';
 import SupperClubReviewForm from '@/components/reviews/SupperClubReviewForm';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
+import AddClubForm from '@/components/home/addVisit/AddClubForm';
 
 const Discover = () => {
   const [user, setUser] = useState(currentUser);
   const [selectedClub, setSelectedClub] = useState<SupperClub | null>(null);
   const [clubs, setClubs] = useState(sampleSupperClubs);
   const [reviewFormOpen, setReviewFormOpen] = useState(false);
+  const [addClubFormOpen, setAddClubFormOpen] = useState(false);
   const navigate = useNavigate();
 
   const handleClubSelect = (club: SupperClub) => {
@@ -53,6 +57,10 @@ const Discover = () => {
     setReviewFormOpen(false);
   };
 
+  const handleCloseAddForm = () => {
+    setAddClubFormOpen(false);
+  };
+
   return <div className="min-h-screen bg-background relative">
       <Header user={user} onProfileClick={() => navigate('/profile')} />
       
@@ -63,7 +71,7 @@ const Discover = () => {
           </div>
           
           <div className="flex flex-row md:col-span-2 gap-2 py-4 px-4">
-            <Button variant="outline" className="flex-1" onClick={() => navigate('/add-club')}>
+            <Button variant="outline" className="flex-1" onClick={() => setAddClubFormOpen(true)}>
               <Plus className="mr-2 h-4 w-4" /> Add a Visit
             </Button>
             <Button variant="outline" className="flex-1" onClick={() => setReviewFormOpen(true)}>
@@ -80,6 +88,15 @@ const Discover = () => {
       <Navigation activeTab="discover" onTabChange={handleTabChange} />
       
       {selectedClub && <ClubDetails club={selectedClub} onClose={handleCloseDetails} onVisitToggle={() => handleVisitToggle(selectedClub.id)} isOpen={!!selectedClub} />}
+
+      <Dialog open={addClubFormOpen} onOpenChange={setAddClubFormOpen}>
+        <DialogContent className="sm:max-w-[425px]">
+          <div className="space-y-4 py-2 px-1">
+            <h2 className="text-xl font-semibold">Add New Supper Club</h2>
+            <AddClubForm onClose={handleCloseAddForm} />
+          </div>
+        </DialogContent>
+      </Dialog>
 
       <SupperClubReviewForm open={reviewFormOpen} onOpenChange={setReviewFormOpen} onSubmit={handleReviewSubmit} clubs={clubs} />
     </div>;

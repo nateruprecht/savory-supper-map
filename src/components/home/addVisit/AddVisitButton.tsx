@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus } from 'lucide-react';
@@ -6,6 +7,8 @@ import { toast } from 'sonner';
 import ClubDetails from '@/components/clubDetails/ClubDetails';
 import SupperClubReviewForm from '@/components/reviews/SupperClubReviewForm';
 import AddVisitMenu from './AddVisitMenu';
+import AddClubForm from './AddClubForm';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
 
 type AddVisitButtonProps = {
   clubs: SupperClub[];
@@ -78,6 +81,10 @@ const AddVisitButton: React.FC<AddVisitButtonProps> = ({ clubs }) => {
     setShowReviewForm(false);
   };
 
+  const handleCloseAddNewForm = () => {
+    setShowAddNewForm(false);
+  };
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
@@ -133,6 +140,15 @@ const AddVisitButton: React.FC<AddVisitButtonProps> = ({ clubs }) => {
           isOpen={showClubDetails}
         />
       )}
+
+      <Dialog open={showAddNewForm} onOpenChange={setShowAddNewForm}>
+        <DialogContent className="sm:max-w-[425px]">
+          <div className="space-y-4 py-2 px-1">
+            <h2 className="text-xl font-semibold">Add New Supper Club</h2>
+            <AddClubForm onClose={handleCloseAddNewForm} />
+          </div>
+        </DialogContent>
+      </Dialog>
 
       <SupperClubReviewForm
         open={showReviewForm}
