@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { UserProfile, Badge, SupperClub } from '@/lib/types';
 import ProfileHeader from '@/components/profile/ProfileHeader';
@@ -34,11 +35,12 @@ const ProfileContent: React.FC<ProfileContentProps> = ({
   console.log('ProfileContent rendering with user:', user);
   console.log('isCurrentUser:', isCurrentUser);
   
-  // Handle see all statuses
-  const handleSeeAllStatuses = () => {
-    toast.info("All statuses view coming soon");
+  // Handle share on Facebook
+  const handleShareOnFacebook = (type: 'status' | 'badge', title: string) => {
+    // Mock implementation - would use the Facebook Share API in production
+    toast.success(`Shared your ${type} "${title}" on Facebook!`);
   };
-
+  
   // Handle see all badges
   const handleSeeAllBadges = () => {
     toast.info("All badges view coming soon");
@@ -50,30 +52,23 @@ const ProfileContent: React.FC<ProfileContentProps> = ({
       <ProfileHeader user={user} />
       <ProfileStats user={user} clubs={clubs} />
       
-      {/* Status Section */}
+      {/* Status Section - pass clubs data for review calculations */}
       <StatusSection 
         user={user} 
         clubs={clubs}
         isCurrentUser={isCurrentUser} 
-        handleSeeAllStatuses={handleSeeAllStatuses}
         key="status-section"
         data-testid="profile-status-section"
-        showTitle={true}
-        showShareButton={true}
       />
       
-      {/* Badges Section */}
+      {/* Other Sections */}
       <BadgesSection 
         user={user} 
         badges={badges} 
         isCurrentUser={isCurrentUser} 
         limit={isMobile ? 4 : undefined}
         handleSeeAllBadges={handleSeeAllBadges}
-        showTitle={true}
-        showShareButton={true}
       />
-      
-      {/* Other Sections */}
       <ReviewsSection user={user} clubs={clubs} isCurrentUser={isCurrentUser} />
       {showListsSection && <ListsSection user={user} clubs={clubs} />}
     </div>
