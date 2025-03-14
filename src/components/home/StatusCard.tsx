@@ -1,8 +1,9 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Trophy } from 'lucide-react';
+import { Trophy, ChevronRight, Facebook } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import StatusSection from '@/components/home/StatusSection';
 import { UserProfile } from '@/lib/types';
 
@@ -13,7 +14,9 @@ type StatusCardProps = {
 };
 
 const StatusCard: React.FC<StatusCardProps> = ({ 
-  user
+  user, 
+  handleSeeAllStatuses, 
+  handleShareOnFacebook 
 }) => {
   return (
     <motion.div
@@ -26,11 +29,31 @@ const StatusCard: React.FC<StatusCardProps> = ({
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-xl font-semibold flex items-center">
             <Trophy className="mr-2 h-5 w-5 text-supper-gold" />
-            Status
+            Status Level
           </CardTitle>
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            onClick={handleSeeAllStatuses}
+            className="flex items-center text-muted-foreground hover:text-foreground"
+          >
+            <span className="text-xs">See all</span>
+            <ChevronRight className="ml-1 h-4 w-4" />
+          </Button>
         </CardHeader>
         <CardContent>
           <StatusSection user={user} />
+          <div className="mt-4 flex justify-end">
+            <Button 
+              size="sm" 
+              variant="outline"
+              className="flex items-center gap-2"
+              onClick={() => handleShareOnFacebook('status', 'Supper Enthusiast')}
+            >
+              <Facebook className="h-4 w-4" />
+              <span className="text-xs">Share on Facebook</span>
+            </Button>
+          </div>
         </CardContent>
       </Card>
     </motion.div>
