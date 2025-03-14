@@ -12,7 +12,7 @@ import BadgesCard from '@/components/home/BadgesCard';
 import ReviewsCard from '@/components/home/ReviewsCard';
 import JourneyMapCard from '@/components/home/JourneyMapCard';
 import AboutSupperClubsCard from '@/components/home/AboutSupperClubsCard';
-import AddVisitButton from '@/components/home/AddVisitButton';
+import AddVisitButton from '@/components/home/addVisit/AddVisitButton';
 import StatsCard from '@/components/home/StatsCard';
 import NearbyClubsCard from '@/components/home/NearbyClubsCard';
 
