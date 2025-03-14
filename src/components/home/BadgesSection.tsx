@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { toast } from 'sonner';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 type BadgesSectionProps = {
   user: UserProfile;
@@ -45,7 +46,7 @@ const BadgesSection: React.FC<BadgesSectionProps> = ({
   const progressText = totalCount > 0 ? `${earnedCount} of ${totalCount} earned` : '';
 
   // Apply limit to badges if provided
-  const displayLimit = limit || (isMobile ? 4 : badges.length);
+  const displayLimit = limit || (isMobile ? 3 : badges.length);
   const displayBadges = badges.slice(0, displayLimit);
   const hasMoreBadges = badges.length > displayLimit;
 
@@ -64,14 +65,26 @@ const BadgesSection: React.FC<BadgesSectionProps> = ({
     }
   };
 
+  // Container can be either Card or simple div based on usage context
+  const ContainerComponent = showTitle ? 
+    (props: React.HTMLAttributes<HTMLDivElement>) => (
+      <div 
+        className="bg-white rounded-xl shadow-sm p-4 sm:p-5 w-full max-w-full"
+        {...props}
+      />
+    ) :
+    Card;
+
+  const TitleComponent = showTitle ? 'h2' : CardTitle;
+
   return (
-    <div className="bg-white rounded-xl shadow-sm p-4 sm:p-5 w-full max-w-full">
-      {showTitle && (
+    <ContainerComponent>
+      {showTitle ? (
         <div className="flex items-center justify-between mb-4">
-          <h2 className="font-semibold flex items-center text-lg sm:text-xl">
+          <TitleComponent className="font-semibold flex items-center text-lg sm:text-xl">
             <Trophy className="h-5 w-5 mr-2 text-primary" />
-            {sectionTitle}
-          </h2>
+            Badges
+          </TitleComponent>
           <div className="flex items-center gap-2">
             <span className="text-sm text-muted-foreground hidden sm:inline">{progressText}</span>
             {hasMoreBadges && (
@@ -86,7 +99,25 @@ const BadgesSection: React.FC<BadgesSectionProps> = ({
             )}
           </div>
         </div>
+      ) : (
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardTitle className="text-xl font-semibold flex items-center">
+            <Trophy className="mr-2 h-5 w-5 text-supper-red" />
+            Badges
+          </CardTitle>
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            onClick={handleSeeAll}
+            className="flex items-center text-muted-foreground hover:text-foreground"
+          >
+            <span className="text-xs">See all</span>
+            <ChevronRight className="ml-1 h-4 w-4" />
+          </Button>
+        </CardHeader>
       )}
+      
+      {!showTitle && <CardContent>}
       
       {earnedCount > 0 ? (
         <>
@@ -128,6 +159,8 @@ const BadgesSection: React.FC<BadgesSectionProps> = ({
           )}
         </div>
       )}
+      
+      {!showTitle && </CardContent>}
 
       {/* Dialog to show all badges - only shown if handleSeeAllBadges is not provided */}
       {!handleSeeAllBadges && (
@@ -163,7 +196,7 @@ const BadgesSection: React.FC<BadgesSectionProps> = ({
           </DialogContent>
         </Dialog>
       )}
-    </div>
+    </ContainerComponent>
   );
 };
 

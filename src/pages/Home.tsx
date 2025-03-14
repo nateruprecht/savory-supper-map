@@ -6,17 +6,18 @@ import { useAuth } from '@/contexts/AuthContext';
 import { currentUser, sampleSupperClubs, badges } from '@/lib/data';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Compass, Trophy } from 'lucide-react';
+import { Compass, Trophy, ChevronRight } from 'lucide-react';
 
 // Imported components
 import WelcomeSection from '@/components/home/WelcomeSection';
-import StatusCard from '@/components/home/StatusCard';
-import BadgesCard from '@/components/home/BadgesCard';
+import StatusSection from '@/components/home/StatusSection';
+import BadgesSection from '@/components/home/BadgesSection';
 import JourneyMapCard from '@/components/home/JourneyMapCard';
 import AboutSupperClubsCard from '@/components/home/AboutSupperClubsCard';
 import AddVisitButton from '@/components/home/addVisit/AddVisitButton';
 import StatsCard from '@/components/home/StatsCard';
 import NearbyClubsCard from '@/components/home/NearbyClubsCard';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 const Home = () => {
   const { user } = useAuth();
@@ -32,11 +33,6 @@ const Home = () => {
   const handleSeeAllBadges = () => {
     // Navigate to a detailed badges page or open a modal
     toast.info("This feature is coming soon!");
-  };
-  
-  const handleShareOnFacebook = (type: 'status' | 'badge', title: string) => {
-    // In a real implementation, this would use the Facebook Share API
-    toast.success(`Shared your ${type} "${title}" on Facebook!`);
   };
   
   return (
@@ -81,18 +77,61 @@ const Home = () => {
               {/* Nearby Clubs - Card with horizontal scrolling */}
               <NearbyClubsCard clubs={clubs} />
               
-              <StatusCard 
-                user={userData}
-                handleSeeAllStatuses={handleSeeAllStatuses}
-                handleShareOnFacebook={handleShareOnFacebook}
-              />
+              {/* Status Card */}
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-xl font-semibold flex items-center">
+                    <Trophy className="mr-2 h-5 w-5 text-supper-gold" />
+                    Status Level
+                  </CardTitle>
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    onClick={handleSeeAllStatuses}
+                    className="flex items-center text-muted-foreground hover:text-foreground"
+                  >
+                    <span className="text-xs">See all</span>
+                    <ChevronRight className="ml-1 h-4 w-4" />
+                  </Button>
+                </CardHeader>
+                <CardContent>
+                  <StatusSection 
+                    user={userData}
+                    clubs={clubs}
+                    showTitle={false}
+                    limit={1}
+                    handleSeeAllStatuses={handleSeeAllStatuses}
+                  />
+                </CardContent>
+              </Card>
               
-              <BadgesCard 
-                user={userData}
-                badges={badges}
-                handleSeeAllBadges={handleSeeAllBadges}
-                handleShareOnFacebook={handleShareOnFacebook}
-              />
+              {/* Badges Card */}
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-xl font-semibold flex items-center">
+                    <Trophy className="mr-2 h-5 w-5 text-supper-red" />
+                    Badges
+                  </CardTitle>
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    onClick={handleSeeAllBadges}
+                    className="flex items-center text-muted-foreground hover:text-foreground"
+                  >
+                    <span className="text-xs">See all</span>
+                    <ChevronRight className="ml-1 h-4 w-4" />
+                  </Button>
+                </CardHeader>
+                <CardContent>
+                  <BadgesSection 
+                    user={userData}
+                    badges={badges}
+                    showTitle={false}
+                    limit={3}
+                    handleSeeAllBadges={handleSeeAllBadges}
+                  />
+                </CardContent>
+              </Card>
               
               <JourneyMapCard />
               
