@@ -1,15 +1,12 @@
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ChevronLeft, Star, PlusCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Badge } from '@/components/ui/badge';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import ProfileLayout from '@/components/profile/ProfileLayout';
 import { currentUser, sampleSupperClubs } from '@/lib/data';
 import { SupperClub, Review } from '@/lib/types';
 import { toast } from 'sonner';
+import ProfileLayout from '@/components/profile/ProfileLayout';
 
 // Define a type for the review with the club included
 type UserReviewWithClub = Review & { club: SupperClub };
@@ -59,12 +56,11 @@ const UserReviews = () => {
         text: "",
         route: "/profile"
       }}
-      title="Your Reviews"
     >
       <div className="max-w-4xl mx-auto">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center">
-            <Button variant="ghost" size="icon" onClick={() => navigate('/profile')} className="mr-2">
+            <Button variant="ghost" size="icon" onClick={() => navigate('/profile')}>
               <ChevronLeft className="h-5 w-5" />
             </Button>
             <h1 className="text-xl font-semibold">Your Reviews</h1>

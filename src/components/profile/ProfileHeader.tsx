@@ -41,25 +41,25 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({ user }) => {
         <div className="h-full w-full bg-black/30 backdrop-blur-[1px]"></div>
       </div>
       
-      {/* Date joined and location information - moved below banner */}
-      <div className="flex flex-wrap justify-between items-start px-4 py-2 text-xs text-muted-foreground">
-        <div className="flex items-center min-w-[80px] mr-2">
-          <Calendar className="h-3 w-3 mr-1 flex-shrink-0" />
-          <span className="break-words">{joinDateFormatted}</span>
-        </div>
-        
-        <div className="flex items-center min-w-[80px]">
-          <MapPin className="h-3 w-3 mr-1 flex-shrink-0" />
-          <span className="break-words">{city}, {state}</span>
-        </div>
-      </div>
-      
       {/* Profile picture overlapping the banner */}
       <div className="flex justify-center -mt-20 relative z-10">
         <Avatar className="h-24 w-24 border-4 border-white">
           <AvatarImage src={user.avatar} alt={user.name} />
           <AvatarFallback>{firstName.charAt(0)}{lastName.charAt(0)}</AvatarFallback>
         </Avatar>
+      </div>
+      
+      {/* Date joined and location information - moved below avatar to prevent overlap */}
+      <div className="flex flex-wrap justify-between items-start px-4 py-2 text-xs text-muted-foreground mt-4">
+        <div className="flex items-start min-w-[80px] mr-2">
+          <Calendar className="h-3 w-3 mr-1 flex-shrink-0 mt-0.5" />
+          <span className="break-words">{joinDateFormatted}</span>
+        </div>
+        
+        <div className="flex items-start min-w-[80px]">
+          <MapPin className="h-3 w-3 mr-1 flex-shrink-0 mt-0.5" />
+          <span className="break-words">{city}, {state}</span>
+        </div>
       </div>
       
       {/* Name and username */}

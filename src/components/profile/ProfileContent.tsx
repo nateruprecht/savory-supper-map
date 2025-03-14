@@ -8,6 +8,7 @@ import BadgesSection from '@/components/home/BadgesSection';
 import ReviewsSection from '@/components/home/ReviewsSection';
 import ListsSection from '@/components/profile/ListsSection';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { toast } from 'sonner';
 
 type ProfileContentProps = {
   user: UserProfile;
@@ -33,6 +34,17 @@ const ProfileContent: React.FC<ProfileContentProps> = ({
   // Debug log to ensure props are correctly passed
   console.log('ProfileContent rendering with user:', user);
   console.log('isCurrentUser:', isCurrentUser);
+  
+  // Handle share on Facebook
+  const handleShareOnFacebook = (type: 'status' | 'badge', title: string) => {
+    // Mock implementation - would use the Facebook Share API in production
+    toast.success(`Shared your ${type} "${title}" on Facebook!`);
+  };
+  
+  // Handle see all badges
+  const handleSeeAllBadges = () => {
+    toast.info("All badges view coming soon");
+  };
   
   return (
     <div className="grid grid-cols-1 gap-6 max-w-4xl mx-auto">
