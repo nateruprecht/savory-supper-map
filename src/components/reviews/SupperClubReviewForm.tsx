@@ -17,6 +17,17 @@ type SupperClubReviewFormProps = {
   preselectedClub?: SupperClub;
 };
 
+/**
+ * SupperClubReviewForm component
+ * 
+ * This modal form allows users to submit reviews for supper clubs.
+ * It handles both reviewing existing clubs and adding reviews for new clubs.
+ * 
+ * The form is split into three main sections:
+ * 1. Club selection/creation
+ * 2. Rating sliders for numerical feedback
+ * 3. Extended review with text comments
+ */
 const SupperClubReviewForm: React.FC<SupperClubReviewFormProps> = ({
   open,
   onOpenChange,
@@ -24,6 +35,7 @@ const SupperClubReviewForm: React.FC<SupperClubReviewFormProps> = ({
   clubs,
   preselectedClub
 }) => {
+  // Custom hook to manage form state and logic
   const {
     form,
     searchQuery,
@@ -46,6 +58,7 @@ const SupperClubReviewForm: React.FC<SupperClubReviewFormProps> = ({
         
         <Form {...form}>
           <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Club search and selection section */}
             <ClubSearch
               searchQuery={searchQuery}
               onSearch={handleSearch}
@@ -59,6 +72,7 @@ const SupperClubReviewForm: React.FC<SupperClubReviewFormProps> = ({
               preselectedClub={preselectedClub}
             />
             
+            {/* Only show rating and review sections after club is selected or being added */}
             {(showAddNew || selectedClub || preselectedClub) && (
               <>
                 <RatingSliders form={form} />
@@ -68,6 +82,7 @@ const SupperClubReviewForm: React.FC<SupperClubReviewFormProps> = ({
                 <Button 
                   type="submit" 
                   className="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-medium"
+                  aria-label="Submit review"
                 >
                   Submit Review
                 </Button>

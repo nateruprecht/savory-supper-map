@@ -9,6 +9,12 @@ interface ExtendedReviewProps {
   form: UseFormReturn<ReviewFormValues>;
 }
 
+/**
+ * ExtendedReview component for collecting detailed review information
+ * 
+ * This component handles the extended review section of the supper club review form,
+ * including a textarea for comments and placeholder for future specific questions.
+ */
 const ExtendedReview: React.FC<ExtendedReviewProps> = ({ form }) => {
   return (
     <div className="space-y-3">
@@ -26,7 +32,12 @@ const ExtendedReview: React.FC<ExtendedReviewProps> = ({ form }) => {
           <FormItem>
             <FormLabel>Your Review</FormLabel>
             <FormControl>
-              <Textarea {...field} placeholder="Share your experience..." className="h-24" />
+              <Textarea 
+                {...field} 
+                placeholder="Share your experience..." 
+                className="h-24"
+                aria-label="Your detailed review comments" 
+              />
             </FormControl>
           </FormItem>
         )}

@@ -9,9 +9,20 @@ interface RatingSlidersProps {
   form: UseFormReturn<ReviewFormValues>;
 }
 
+/**
+ * RatingSliders component for collecting numerical ratings
+ * 
+ * This component provides slider controls for rating different aspects of a supper club:
+ * - Food quality
+ * - Atmosphere/vibe
+ * - Overall experience
+ */
 const RatingSliders: React.FC<RatingSlidersProps> = ({ form }) => {
+  /**
+   * Formats the rating value to display as a readable number
+   * Rounds to nearest 0.25 and removes unnecessary decimal zeros
+   */
   const formatRating = (value: number) => {
-    // Round to nearest 0.25
     return (Math.round(value * 4) / 4).toFixed(2).replace(/\.00$/, '');
   };
 
@@ -19,6 +30,7 @@ const RatingSliders: React.FC<RatingSlidersProps> = ({ form }) => {
     <div className="space-y-6">
       <h3 className="font-medium">Rate the Supper Club</h3>
       
+      {/* Food Rating Slider */}
       <FormField
         control={form.control}
         name="foodRating"
@@ -35,12 +47,14 @@ const RatingSliders: React.FC<RatingSlidersProps> = ({ form }) => {
                 max={5}
                 step={0.25}
                 onValueChange={(value) => field.onChange(value[0])}
+                aria-label="Food rating"
               />
             </FormControl>
           </FormItem>
         )}
       />
       
+      {/* Vibe Rating Slider */}
       <FormField
         control={form.control}
         name="vibeRating"
@@ -57,12 +71,14 @@ const RatingSliders: React.FC<RatingSlidersProps> = ({ form }) => {
                 max={5}
                 step={0.25}
                 onValueChange={(value) => field.onChange(value[0])}
+                aria-label="Vibe rating"
               />
             </FormControl>
           </FormItem>
         )}
       />
       
+      {/* Overall Experience Rating Slider */}
       <FormField
         control={form.control}
         name="overallRating"
@@ -79,6 +95,7 @@ const RatingSliders: React.FC<RatingSlidersProps> = ({ form }) => {
                 max={5}
                 step={0.25}
                 onValueChange={(value) => field.onChange(value[0])}
+                aria-label="Overall experience rating"
               />
             </FormControl>
           </FormItem>
