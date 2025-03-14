@@ -41,7 +41,7 @@ const Home = () => {
       <div 
         className="min-h-screen bg-cover bg-center bg-fixed"
         style={{ 
-          backgroundImage: 'url("/lovable-uploads/d6c96a5d-2559-4a9c-b644-2d5f00055c36.png")',
+          backgroundImage: 'url("/lovable-uploads/2fc68b39-3eee-4a2b-bea9-86c98a2ac107.png")',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundAttachment: 'fixed'
