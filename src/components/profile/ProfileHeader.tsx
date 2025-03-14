@@ -49,23 +49,23 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({ user }) => {
         </Avatar>
       </div>
       
-      {/* Date joined and location information - moved below avatar to prevent overlap */}
-      <div className="flex flex-wrap justify-between items-start px-4 py-2 text-xs text-muted-foreground mt-4">
-        <div className="flex items-start min-w-[80px] mr-2">
-          <Calendar className="h-3 w-3 mr-1 flex-shrink-0 mt-0.5" />
-          <span className="break-words">{joinDateFormatted}</span>
-        </div>
-        
-        <div className="flex items-start min-w-[80px]">
-          <MapPin className="h-3 w-3 mr-1 flex-shrink-0 mt-0.5" />
-          <span className="break-words">{city}, {state}</span>
-        </div>
-      </div>
-      
       {/* Name and username */}
-      <div className="text-center pb-4 pt-2">
+      <div className="text-center mt-4 pb-2">
         <h1 className="text-xl font-bold">{user.name}</h1>
         <p className="text-sm text-muted-foreground">{username}</p>
+      </div>
+      
+      {/* Date joined and location information - moved below name to prevent overlap */}
+      <div className="flex flex-wrap justify-center items-center gap-4 px-4 py-2 text-xs text-muted-foreground mb-4">
+        <div className="flex items-center">
+          <Calendar className="h-3 w-3 mr-1 flex-shrink-0" />
+          <span>{joinDateFormatted}</span>
+        </div>
+        
+        <div className="flex items-center">
+          <MapPin className="h-3 w-3 mr-1 flex-shrink-0" />
+          <span>{city}, {state}</span>
+        </div>
       </div>
     </div>
   );

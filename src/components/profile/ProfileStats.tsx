@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { CupSoda, Star, MapPin } from 'lucide-react';
+import { Compass, Star, MapPin } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { UserProfile, SupperClub } from '@/lib/types';
 
@@ -30,7 +30,7 @@ const ProfileStats: React.FC<ProfileStatsProps> = ({ user, clubs }) => {
     {
       label: "Clubs Visited",
       value: user.totalVisits,
-      icon: <CupSoda className="h-5 w-5 text-supper-red" />
+      icon: <Compass className="h-5 w-5 text-supper-red" />
     },
     {
       label: "Reviews Written",

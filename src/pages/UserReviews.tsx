@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ChevronLeft, Star, PlusCircle } from 'lucide-react';
@@ -63,10 +64,10 @@ const UserReviews = () => {
             <Button variant="ghost" size="icon" onClick={() => navigate('/profile')}>
               <ChevronLeft className="h-5 w-5" />
             </Button>
-            <h1 className="text-xl font-semibold">Your Reviews</h1>
+            <h1 className="text-2xl font-semibold">Your Reviews</h1>
           </div>
           
-          <Button onClick={handleAddReview}>
+          <Button size="sm" onClick={handleAddReview}>
             <PlusCircle className="mr-2 h-4 w-4" />
             Add a Review
           </Button>

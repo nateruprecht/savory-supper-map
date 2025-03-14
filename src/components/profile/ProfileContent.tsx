@@ -67,6 +67,7 @@ const ProfileContent: React.FC<ProfileContentProps> = ({
         badges={badges} 
         isCurrentUser={isCurrentUser} 
         limit={isMobile ? 4 : undefined}
+        handleSeeAllBadges={handleSeeAllBadges}
       />
       <ReviewsSection user={user} clubs={clubs} isCurrentUser={isCurrentUser} />
       {showListsSection && <ListsSection user={user} clubs={clubs} />}
