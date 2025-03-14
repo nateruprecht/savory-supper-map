@@ -38,7 +38,7 @@ const StatsCard: React.FC<StatsCardProps> = ({ user, clubs }) => {
       icon: <Star className="h-5 w-5 text-supper-amber" />
     },
     {
-      label: `In ${defaultState}`,
+      label: `Clubs Visited in ${defaultState}`,
       value: clubsInState,
       icon: <MapPin className="h-5 w-5 text-supper-brown" />
     }
