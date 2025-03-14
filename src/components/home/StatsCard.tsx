@@ -4,7 +4,6 @@ import { motion } from 'framer-motion';
 import { CupSoda, Star, MapPin } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { UserProfile, SupperClub } from '@/lib/types';
-import { Separator } from '@/components/ui/separator';
 
 type StatsCardProps = {
   user: UserProfile;
@@ -17,11 +16,15 @@ const StatsCard: React.FC<StatsCardProps> = ({ user, clubs }) => {
     club.reviews.some(review => review.userId === user.id)
   ).length;
   
-  // Calculate clubs in user's state (if any)
-  const userState = user.state || '';
-  const clubsInState = userState ? 
-    clubs.filter(club => club.state === userState && 
-      user.clubsVisited.includes(club.id)).length : 0;
+  // For demo purposes, assuming we're in Wisconsin - this would normally
+  // come from user preferences or location data
+  const defaultState = "Wisconsin";
+  
+  // Count clubs in the user's state (using default for now)
+  const clubsInState = clubs.filter(club => 
+    club.state === defaultState && 
+    user.clubsVisited.includes(club.id)
+  ).length;
 
   const stats = [
     {
@@ -35,7 +38,7 @@ const StatsCard: React.FC<StatsCardProps> = ({ user, clubs }) => {
       icon: <Star className="h-5 w-5 text-supper-amber" />
     },
     {
-      label: userState ? `In ${userState}` : "In Your State",
+      label: `In ${defaultState}`,
       value: clubsInState,
       icon: <MapPin className="h-5 w-5 text-supper-brown" />
     }
