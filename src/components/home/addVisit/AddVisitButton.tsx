@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus } from 'lucide-react';
@@ -37,7 +36,6 @@ const AddVisitButton: React.FC<AddVisitButtonProps> = ({ clubs }) => {
     
     if (query.length > 2) {
       setIsSearching(true);
-      // Filter clubs based on the search query
       const results = clubs.filter(club => 
         club.name.toLowerCase().includes(query.toLowerCase()) ||
         club.city.toLowerCase().includes(query.toLowerCase())
@@ -80,7 +78,6 @@ const AddVisitButton: React.FC<AddVisitButtonProps> = ({ clubs }) => {
     setShowReviewForm(false);
   };
 
-  // Close menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
@@ -117,6 +114,7 @@ const AddVisitButton: React.FC<AddVisitButtonProps> = ({ clubs }) => {
               activeTab={activeTab}
               setActiveTab={setActiveTab}
               searchQuery={searchQuery}
+              setSearchQuery={setSearchQuery}
               isSearching={isSearching}
               searchResults={searchResults}
               handleSearch={handleSearch}
@@ -127,7 +125,6 @@ const AddVisitButton: React.FC<AddVisitButtonProps> = ({ clubs }) => {
         </AnimatePresence>
       </div>
 
-      {/* Club Details Dialog */}
       {selectedClub && (
         <ClubDetails 
           club={selectedClub}
@@ -137,7 +134,6 @@ const AddVisitButton: React.FC<AddVisitButtonProps> = ({ clubs }) => {
         />
       )}
 
-      {/* Add New Club & Review Form */}
       <SupperClubReviewForm
         open={showReviewForm}
         onOpenChange={setShowReviewForm}
