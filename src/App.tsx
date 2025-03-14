@@ -17,6 +17,7 @@ import Events from "./pages/Events";
 import Welcome from "./pages/Welcome";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
+import Map from "./pages/Map";
 import { AuthProvider } from "./contexts/AuthContext";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 
@@ -60,6 +61,11 @@ const App = () => (
             <Route path="/discover" element={
               <ProtectedRoute>
                 <Discover />
+              </ProtectedRoute>
+            } />
+            <Route path="/map" element={
+              <ProtectedRoute>
+                <Map />
               </ProtectedRoute>
             } />
             <Route path="/leaderboard" element={

@@ -19,7 +19,7 @@ const StatusSectionHeader: React.FC<StatusSectionHeaderProps> = ({
   userName,
   isCurrentUser = true
 }) => {
-  const title = isCurrentUser ? "Status" : `${userName}'s Status`;
+  const title = isCurrentUser ? "Your Status" : `${userName}'s Status`;
   
   return (
     <div className="flex justify-between items-center mb-4">

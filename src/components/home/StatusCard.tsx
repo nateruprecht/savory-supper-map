@@ -29,7 +29,7 @@ const StatusCard: React.FC<StatusCardProps> = ({
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-xl font-semibold flex items-center">
             <Trophy className="mr-2 h-5 w-5 text-supper-gold" />
-            Status Level
+            Status
           </CardTitle>
           <Button 
             variant="ghost" 

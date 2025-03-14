@@ -37,9 +37,9 @@ const Header: React.FC<HeaderProps> = ({ user, onProfileClick }) => {
   return (
     <header className="fixed top-0 left-0 right-0 z-40 px-4 sm:px-6 py-2.5 bg-background/80 backdrop-blur-lg border-b border-supper-amber/20 flex items-center justify-between animate-slide-down shadow-sm">
       <div className="flex items-center">
-        <div className="font-display text-lg sm:text-xl font-medium tracking-tight truncate max-w-[200px] sm:max-w-none text-supper-brown">
-          {isMobile ? 'Midwest Supper Roadmap' : 'Midwest Supper Roadmap'}
-        </div>
+        <h1 className="font-display text-lg sm:text-xl font-medium tracking-tight text-supper-brown whitespace-nowrap">
+          Midwest Supper Roadmap
+        </h1>
       </div>
 
       <div className="flex items-center space-x-2 sm:space-x-4">

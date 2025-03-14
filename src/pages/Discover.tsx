@@ -106,12 +106,16 @@ const Discover = () => {
           <div className="md:col-span-3 h-[50vh] md:h-[calc(100vh-8rem)] relative">
             <div className="w-full h-full rounded-xl overflow-hidden flex items-center justify-center">
               <img 
-                src="https://images.unsplash.com/photo-1577071331591-12db5d6361d4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" 
+                src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" 
                 alt="Midwest Supper Clubs" 
                 className="object-cover w-full h-full rounded-xl"
               />
-              <div className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center">
-                <h2 className="text-white text-2xl font-bold mb-4">Discover Supper Clubs</h2>
+              <div className="absolute inset-0 bg-black/50 flex flex-col items-center justify-center p-4 text-center">
+                <h2 className="text-white text-2xl md:text-3xl font-bold mb-4">Discover Supper Clubs</h2>
+                <p className="text-white text-sm md:text-base mb-6 max-w-lg">
+                  Explore the rich culinary traditions of the Midwest through our interactive map. 
+                  Find hidden gems and plan your next visit.
+                </p>
                 <Button 
                   variant="default" 
                   size="lg" 

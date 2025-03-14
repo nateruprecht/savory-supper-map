@@ -2,7 +2,6 @@
 import React from 'react';
 import { Award, Star } from 'lucide-react';
 import { UserStatus } from '@/lib/types';
-import { Progress } from '@/components/ui/progress';
 
 type StatusCardProps = {
   status: UserStatus;
@@ -24,25 +23,6 @@ const StatusCard: React.FC<StatusCardProps> = ({ status, isPrimary = false }) =>
         return 'bg-supper-amber text-white';
       default:
         return 'bg-gray-200 text-gray-800';
-    }
-  };
-
-  // Progress values should be provided by the status object
-  const progressValue = status.progress?.current || 0;
-  const progressMax = status.progress?.max || 100;
-  const progressPercentage = Math.min(Math.round((progressValue / progressMax) * 100), 100);
-
-  // Get appropriate color for progress bar based on category
-  const getProgressColor = (category: string): string => {
-    switch (category) {
-      case 'visits':
-        return 'bg-primary';
-      case 'reviews':
-        return 'bg-secondary';
-      case 'leaderboard':
-        return 'bg-supper-amber';
-      default:
-        return 'bg-gray-400';
     }
   };
 
@@ -72,17 +52,12 @@ const StatusCard: React.FC<StatusCardProps> = ({ status, isPrimary = false }) =>
         {status.category}
       </div>
       
-      {/* Progress indicator */}
-      <div className="w-full mt-1">
-        <Progress 
-          value={progressPercentage} 
-          className="h-2 bg-secondary/30" 
-          indicatorClassName={getProgressColor(status.category)}
-        />
+      {/* Removed progress indicator section */}
+      {status.progress && (
         <p className="text-xs text-muted-foreground mt-1">
-          {progressValue} of {progressMax} {status.category === 'visits' ? 'visits' : status.category === 'reviews' ? 'reviews' : 'points'}
+          {status.progress.current} of {status.progress.max} {status.category === 'visits' ? 'visits' : status.category === 'reviews' ? 'reviews' : 'points'}
         </p>
-      </div>
+      )}
     </div>
   );
 };
