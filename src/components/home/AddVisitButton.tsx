@@ -131,7 +131,18 @@ const AddVisitButton: React.FC<AddVisitButtonProps> = ({ clubs }) => {
                 
                 <TabsContent value="visit" className="mt-0">
                   <div className="mb-3">
-                    <h3 className="font-medium mb-2">Search or add Supper Club</h3>
+                    <div className="flex items-center justify-between mb-2">
+                      <h3 className="font-medium">Search or add Supper Club</h3>
+                      <Button 
+                        type="button" 
+                        size="sm"
+                        variant="outline"
+                        className="h-8 w-8 p-0"
+                        onClick={handleAddNew}
+                      >
+                        <Plus className="h-4 w-4" />
+                      </Button>
+                    </div>
                     <div className="relative">
                       <Input
                         type="text"
@@ -194,7 +205,18 @@ const AddVisitButton: React.FC<AddVisitButtonProps> = ({ clubs }) => {
                 
                 <TabsContent value="review" className="mt-0">
                   <div className="mb-3">
-                    <h3 className="font-medium mb-2">Search or add Supper Club to review</h3>
+                    <div className="flex items-center justify-between mb-2">
+                      <h3 className="font-medium">Search or add Supper Club to review</h3>
+                      <Button 
+                        type="button" 
+                        size="sm"
+                        variant="outline"
+                        className="h-8 w-8 p-0"
+                        onClick={handleAddNew}
+                      >
+                        <Plus className="h-4 w-4" />
+                      </Button>
+                    </div>
                     <div className="relative">
                       <Input
                         type="text"

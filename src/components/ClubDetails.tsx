@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { SupperClub, Review } from '@/lib/types';
 import { 
   MapPin, Star, Calendar, Phone, Globe, Clock, X, 
@@ -100,6 +100,7 @@ const ClubDetails: React.FC<ClubDetailsProps> = ({
 }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [showReviewForm, setShowReviewForm] = useState(false);
+  const detailsRef = useRef<HTMLDivElement>(null);
   
   // Mock multiple images for the image gallery
   const images = [
@@ -126,6 +127,23 @@ const ClubDetails: React.FC<ClubDetailsProps> = ({
     setShowReviewForm(false);
   };
 
+  // Handle click outside to close the dialog
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (detailsRef.current && !detailsRef.current.contains(event.target as Node)) {
+        onClose();
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isOpen, onClose]);
+
   return (
     <>
       <AnimatePresence>
@@ -138,11 +156,13 @@ const ClubDetails: React.FC<ClubDetailsProps> = ({
             className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4 bg-black/40 backdrop-blur-sm"
           >
             <motion.div
+              ref={detailsRef}
               initial={{ scale: 0.95 }}
               animate={{ scale: 1 }}
               exit={{ scale: 0.95 }}
               transition={{ duration: 0.2 }}
               className="w-full max-w-xl bg-background rounded-t-xl sm:rounded-xl shadow-xl max-h-[90vh] overflow-hidden flex flex-col"
+              onClick={(e) => e.stopPropagation()}
             >
               {/* Header */}
               <div className="relative">
