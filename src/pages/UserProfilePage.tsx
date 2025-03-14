@@ -57,6 +57,7 @@ const UserProfilePage = () => {
       activeTab="leaderboard"
       backLink={{ text: "← Back", route: "/leaderboard" }}
       title={`${viewedUser.name}'s Profile`}
+      stickyHeader={true}
     >
       <div className="pt-4">
         <ProfileContent

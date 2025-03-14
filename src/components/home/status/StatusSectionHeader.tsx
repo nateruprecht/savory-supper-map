@@ -6,6 +6,8 @@ import { Button } from '@/components/ui/button';
 type StatusSectionHeaderProps = {
   hasMoreStatuses: boolean;
   onSeeAll: () => void;
+  userName?: string;
+  isCurrentUser?: boolean;
 };
 
 /**
@@ -13,13 +15,17 @@ type StatusSectionHeaderProps = {
  */
 const StatusSectionHeader: React.FC<StatusSectionHeaderProps> = ({ 
   hasMoreStatuses, 
-  onSeeAll 
+  onSeeAll,
+  userName,
+  isCurrentUser = true
 }) => {
+  const title = isCurrentUser ? "Status" : `${userName}'s Status`;
+  
   return (
     <div className="flex justify-between items-center mb-4">
       <h2 className="text-lg sm:text-xl font-semibold flex items-center">
         <Award className="h-5 w-5 mr-2 text-primary" />
-        Status
+        {title}
       </h2>
       <Button 
         variant="ghost" 

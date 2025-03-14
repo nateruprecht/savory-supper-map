@@ -69,6 +69,8 @@ const StatusSection: React.FC<StatusSectionProps> = ({ user, clubs = [], isCurre
       <StatusSectionHeader 
         hasMoreStatuses={true} 
         onSeeAll={() => setShowAllStatuses(true)} 
+        userName={user.name}
+        isCurrentUser={isCurrentUser}
       />
       
       {userStatuses.length > 0 ? (
