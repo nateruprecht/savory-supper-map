@@ -49,18 +49,20 @@ const StatusSection: React.FC<StatusSectionProps> = ({ user, clubs = [], isCurre
   const renderStatusCard = (status: UserStatus) => (
     <div
       key={status.id}
-      className="bg-white rounded-lg shadow-sm p-3 border border-gray-100 flex flex-col items-center text-center transform transition-transform hover:scale-105 w-full"
+      className="bg-white rounded-lg shadow-sm p-4 border border-gray-100 flex flex-col items-center text-center mb-4"
     >
-      <div className="mb-2 p-2 rounded-full bg-gray-50">
-        <Award className={`h-6 w-6 ${
-          status.category === 'visits' ? 'text-primary' : 
-          status.category === 'reviews' ? 'text-secondary' : 
-          'text-supper-amber'
-        }`} />
+      <div className="mb-2">
+        <Award 
+          className={`h-6 w-6 ${
+            status.category === 'visits' ? 'text-primary' : 
+            status.category === 'reviews' ? 'text-secondary' : 
+            'text-supper-amber'
+          }`} 
+        />
       </div>
-      <h3 className="font-medium text-sm mb-1">{status.title}</h3>
-      <p className="text-xs text-muted-foreground">{status.description}</p>
-      <div className={`mt-2 px-2 py-0.5 rounded-full text-xs ${getStatusColor(status.category)}`}>
+      <h3 className="font-semibold text-base mb-1">{status.title}</h3>
+      <p className="text-sm text-muted-foreground mb-2">{status.description}</p>
+      <div className={`px-3 py-1 rounded-full text-xs ${getStatusColor(status.category)}`}>
         {status.category}
       </div>
     </div>
@@ -90,31 +92,23 @@ const StatusSection: React.FC<StatusSectionProps> = ({ user, clubs = [], isCurre
           <Award className="h-5 w-5 mr-2 text-primary" />
           Status
         </h2>
-        {hasMoreStatuses && (
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            className="text-primary flex items-center"
-            onClick={() => setShowAllStatuses(true)}
-          >
-            See all <ChevronRight className="h-4 w-4 ml-1" />
-          </Button>
-        )}
+        <Button 
+          variant="ghost" 
+          size="sm" 
+          className="text-primary flex items-center"
+          onClick={() => setShowAllStatuses(true)}
+        >
+          See all <ChevronRight className="h-4 w-4 ml-1" />
+        </Button>
       </div>
       
       {/* Status Badges */}
       {userStatuses.length > 0 ? (
-        <div className="mb-5 w-full overflow-hidden">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 w-full">
-            {displayStatuses.map(renderStatusCard)}
-          </div>
+        <div className="space-y-4">
+          {displayStatuses.map(renderStatusCard)}
         </div>
       ) : (
-        <div className="text-sm text-muted-foreground mb-4">
-          {isCurrentUser 
-            ? "You haven't earned any status badges yet. Keep visiting supper clubs!"
-            : `${user.name} hasn't earned any status badges yet.`}
-        </div>
+        <EmptyStatusState />
       )}
 
       {/* Dialog to show all statuses */}
@@ -125,7 +119,7 @@ const StatusSection: React.FC<StatusSectionProps> = ({ user, clubs = [], isCurre
           </DialogHeader>
           <div className="mt-4">
             {userStatuses.length > 0 ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="space-y-4">
                 {userStatuses.map(renderStatusCard)}
               </div>
             ) : (

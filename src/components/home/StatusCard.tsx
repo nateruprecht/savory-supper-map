@@ -4,8 +4,10 @@ import { motion } from 'framer-motion';
 import { Trophy, ChevronRight, Facebook } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import StatusSection from '@/components/home/StatusSection';
 import { UserProfile } from '@/lib/types';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { getUserStatuses } from '@/lib/status-utils';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 type StatusCardProps = {
   user: UserProfile;
@@ -42,7 +44,34 @@ const StatusCard: React.FC<StatusCardProps> = ({
           </Button>
         </CardHeader>
         <CardContent>
-          <StatusSection user={user} />
+          {/* Status cards are now directly rendered in StatusSection */}
+          <div className="space-y-3">
+            {getUserStatuses(user).slice(0, 2).map(status => (
+              <div 
+                key={status.id}
+                className="bg-white rounded-lg shadow-sm p-4 border border-gray-100 flex flex-col items-center text-center"
+              >
+                <div className="mb-2">
+                  <Trophy 
+                    className={`h-6 w-6 ${
+                      status.category === 'visits' ? 'text-primary' : 
+                      status.category === 'reviews' ? 'text-secondary' : 
+                      'text-supper-amber'
+                    }`} 
+                  />
+                </div>
+                <h3 className="font-semibold text-base mb-1">{status.title}</h3>
+                <p className="text-sm text-muted-foreground mb-2">{status.description}</p>
+                <div className={`px-3 py-1 rounded-full text-xs ${
+                  status.category === 'visits' ? 'bg-primary text-primary-foreground' : 
+                  status.category === 'reviews' ? 'bg-secondary text-secondary-foreground' : 
+                  'bg-supper-amber text-white'
+                }`}>
+                  {status.category}
+                </div>
+              </div>
+            ))}
+          </div>
           <div className="mt-4 flex justify-end">
             <Button 
               size="sm" 
