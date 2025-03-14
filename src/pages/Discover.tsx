@@ -14,6 +14,8 @@ import { MapPin, Star, Plus, MessageSquare } from 'lucide-react';
 import SupperClubReviewForm from '@/components/reviews/SupperClubReviewForm';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import AddClubForm from '@/components/home/addVisit/AddClubForm';
+import SearchBar from '@/components/home/addVisit/SearchBar';
+import SearchResults from '@/components/home/addVisit/SearchResults';
 
 const Discover = () => {
   const [user, setUser] = useState(currentUser);
@@ -21,6 +23,10 @@ const Discover = () => {
   const [clubs, setClubs] = useState(sampleSupperClubs);
   const [reviewFormOpen, setReviewFormOpen] = useState(false);
   const [addClubFormOpen, setAddClubFormOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState<SupperClub[]>([]);
+  const [isSearching, setIsSearching] = useState(false);
+  const [addVisitOpen, setAddVisitOpen] = useState(false);
   const navigate = useNavigate();
 
   const handleClubSelect = (club: SupperClub) => {
@@ -60,6 +66,32 @@ const Discover = () => {
   const handleCloseAddForm = () => {
     setAddClubFormOpen(false);
   };
+  
+  const handleSearchChange = (query: string) => {
+    setSearchQuery(query);
+    
+    if (query.length > 2) {
+      setIsSearching(true);
+      const results = clubs.filter(club => 
+        club.name.toLowerCase().includes(query.toLowerCase()) ||
+        club.city.toLowerCase().includes(query.toLowerCase())
+      );
+      setSearchResults(results);
+    } else {
+      setIsSearching(false);
+      setSearchResults([]);
+    }
+  };
+  
+  const handleSelectClub = (club: SupperClub) => {
+    setSelectedClub(club);
+    setAddVisitOpen(false);
+  };
+  
+  const handleAddNew = () => {
+    setAddClubFormOpen(true);
+    setAddVisitOpen(false);
+  };
 
   return <div className="min-h-screen bg-background relative">
       <Header user={user} onProfileClick={() => navigate('/profile')} />
@@ -71,7 +103,7 @@ const Discover = () => {
           </div>
           
           <div className="flex flex-row md:col-span-2 gap-2 py-4 px-4">
-            <Button variant="outline" className="flex-1" onClick={() => setAddClubFormOpen(true)}>
+            <Button variant="outline" className="flex-1" onClick={() => setAddVisitOpen(true)}>
               <Plus className="mr-2 h-4 w-4" /> Add a Visit
             </Button>
             <Button variant="outline" className="flex-1" onClick={() => setReviewFormOpen(true)}>
@@ -89,6 +121,29 @@ const Discover = () => {
       
       {selectedClub && <ClubDetails club={selectedClub} onClose={handleCloseDetails} onVisitToggle={() => handleVisitToggle(selectedClub.id)} isOpen={!!selectedClub} />}
 
+      {/* Add Visit Search Dialog */}
+      <Dialog open={addVisitOpen} onOpenChange={setAddVisitOpen}>
+        <DialogContent className="sm:max-w-[425px]">
+          <div className="space-y-4 py-2 px-1">
+            <SearchBar
+              title="Add a Visit - Search Clubs or Add a New Club"
+              searchQuery={searchQuery}
+              onSearchChange={handleSearchChange}
+              onAddNew={handleAddNew}
+            />
+            
+            <SearchResults
+              isSearching={isSearching}
+              searchQuery={searchQuery}
+              searchResults={searchResults}
+              onSelectClub={handleSelectClub}
+              onAddNew={handleAddNew}
+            />
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Add New Club Form Dialog */}
       <Dialog open={addClubFormOpen} onOpenChange={setAddClubFormOpen}>
         <DialogContent className="sm:max-w-[425px]">
           <div className="space-y-4 py-2 px-1">
