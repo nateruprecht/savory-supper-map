@@ -6,15 +6,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { SupperClub } from '@/lib/types';
 import { useNavigate } from 'react-router-dom';
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
-import ClubCard from '@/components/ClubCard';
 import { toast } from 'sonner';
+import { cn } from '@/lib/utils';
 
 type NearbyClubsCardProps = {
   clubs: SupperClub[];
@@ -24,17 +17,12 @@ const NearbyClubsCard: React.FC<NearbyClubsCardProps> = ({ clubs }) => {
   const navigate = useNavigate();
   
   // For a real implementation, this would use geolocation to find nearby clubs
-  // For now, we'll just display the first 5 clubs
-  const nearbyClubs = clubs.slice(0, 5);
+  // For now, we'll just display the first 6 clubs
+  const nearbyClubs = clubs.slice(0, 6);
   
   const handleClubSelect = (club: SupperClub) => {
     // In a real app, this would navigate to the club details page
     toast.info(`Selected ${club.name}`);
-  };
-  
-  const handleVisitToggle = (clubId: string) => {
-    // In a real app, this would mark the club as visited
-    toast.success(`Toggled visit status for club ID: ${clubId}`);
   };
   
   const handleViewAll = () => {
@@ -60,31 +48,36 @@ const NearbyClubsCard: React.FC<NearbyClubsCardProps> = ({ clubs }) => {
             onClick={handleViewAll}
             className="flex items-center text-muted-foreground hover:text-foreground"
           >
-            <span className="text-xs">View All</span>
+            <span className="text-xs">See All</span>
             <ArrowRight className="ml-1 h-4 w-4" />
           </Button>
         </CardHeader>
         <CardContent>
-          <Carousel className="w-full">
-            <CarouselContent className="-ml-2 md:-ml-4">
-              {nearbyClubs.map((club) => (
-                <CarouselItem key={club.id} className="pl-2 md:pl-4 basis-full sm:basis-1/2 lg:basis-1/3">
-                  <div className="p-1">
-                    <ClubCard 
-                      club={club} 
-                      onClick={() => handleClubSelect(club)} 
-                      onVisitToggle={() => handleVisitToggle(club.id)}
-                      compact={true}
-                    />
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3 gap-3">
+            {nearbyClubs.map((club) => (
+              <div 
+                key={club.id} 
+                className="cursor-pointer rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow"
+                onClick={() => handleClubSelect(club)}
+              >
+                <div className="relative h-24 w-full">
+                  <img 
+                    src={club.image} 
+                    alt={club.name} 
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="p-2">
+                  <h4 className="text-sm font-medium truncate">{club.name}</h4>
+                  <div className="flex items-center mt-1 text-xs text-muted-foreground">
+                    <span>{club.city}</span>
+                    <span className="mx-1">•</span>
+                    <span>{Math.floor(Math.random() * 100) + 1} miles away</span>
                   </div>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <div className="hidden md:block">
-              <CarouselPrevious className="left-0" />
-              <CarouselNext className="right-0" />
-            </div>
-          </Carousel>
+                </div>
+              </div>
+            ))}
+          </div>
         </CardContent>
       </Card>
     </motion.div>
