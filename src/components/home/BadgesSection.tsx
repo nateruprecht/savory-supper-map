@@ -15,6 +15,7 @@ type BadgesSectionProps = {
   limit?: number;
   showTitle?: boolean;
   showShareButton?: boolean;
+  handleSeeAllBadges?: () => void;
 };
 
 const BadgesSection: React.FC<BadgesSectionProps> = ({ 
@@ -23,7 +24,8 @@ const BadgesSection: React.FC<BadgesSectionProps> = ({
   isCurrentUser = true,
   limit,
   showTitle = true,
-  showShareButton = true
+  showShareButton = true,
+  handleSeeAllBadges
 }) => {
   const [showAllBadges, setShowAllBadges] = React.useState(false);
   const isMobile = useIsMobile();
@@ -53,6 +55,15 @@ const BadgesSection: React.FC<BadgesSectionProps> = ({
     toast.success(`Shared your badge "Club Explorer" on Facebook!`);
   };
 
+  // Use external handler if provided, otherwise default to dialog
+  const handleSeeAll = () => {
+    if (handleSeeAllBadges) {
+      handleSeeAllBadges();
+    } else {
+      setShowAllBadges(true);
+    }
+  };
+
   return (
     <div className="bg-white rounded-xl shadow-sm p-4 sm:p-5 w-full max-w-full">
       {showTitle && (
@@ -68,7 +79,7 @@ const BadgesSection: React.FC<BadgesSectionProps> = ({
                 variant="ghost" 
                 size="sm" 
                 className="text-primary flex items-center"
-                onClick={() => setShowAllBadges(true)}
+                onClick={handleSeeAll}
               >
                 See all <ChevronRight className="h-4 w-4 ml-1" />
               </Button>
@@ -118,38 +129,40 @@ const BadgesSection: React.FC<BadgesSectionProps> = ({
         </div>
       )}
 
-      {/* Dialog to show all badges */}
-      <Dialog open={showAllBadges} onOpenChange={setShowAllBadges}>
-        <DialogContent className="sm:max-w-lg max-h-[80vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle>{isCurrentUser ? 'Your Badges' : `${user.name}'s Badges`}</DialogTitle>
-          </DialogHeader>
-          <div className="mt-4">
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-              {badges.map(badge => (
-                <Badge 
-                  key={badge.id} 
-                  badge={badge} 
-                  earned={earnedBadgeIds.includes(badge.id)}
-                  isCurrentUser={isCurrentUser}
-                />
-              ))}
-            </div>
-            
-            {earnedCount === 0 && (
-              <div className="text-center py-8">
-                <Trophy className="h-12 w-12 mx-auto text-muted-foreground mb-3 opacity-30" />
-                <p className="text-muted-foreground">{emptyStateMessage}</p>
-                {isCurrentUser && (
-                  <p className="text-sm text-muted-foreground mt-1">
-                    Keep visiting supper clubs to earn badges!
-                  </p>
-                )}
+      {/* Dialog to show all badges - only shown if handleSeeAllBadges is not provided */}
+      {!handleSeeAllBadges && (
+        <Dialog open={showAllBadges} onOpenChange={setShowAllBadges}>
+          <DialogContent className="sm:max-w-lg max-h-[80vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle>{isCurrentUser ? 'Your Badges' : `${user.name}'s Badges`}</DialogTitle>
+            </DialogHeader>
+            <div className="mt-4">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                {badges.map(badge => (
+                  <Badge 
+                    key={badge.id} 
+                    badge={badge} 
+                    earned={earnedBadgeIds.includes(badge.id)}
+                    isCurrentUser={isCurrentUser}
+                  />
+                ))}
               </div>
-            )}
-          </div>
-        </DialogContent>
-      </Dialog>
+              
+              {earnedCount === 0 && (
+                <div className="text-center py-8">
+                  <Trophy className="h-12 w-12 mx-auto text-muted-foreground mb-3 opacity-30" />
+                  <p className="text-muted-foreground">{emptyStateMessage}</p>
+                  {isCurrentUser && (
+                    <p className="text-sm text-muted-foreground mt-1">
+                      Keep visiting supper clubs to earn badges!
+                    </p>
+                  )}
+                </div>
+              )}
+            </div>
+          </DialogContent>
+        </Dialog>
+      )}
     </div>
   );
 };
