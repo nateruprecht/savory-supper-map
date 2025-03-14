@@ -58,6 +58,8 @@ const ProfileContent: React.FC<ProfileContentProps> = ({
         handleSeeAllStatuses={handleSeeAllStatuses}
         key="status-section"
         data-testid="profile-status-section"
+        showTitle={true}
+        showShareButton={true}
       />
       
       {/* Badges Section */}
@@ -67,6 +69,8 @@ const ProfileContent: React.FC<ProfileContentProps> = ({
         isCurrentUser={isCurrentUser} 
         limit={isMobile ? 4 : undefined}
         handleSeeAllBadges={handleSeeAllBadges}
+        showTitle={true}
+        showShareButton={true}
       />
       
       {/* Other Sections */}

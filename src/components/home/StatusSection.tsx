@@ -155,35 +155,35 @@ const StatusSection: React.FC<StatusSectionProps> = ({
         </CardHeader>
       )}
       
-      {!showTitle && <CardContent>}
-      
-      {/* Status Badges */}
-      {userStatuses.length > 0 ? (
-        <>
-          <div className="space-y-4">
-            {displayStatuses.map(renderStatusCard)}
-          </div>
-          
-          {/* Facebook Share Button */}
-          {isCurrentUser && showShareButton && (
-            <div className="mt-4 flex justify-end">
-              <Button 
-                size="sm" 
-                variant="outline"
-                className="flex items-center gap-2"
-                onClick={handleShareOnFacebook}
-              >
-                <Facebook className="h-4 w-4" />
-                <span className="text-xs">Share on Facebook</span>
-              </Button>
-            </div>
+      {!showTitle && (
+        <CardContent>
+          {/* Status Badges */}
+          {userStatuses.length > 0 ? (
+            <>
+              <div className="space-y-4">
+                {displayStatuses.map(renderStatusCard)}
+              </div>
+              
+              {/* Facebook Share Button */}
+              {isCurrentUser && showShareButton && (
+                <div className="mt-4 flex justify-end">
+                  <Button 
+                    size="sm" 
+                    variant="outline"
+                    className="flex items-center gap-2"
+                    onClick={handleShareOnFacebook}
+                  >
+                    <Facebook className="h-4 w-4" />
+                    <span className="text-xs">Share on Facebook</span>
+                  </Button>
+                </div>
+              )}
+            </>
+          ) : (
+            <EmptyStatusState />
           )}
-        </>
-      ) : (
-        <EmptyStatusState />
+        </CardContent>
       )}
-      
-      {!showTitle && </CardContent>}
 
       {/* Dialog to show all statuses - only used if handleSeeAllStatuses not provided */}
       {!handleSeeAllStatuses && (

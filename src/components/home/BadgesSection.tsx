@@ -117,51 +117,51 @@ const BadgesSection: React.FC<BadgesSectionProps> = ({
         </CardHeader>
       )}
       
-      {!showTitle && <CardContent>}
-      
-      {earnedCount > 0 ? (
-        <>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 w-full">
-            {displayBadges.map(badge => (
-              <Badge 
-                key={badge.id} 
-                badge={badge} 
-                earned={earnedBadgeIds.includes(badge.id)}
-                isCurrentUser={isCurrentUser}
-                compact={isMobile}
-              />
-            ))}
-          </div>
+      {!showTitle && (
+        <CardContent>
+          {earnedCount > 0 ? (
+            <>
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 w-full">
+                {displayBadges.map(badge => (
+                  <Badge 
+                    key={badge.id} 
+                    badge={badge} 
+                    earned={earnedBadgeIds.includes(badge.id)}
+                    isCurrentUser={isCurrentUser}
+                    compact={isMobile}
+                  />
+                ))}
+              </div>
 
-          {/* Facebook Share Button - Only shown if showShareButton is true */}
-          {isCurrentUser && showShareButton && (
-            <div className="mt-4 flex justify-end">
-              <Button 
-                size="sm" 
-                variant="outline"
-                className="flex items-center gap-2"
-                onClick={handleShareOnFacebook}
-              >
-                <Facebook className="h-4 w-4" />
-                <span className="text-xs">Share on Facebook</span>
-              </Button>
+              {/* Facebook Share Button - Only shown if showShareButton is true */}
+              {isCurrentUser && showShareButton && (
+                <div className="mt-4 flex justify-end">
+                  <Button 
+                    size="sm" 
+                    variant="outline"
+                    className="flex items-center gap-2"
+                    onClick={handleShareOnFacebook}
+                  >
+                    <Facebook className="h-4 w-4" />
+                    <span className="text-xs">Share on Facebook</span>
+                  </Button>
+                </div>
+              )}
+            </>
+          ) : (
+            <div className="text-center py-10">
+              <Trophy className="h-12 w-12 mx-auto text-muted-foreground mb-3 opacity-30" />
+              <p className="text-muted-foreground">{emptyStateMessage}</p>
+              {isCurrentUser && (
+                <p className="text-sm text-muted-foreground mt-1">
+                  Keep visiting supper clubs to earn badges!
+                </p>
+              )}
             </div>
           )}
-        </>
-      ) : (
-        <div className="text-center py-10">
-          <Trophy className="h-12 w-12 mx-auto text-muted-foreground mb-3 opacity-30" />
-          <p className="text-muted-foreground">{emptyStateMessage}</p>
-          {isCurrentUser && (
-            <p className="text-sm text-muted-foreground mt-1">
-              Keep visiting supper clubs to earn badges!
-            </p>
-          )}
-        </div>
+        </CardContent>
       )}
       
-      {!showTitle && </CardContent>}
-
       {/* Dialog to show all badges - only shown if handleSeeAllBadges is not provided */}
       {!handleSeeAllBadges && (
         <Dialog open={showAllBadges} onOpenChange={setShowAllBadges}>
