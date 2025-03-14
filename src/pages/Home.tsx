@@ -13,6 +13,7 @@ import ReviewsCard from '@/components/home/ReviewsCard';
 import JourneyMapCard from '@/components/home/JourneyMapCard';
 import AboutSupperClubsCard from '@/components/home/AboutSupperClubsCard';
 import AddVisitButton from '@/components/home/AddVisitButton';
+import StatsCard from '@/components/home/StatsCard';
 
 const Home = () => {
   const { user } = useAuth();
@@ -40,6 +41,9 @@ const Home = () => {
         <WelcomeSection userData={userData} />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+          {/* Stats Card - New addition */}
+          <StatsCard user={userData} clubs={clubs} />
+          
           <StatusCard 
             user={userData}
             handleSeeAllStatuses={handleSeeAllStatuses}
