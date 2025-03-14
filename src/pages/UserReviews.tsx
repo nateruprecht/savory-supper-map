@@ -56,53 +56,58 @@ const UserReviews = () => {
       user={user} 
       activeTab="profile" 
       backLink={{
-        text: "Back to Profile",
+        text: "",
         route: "/profile"
       }}
       title="Your Reviews"
     >
       <div className="max-w-4xl mx-auto">
         <div className="flex items-center justify-between mb-6">
-          <Tabs defaultValue="all" className="w-full" onValueChange={(value) => setFilter(value as any)}>
-            <div className="flex items-center justify-between mb-4">
-              <TabsList>
-                <TabsTrigger value="all">All</TabsTrigger>
-                <TabsTrigger value="recent">Recent</TabsTrigger>
-                <TabsTrigger value="highest">Highest Rated</TabsTrigger>
-                <TabsTrigger value="lowest">Lowest Rated</TabsTrigger>
-              </TabsList>
-              
-              <Button onClick={handleAddReview}>
-                <PlusCircle className="mr-2 h-4 w-4" />
-                Add a Review
-              </Button>
-            </div>
-            
-            <TabsContent value="all" className="mt-0">
-              <div className="space-y-4">
-                {sortedReviews.length > 0 ? renderReviews(sortedReviews) : renderEmptyState()}
-              </div>
-            </TabsContent>
-            
-            <TabsContent value="recent" className="mt-0">
-              <div className="space-y-4">
-                {sortedReviews.length > 0 ? renderReviews(sortedReviews) : renderEmptyState()}
-              </div>
-            </TabsContent>
-            
-            <TabsContent value="highest" className="mt-0">
-              <div className="space-y-4">
-                {sortedReviews.length > 0 ? renderReviews(sortedReviews) : renderEmptyState()}
-              </div>
-            </TabsContent>
-            
-            <TabsContent value="lowest" className="mt-0">
-              <div className="space-y-4">
-                {sortedReviews.length > 0 ? renderReviews(sortedReviews) : renderEmptyState()}
-              </div>
-            </TabsContent>
-          </Tabs>
+          <div className="flex items-center">
+            <Button variant="ghost" size="icon" onClick={() => navigate('/profile')} className="mr-2">
+              <ChevronLeft className="h-5 w-5" />
+            </Button>
+            <h1 className="text-xl font-semibold">Your Reviews</h1>
+          </div>
+          
+          <Button onClick={handleAddReview}>
+            <PlusCircle className="mr-2 h-4 w-4" />
+            Add a Review
+          </Button>
         </div>
+        
+        <Tabs defaultValue="all" className="w-full" onValueChange={(value) => setFilter(value as any)}>
+          <TabsList>
+            <TabsTrigger value="all">All</TabsTrigger>
+            <TabsTrigger value="recent">Recent</TabsTrigger>
+            <TabsTrigger value="highest">Highest Rated</TabsTrigger>
+            <TabsTrigger value="lowest">Lowest Rated</TabsTrigger>
+          </TabsList>
+          
+          <TabsContent value="all" className="mt-4">
+            <div className="space-y-4">
+              {sortedReviews.length > 0 ? renderReviews(sortedReviews) : renderEmptyState()}
+            </div>
+          </TabsContent>
+          
+          <TabsContent value="recent" className="mt-4">
+            <div className="space-y-4">
+              {sortedReviews.length > 0 ? renderReviews(sortedReviews) : renderEmptyState()}
+            </div>
+          </TabsContent>
+          
+          <TabsContent value="highest" className="mt-4">
+            <div className="space-y-4">
+              {sortedReviews.length > 0 ? renderReviews(sortedReviews) : renderEmptyState()}
+            </div>
+          </TabsContent>
+          
+          <TabsContent value="lowest" className="mt-4">
+            <div className="space-y-4">
+              {sortedReviews.length > 0 ? renderReviews(sortedReviews) : renderEmptyState()}
+            </div>
+          </TabsContent>
+        </Tabs>
       </div>
     </ProfileLayout>
   );

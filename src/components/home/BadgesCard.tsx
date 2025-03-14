@@ -44,7 +44,13 @@ const BadgesCard: React.FC<BadgesCardProps> = ({
           </Button>
         </CardHeader>
         <CardContent>
-          <BadgesSection user={user} badges={badges} limit={3} showTitle={false} />
+          <BadgesSection 
+            user={user} 
+            badges={badges} 
+            limit={3} 
+            showTitle={false} 
+            showShareButton={false} 
+          />
           <div className="mt-4 flex justify-end">
             <Button 
               size="sm" 

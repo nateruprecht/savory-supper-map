@@ -14,6 +14,7 @@ type BadgesSectionProps = {
   isCurrentUser?: boolean;
   limit?: number;
   showTitle?: boolean;
+  showShareButton?: boolean;
 };
 
 const BadgesSection: React.FC<BadgesSectionProps> = ({ 
@@ -21,7 +22,8 @@ const BadgesSection: React.FC<BadgesSectionProps> = ({
   badges = [], 
   isCurrentUser = true,
   limit,
-  showTitle = true
+  showTitle = true,
+  showShareButton = true
 }) => {
   const [showAllBadges, setShowAllBadges] = React.useState(false);
   const isMobile = useIsMobile();
@@ -89,8 +91,8 @@ const BadgesSection: React.FC<BadgesSectionProps> = ({
             ))}
           </div>
 
-          {/* Facebook Share Button */}
-          {isCurrentUser && (
+          {/* Facebook Share Button - Only shown if showShareButton is true */}
+          {isCurrentUser && showShareButton && (
             <div className="mt-4 flex justify-end">
               <Button 
                 size="sm" 

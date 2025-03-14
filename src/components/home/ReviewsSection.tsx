@@ -85,32 +85,34 @@ const ReviewsSection: React.FC<ReviewsSectionProps> = ({
 
   return (
     <div className="bg-white rounded-xl shadow-sm p-5">
-      <div className="flex justify-between items-center mb-4">
+      <div className="mb-4">
         {showTitle && (
-          <h2 className="text-xl font-semibold flex items-center">
-            <StarIcon className="h-5 w-5 mr-2 text-amber-500" />
-            {isCurrentUser ? 'Your Reviews' : `${user.name}'s Reviews`}
-          </h2>
-        )}
-        
-        {isCurrentUser && (
-          <div className="flex items-center space-x-2">
-            <Button 
-              variant="outline" 
-              size="sm"
-              onClick={handleAddReview}
-            >
-              Add a Review
-            </Button>
+          <div className="flex flex-col">
+            <h2 className="text-xl font-semibold flex items-center mb-2">
+              <StarIcon className="h-5 w-5 mr-2 text-amber-500" />
+              {isCurrentUser ? 'Your Reviews' : `${user.name}'s Reviews`}
+            </h2>
             
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              className="text-primary flex items-center"
-              onClick={handleSeeAllReviews}
-            >
-              See All <ChevronRight className="h-4 w-4 ml-1" />
-            </Button>
+            {isCurrentUser && (
+              <div className="flex items-center space-x-2">
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  onClick={handleAddReview}
+                >
+                  Add a Review
+                </Button>
+                
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className="text-primary flex items-center"
+                  onClick={handleSeeAllReviews}
+                >
+                  See All <ChevronRight className="h-4 w-4 ml-1" />
+                </Button>
+              </div>
+            )}
           </div>
         )}
       </div>
