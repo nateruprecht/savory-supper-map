@@ -6,7 +6,8 @@ type CountyFeature = {
   properties: {
     name: string;
     state: string;
-    countyCode: string;
+    countyCode?: string;  // Make countyCode optional
+    regionName?: string;  // Add regionName as optional
   };
   geometry: {
     type: string;
@@ -22,9 +23,9 @@ type CountyLayerProps = {
 const CountyLayer: React.FC<CountyLayerProps> = ({ counties, selectedState }) => {
   return (
     <g className="counties-layer">
-      {counties.map((county) => (
+      {counties.map((county, index) => (
         <path
-          key={county.properties.countyCode}
+          key={`county-${county.properties.name}-${index}`} // Use name and index as key since countyCode might be missing
           d={getPathFromCoordinates(county.geometry)}
           fill="white"
           fillOpacity={0.1}
