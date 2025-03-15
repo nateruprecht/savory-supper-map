@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { SupperClub } from '@/lib/types';
@@ -26,7 +27,8 @@ const DetailedMap: React.FC<DetailedMapProps> = ({
   hoveredState,
   onStateHover
 }) => {
-  const [viewBox, setViewBox] = useState<string>("0 0 600 400");
+  // Use a more appropriate default viewBox that fits the Midwest region
+  const [viewBox, setViewBox] = useState<string>("-98 36 30 15");
   const [mapScale, setMapScale] = useState<number>(1);
   const mapContainer = useRef<HTMLDivElement>(null);
   const [mapOffset, setMapOffset] = useState({ x: 0, y: 0 });
@@ -53,7 +55,7 @@ const DetailedMap: React.FC<DetailedMapProps> = ({
         if (stateFeature.geometry.type === 'Polygon') {
           coords = stateFeature.geometry.coordinates[0] as number[][];
         } else if (stateFeature.geometry.type === 'MultiPolygon') {
-          // Flatten multipolygon coordinates - fix for type error
+          // Flatten multipolygon coordinates
           stateFeature.geometry.coordinates.forEach((polygon: any) => {
             if (polygon && polygon[0] && Array.isArray(polygon[0])) {
               coords = [...coords, ...(polygon[0] as number[][])];
@@ -82,8 +84,8 @@ const DetailedMap: React.FC<DetailedMapProps> = ({
         }
       }
     } else {
-      // Reset to full view
-      setViewBox("0 0 600 400");
+      // Reset to full view - using the improved default viewBox
+      setViewBox("-98 36 30 15");
       setMapScale(1);
       setMapOffset({ x: 0, y: 0 });
       setShowCounties(false);
@@ -170,7 +172,7 @@ const DetailedMap: React.FC<DetailedMapProps> = ({
                   x={avgX}
                   y={avgY}
                   fill={region.color}
-                  fontSize="6"
+                  fontSize="1.5"
                   textAnchor="middle"
                   fontWeight="bold"
                   className="pointer-events-none"
