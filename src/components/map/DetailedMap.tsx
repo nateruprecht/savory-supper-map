@@ -28,7 +28,7 @@ const DetailedMap: React.FC<DetailedMapProps> = ({
   onStateHover
 }) => {
   // Use a more appropriate default viewBox that fits the Midwest region
-  const [viewBox, setViewBox] = useState<string>("-98 36 30 15");
+  const [viewBox, setViewBox] = useState<string>("-90 42 10 7");
   const [mapScale, setMapScale] = useState<number>(1);
   const mapContainer = useRef<HTMLDivElement>(null);
   const [mapOffset, setMapOffset] = useState({ x: 0, y: 0 });
@@ -71,7 +71,7 @@ const DetailedMap: React.FC<DetailedMapProps> = ({
           const maxY = Math.max(...coords.map(c => c[1]));
           
           // Add padding
-          const paddingFactor = 0.2;
+          const paddingFactor = 0.1;
           const width = (maxX - minX) * (1 + paddingFactor * 2);
           const height = (maxY - minY) * (1 + paddingFactor * 2);
           const centerX = minX + (maxX - minX) / 2;
@@ -84,8 +84,8 @@ const DetailedMap: React.FC<DetailedMapProps> = ({
         }
       }
     } else {
-      // Reset to full view - using the improved default viewBox
-      setViewBox("-98 36 30 15");
+      // Reset to full view - using a better default viewBox for the Midwest region
+      setViewBox("-90 42 10 7");
       setMapScale(1);
       setMapOffset({ x: 0, y: 0 });
       setShowCounties(false);
@@ -159,6 +159,12 @@ const DetailedMap: React.FC<DetailedMapProps> = ({
                 const sumX = coords.reduce((acc, curr) => acc + curr[0], 0);
                 const sumY = coords.reduce((acc, curr) => acc + curr[1], 0);
                 centerPoints.push([sumX / coords.length, sumY / coords.length]);
+              } else if (state.geometry.type === 'MultiPolygon') {
+                // Handle MultiPolygon
+                const firstPolygon = state.geometry.coordinates[0][0] as number[][];
+                const sumX = firstPolygon.reduce((acc, curr) => acc + curr[0], 0);
+                const sumY = firstPolygon.reduce((acc, curr) => acc + curr[1], 0);
+                centerPoints.push([sumX / firstPolygon.length, sumY / firstPolygon.length]);
               }
             });
             
@@ -172,7 +178,7 @@ const DetailedMap: React.FC<DetailedMapProps> = ({
                   x={avgX}
                   y={avgY}
                   fill={region.color}
-                  fontSize="1.5"
+                  fontSize="0.3"
                   textAnchor="middle"
                   fontWeight="bold"
                   className="pointer-events-none"
