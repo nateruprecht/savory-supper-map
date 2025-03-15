@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import Layout from '@/components/Layout';
@@ -8,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useNavigate } from 'react-router-dom';
 import { Card } from '@/components/ui/card';
+
 const Map = () => {
   const [selectedState, setSelectedState] = useState<string | null>(null);
   const [selectedClub, setSelectedClub] = useState<SupperClub | null>(null);
@@ -39,25 +41,31 @@ const Map = () => {
     if (searchQuery && !club.name.toLowerCase().includes(searchQuery.toLowerCase())) return false;
     return true;
   });
+  
   const handleStateClick = (stateId: string) => {
     setSelectedState(prevState => prevState === stateId ? null : stateId);
   };
+  
   const handleClubClick = (club: SupperClub) => {
     setSelectedClub(club);
   };
+  
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
   };
+  
   const handleBackClick = () => {
     navigate('/discover');
   };
+  
   const handleStateHover = (stateId: string | null) => {
     setHoveredState(stateId);
   };
+  
   return <Layout activeTab="discover">
-      <div className="min-h-screen bg-background pt-16 pb-16 py-0">
-        <div className="container mx-auto py-[24px] px-[16px]">
-          <div className="flex items-center justify-between mb-4">
+      <div className="min-h-screen bg-background pt-0 pb-16">
+        <div className="container mx-auto py-2 px-[16px]">
+          <div className="flex items-center justify-between mb-2">
             <Button variant="ghost" onClick={handleBackClick} className="p-2 h-auto" aria-label="Back">
               <ArrowLeft className="h-5 w-5" />
             </Button>
@@ -65,7 +73,7 @@ const Map = () => {
             <div className="w-10"></div> {/* Empty space for balance */}
           </div>
 
-          <div className="mb-6">
+          <div className="mb-4">
             <Card className="bg-supper-cream/10 p-4 rounded-lg">
               <h2 className="text-xl font-semibold text-center mb-2">Discover Supper Clubs Near You</h2>
               <p className="text-center text-muted-foreground mb-4">
@@ -218,4 +226,5 @@ const Map = () => {
       </div>
     </Layout>;
 };
+
 export default Map;
