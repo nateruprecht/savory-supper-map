@@ -54,9 +54,11 @@ const DetailedMap: React.FC<DetailedMapProps> = ({
         if (stateFeature.geometry.type === 'Polygon') {
           coords = stateFeature.geometry.coordinates[0] as number[][];
         } else if (stateFeature.geometry.type === 'MultiPolygon') {
-          // Flatten multipolygon coordinates
-          stateFeature.geometry.coordinates.forEach((polygon: number[][][]) => {
-            coords = [...coords, ...(polygon[0] as number[][])];
+          // Flatten multipolygon coordinates - fix for type error
+          stateFeature.geometry.coordinates.forEach((polygon: any) => {
+            if (polygon && polygon[0] && Array.isArray(polygon[0])) {
+              coords = [...coords, ...(polygon[0] as number[][])];
+            }
           });
         }
         
